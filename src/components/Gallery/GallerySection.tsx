@@ -1,0 +1,327 @@
+'use client';
+
+import React, { useState } from 'react';
+import { 
+  Box, 
+  Typography, 
+  Container,
+  Grid,
+  Card,
+  CardMedia,
+  Dialog,
+  IconButton,
+  Tab,
+  Tabs
+} from '@mui/material';
+import { Close, PhotoLibrary, Brush } from '@mui/icons-material';
+import styled from 'styled-components';
+import { motion, AnimatePresence } from 'framer-motion';
+import { gallery } from '@/lib/mockData';
+
+const GalleryContainer = styled(Box)`
+  padding: 100px 0;
+  background: #0A0A0A;
+`;
+
+const SectionTitle = styled(Typography)`
+  background: linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 900 !important;
+  text-align: center;
+  margin-bottom: 24px !important;
+`;
+
+const SectionSubtitle = styled(Typography)`
+  color: #B3B3B3 !important;
+  text-align: center;
+  margin-bottom: 60px !important;
+  max-width: 600px;
+  margin-left: auto !important;
+  margin-right: auto !important;
+`;
+
+const GalleryTabs = styled(Tabs)`
+  margin-bottom: 40px !important;
+  
+  .MuiTab-root {
+    color: #B3B3B3 !important;
+    font-weight: 600 !important;
+    text-transform: none !important;
+    font-size: 1.1rem !important;
+    
+    &.Mui-selected {
+      color: #FF6B35 !important;
+    }
+  }
+  
+  .MuiTabs-indicator {
+    background: linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%) !important;
+    height: 3px !important;
+    border-radius: 3px !important;
+  }
+`;
+
+const GalleryCard = styled(Card)`
+  background: #1A1A1A !important;
+  border: 1px solid #333 !important;
+  border-radius: 16px !important;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease !important;
+  
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(255, 107, 53, 0.2) !important;
+    border-color: #FF6B35 !important;
+  }
+`;
+
+const GalleryImage = styled(CardMedia)`
+  height: 250px;
+  transition: transform 0.3s ease;
+  
+  ${GalleryCard}:hover & {
+    transform: scale(1.05);
+  }
+`;
+
+const ImageOverlay = styled(Box)`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  color: white;
+  padding: 20px;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  
+  ${GalleryCard}:hover & {
+    transform: translateY(0);
+  }
+`;
+
+const FullscreenDialog = styled(Dialog)`
+  .MuiDialog-paper {
+    background: rgba(0, 0, 0, 0.95) !important;
+    max-width: 90vw !important;
+    max-height: 90vh !important;
+  }
+`;
+
+const CloseButton = styled(IconButton)`
+  position: absolute !important;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.5) !important;
+  color: white !important;
+  z-index: 1000;
+  
+  &:hover {
+    background: rgba(255, 107, 53, 0.8) !important;
+  }
+`;
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function TabPanel({ children, value, index }: TabPanelProps) {
+  return (
+    <div hidden={value !== index}>
+      {value === index && <Box>{children}</Box>}
+    </div>
+  );
+}
+
+export default function GallerySection() {
+  const [selectedImage, setSelectedImage] = useState<any>(null);
+  const [tabValue, setTabValue] = useState(0);
+
+  const handleImageClick = (image: any) => {
+    setSelectedImage(image);
+  };
+
+  const handleCloseDialog = () => {
+    setSelectedImage(null);
+  };
+
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setTabValue(newValue);
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: 0.8,
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" }
+    }
+  };
+
+  return (
+    <GalleryContainer>
+      <Container maxWidth="lg">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+        >
+          <motion.div variants={itemVariants}>
+            <SectionTitle variant="h2">
+              Galeria
+            </SectionTitle>
+            <SectionSubtitle variant="h6">
+              Momentos especiais, processos criativos e inspirações visuais
+            </SectionSubtitle>
+          </motion.div>
+
+          <motion.div variants={itemVariants}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
+              <GalleryTabs value={tabValue} onChange={handleTabChange}>
+                <Tab 
+                  icon={<PhotoLibrary />} 
+                  label="Fotos" 
+                  iconPosition="start"
+                />
+                <Tab 
+                  icon={<Brush />} 
+                  label="Rascunhos" 
+                  iconPosition="start"
+                />
+              </GalleryTabs>
+            </Box>
+          </motion.div>
+
+          <TabPanel value={tabValue} index={0}>
+            <Grid container spacing={3}>
+              {gallery.photos.map((photo, index) => (
+                <Grid item xs={12} sm={6} md={4} key={photo.id}>
+                  <motion.div
+                    variants={itemVariants}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <GalleryCard onClick={() => handleImageClick(photo)}>
+                      <Box sx={{ position: 'relative' }}>
+                        <GalleryImage
+                          component="img"
+                          image={photo.url}
+                          alt={photo.title}
+                        />
+                        <ImageOverlay>
+                          <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+                            {photo.title}
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: '#B3B3B3' }}>
+                            {photo.description}
+                          </Typography>
+                        </ImageOverlay>
+                      </Box>
+                    </GalleryCard>
+                  </motion.div>
+                </Grid>
+              ))}
+            </Grid>
+          </TabPanel>
+
+          <TabPanel value={tabValue} index={1}>
+            <Grid container spacing={3}>
+              {gallery.sketches.map((sketch, index) => (
+                <Grid item xs={12} sm={6} md={4} key={sketch.id}>
+                  <motion.div
+                    variants={itemVariants}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <GalleryCard onClick={() => handleImageClick(sketch)}>
+                      <Box sx={{ position: 'relative' }}>
+                        <GalleryImage
+                          component="img"
+                          image={sketch.url}
+                          alt={sketch.title}
+                        />
+                        <ImageOverlay>
+                          <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+                            {sketch.title}
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: '#B3B3B3' }}>
+                            {sketch.description}
+                          </Typography>
+                        </ImageOverlay>
+                      </Box>
+                    </GalleryCard>
+                  </motion.div>
+                </Grid>
+              ))}
+            </Grid>
+          </TabPanel>
+        </motion.div>
+      </Container>
+
+      {/* Fullscreen Image Dialog */}
+      <AnimatePresence>
+        {selectedImage && (
+          <FullscreenDialog
+            open={!!selectedImage}
+            onClose={handleCloseDialog}
+            maxWidth={false}
+          >
+            <CloseButton onClick={handleCloseDialog}>
+              <Close />
+            </CloseButton>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Box sx={{ 
+                display: 'flex', 
+                flexDirection: 'column',
+                alignItems: 'center',
+                p: 4,
+                minHeight: '90vh'
+              }}>
+                <img
+                  src={selectedImage.url}
+                  alt={selectedImage.title}
+                  style={{
+                    maxWidth: '100%',
+                    maxHeight: '70vh',
+                    objectFit: 'contain',
+                    borderRadius: '8px'
+                  }}
+                />
+                <Box sx={{ mt: 3, textAlign: 'center', maxWidth: 600 }}>
+                  <Typography variant="h5" sx={{ color: 'white', fontWeight: 600, mb: 2 }}>
+                    {selectedImage.title}
+                  </Typography>
+                  <Typography variant="body1" sx={{ color: '#B3B3B3' }}>
+                    {selectedImage.description}
+                  </Typography>
+                </Box>
+              </Box>
+            </motion.div>
+          </FullscreenDialog>
+        )}
+      </AnimatePresence>
+    </GalleryContainer>
+  );
+}

@@ -1,36 +1,144 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# João Rolla - Site Oficial
 
-## Getting Started
+Um site moderno e imersivo para o artista emergente João Rolla, criado para apoiar o lançamento do EP "AURORA" e estabelecer uma presença digital profissional.
 
-First, run the development server:
+## 🎵 Sobre o Projeto
 
+Este site foi desenvolvido como uma plataforma completa para apresentar o trabalho do artista João Rolla, oferecendo:
+
+- **Experiência Visual Única**: Design moderno com gradientes vibrantes e animações fluidas
+- **Seções Interativas**: Hero, Música, Galeria, Loja e Contato
+- **Responsividade Total**: Experiência otimizada para desktop, tablet e mobile
+- **Performance Otimizada**: Carregamento rápido e navegação suave
+
+## 🚀 Tecnologias Utilizadas
+
+- **Next.js 15.4.5** - Framework React com App Router
+- **React 19.1.0** - Biblioteca JavaScript para interfaces
+- **TypeScript** - Tipagem estática para maior robustez
+- **Material-UI (MUI)** - Componentes de interface moderna
+- **Styled Components** - Estilização com CSS-in-JS
+- **Framer Motion** - Animações e transições fluidas
+- **Inter Font** - Tipografia moderna e legível
+
+## 🎨 Design e Identidade Visual
+
+### Paleta de Cores
+- **Primária**: `#FF6B35` (Laranja vibrante)
+- **Secundária**: `#4ECDC4` (Verde-água)
+- **Background**: `#0A0A0A` (Preto profundo)
+- **Texto**: `#FFFFFF` e `#B3B3B3`
+
+### Características Visuais
+- Gradientes dinâmicos para destaques
+- Animações sutis e responsivas
+- Cards com bordas arredondadas
+- Efeitos de hover interativos
+- Tipografia hierárquica clara
+
+## 📱 Estrutura do Site
+
+### Páginas Principais
+1. **Home** (`/`) - Landing page com hero section e prévia de todas as seções
+2. **Sobre** (`/about`) - Biografia completa e informações do artista
+3. **Música** (`/music`) - EP "AURORA" com player de preview e tracks
+4. **Galeria** (`/gallery`) - Fotos e rascunhos do processo criativo
+5. **Loja** (`/shop`) - Merchandise e produtos exclusivos
+6. **Contato** (`/contact`) - Formulário de contato e informações
+
+### Componentes Principais
+- **Header**: Navegação responsiva com menu mobile
+- **Footer**: Links sociais e informações de contato
+- **HeroSection**: Apresentação principal com call-to-actions
+- **MusicSection**: Player de música e informações do EP
+- **GallerySection**: Galeria de imagens com modal fullscreen
+- **ShopSection**: Showcase de produtos com integração Shopify
+
+## 🛠️ Instalação e Desenvolvimento
+
+### Pré-requisitos
+- Node.js 18+ 
+- npm ou yarn
+
+### Instalação
 ```bash
+# Clone o repositório
+git clone https://github.com/seu-usuario/joao-rolla.git
+
+# Entre no diretório
+cd joao-rolla
+
+# Instale as dependências
+npm install
+
+# Execute o servidor de desenvolvimento
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+O site estará disponível em `http://localhost:3000`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Scripts Disponíveis
+```bash
+npm run dev      # Servidor de desenvolvimento
+npm run build    # Build para produção
+npm run start    # Servidor de produção
+npm run lint     # Verificação de código
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📊 Dados Mockados
 
-## Learn More
+O projeto inclui dados fictícios para demonstração:
+- Informações do artista João Rolla (biografia, localização, gêneros)
+- EP "AURORA" com 5 tracks
+- Galeria com fotos e rascunhos
+- Produtos da loja
+- Agenda de shows
+- Kit de imprensa
 
-To learn more about Next.js, take a look at the following resources:
+## 🔗 Integrações Futuras
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Planejadas
+- **Spotify API**: Player real e estatísticas
+- **Shopify**: Loja online completa
+- **Instagram API**: Feed dinâmico de fotos
+- **Newsletter**: Integração com Mailchimp
+- **Analytics**: Google Analytics 4
+- **CMS**: Sanity ou Strapi para gerenciamento de conteúdo
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📈 SEO e Performance
 
-## Deploy on Vercel
+- Metadados otimizados para redes sociais
+- Estrutura semântica HTML5
+- Imagens otimizadas e lazy loading
+- Core Web Vitals otimizados
+- Sitemap XML automático
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🎯 Objetivos do Projeto
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Profissionalização**: Presença digital profissional para o artista
+2. **Engajamento**: Conectar com fãs e potencial público
+3. **Conversão**: Gerar streams, vendas e contatos
+4. **Storytelling**: Contar a história do artista de forma visual
+5. **Flexibilidade**: Base sólida para crescimento futuro
+
+## 🚀 Deploy
+
+O site está configurado para deploy automático no Vercel:
+
+```bash
+# Build de produção
+npm run build
+
+# Preview local da build
+npm run start
+```
+
+## 📞 Contato
+
+Para dúvidas sobre o desenvolvimento ou customizações:
+- **Email**: dev@exemplo.com
+- **Portfolio**: [seu-portfolio.com]
+
+---
+
+**João Rolla** - Descobrindo novos horizontes sonoros 🎵
