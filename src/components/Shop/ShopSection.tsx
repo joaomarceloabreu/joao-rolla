@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import { ShoppingBag, ShoppingCart, Star, LocalShipping } from '@mui/icons-material';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { merchandise } from '@/lib/mockData';
 
 const ShopContainer = styled(Box)`
@@ -194,18 +194,18 @@ export default function ShopSection() {
           {/* Featured Product */}
           <motion.div variants={itemVariants}>
             <Grid container justifyContent="center" sx={{ mb: 6 }}>
-              <Grid item xs={12} md={8}>
+              <Grid size={{ xs: 12, md: 8 }}>
                 <FeaturedCard>
                   <FeaturedBadge label="Lançamento" icon={<Star />} />
                   <Grid container>
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, md: 6 }}>
                       <ProductImage
                         component="img"
                         image={merchandise.featured.image}
                         alt={merchandise.featured.name}
                       />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, md: 6 }}>
                       <CardContent sx={{ p: 4, height: '100%', display: 'flex', flexDirection: 'column' }}>
                         <Typography variant="h4" sx={{ color: 'white', fontWeight: 700, mb: 2 }}>
                           {merchandise.featured.name}
@@ -235,7 +235,7 @@ export default function ShopSection() {
           {/* Regular Products */}
           <Grid container spacing={4}>
             {merchandise.items.map((item, index) => (
-              <Grid item xs={12} sm={6} md={4} key={item.id}>
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={item.id}>
                 <motion.div
                   variants={itemVariants}
                   whileHover={{ scale: 1.02 }}

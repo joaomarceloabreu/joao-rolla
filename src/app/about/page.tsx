@@ -128,7 +128,7 @@ export default function About() {
 
           <Grid container spacing={4}>
             {/* Artist Image */}
-            <Grid item xs={12} md={5} component="div">
+            <Grid size={{ xs: 12, md: 5 }}>
               <motion.div variants={itemVariants}>
                 <ArtistImage>
                   <MusicNote sx={{ fontSize: 80, color: 'white', zIndex: 2 }} />
@@ -173,7 +173,7 @@ export default function About() {
             </Grid>
 
             {/* Biography */}
-            <Grid item xs={12} md={7} component="div">
+            <Grid size={{ xs: 12, md: 7 }}>
               <motion.div variants={itemVariants}>
                 <BioCard>
                   <Typography variant="h4" sx={{ color: 'white', fontWeight: 700, mb: 3 }}>
@@ -202,7 +202,7 @@ export default function About() {
                     lineHeight: 1.8,
                     fontSize: '1rem'
                   }}>
-                    Com o lançamento do EP "AURORA", planejo explorar ainda mais as possibilidades 
+                    Com o lançamento do EP &quot;AURORA&quot;, planejo explorar ainda mais as possibilidades 
                     sonoras e conectar-me com um público cada vez maior. Estou trabalhando em 
                     colaborações com outros artistas e planejando apresentações ao vivo que 
                     prometem ser experiências únicas e memoráveis.

@@ -186,8 +186,31 @@ const SpotifyLinkButton = styled(IconButton)`
   }
 `;
 
+interface SpotifyArtist {
+  id: string;
+  name: string;
+  followers: number;
+  genres: string[];
+  image: string;
+  spotifyUrl: string;
+}
+
+interface SpotifyTrack {
+  name: string;
+  duration_ms: number;
+  preview_url?: string;
+  external_urls: { spotify: string };
+  album: { images: { url: string }[] };
+}
+
+interface SpotifyData {
+  artist: SpotifyArtist;
+  albums: unknown[];
+  tracks: unknown[];
+}
+
 export default function MusicSection() {
-  const [spotifyData, setSpotifyData] = useState<any>(null);
+  const [spotifyData, setSpotifyData] = useState<SpotifyData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -233,7 +256,7 @@ export default function MusicSection() {
   const handlePlayPause = (trackIndex: number) => {
     if (!spotifyData?.tracks) return;
     
-    const track = spotifyData.tracks[trackIndex];
+    const track = spotifyData.tracks[trackIndex] as any;
     
     if (track.preview) {
       playTrack(trackIndex, track.preview);
@@ -370,7 +393,7 @@ export default function MusicSection() {
 
           <Grid container spacing={4} alignItems="stretch">
             {/* EP Information */}
-            <Grid item xs={12} md={5}>
+            <Grid size={{ xs: 12, md: 5 }}>
               <motion.div variants={itemVariants}>
                 <EPCard>
                   <EPCover>
@@ -453,13 +476,13 @@ export default function MusicSection() {
             </Grid>
 
             {/* Track List */}
-            <Grid item xs={12} md={7}>
+            <Grid size={{ xs: 12, md: 7 }}>
               <motion.div variants={itemVariants}>
                 <Typography variant="h5" sx={{ color: 'white', fontWeight: 600, mb: 3 }}>
                   Músicas no Spotify ({spotifyData.tracks.length})
                 </Typography>
                 
-                {spotifyData.tracks.map((track: any, index: number) => (
+                {(spotifyData.tracks as any[]).map((track, index) => (
                   <motion.div
                     key={index}
                     variants={itemVariants}
@@ -586,10 +609,10 @@ export default function MusicSection() {
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}>
-                  {spotifyData.tracks[currentTrack]?.albumImage ? (
+                  {(spotifyData.tracks[currentTrack] as any)?.albumImage ? (
                     <img
-                      src={spotifyData.tracks[currentTrack].albumImage}
-                      alt={`Capa ${spotifyData.tracks[currentTrack].albumName}`}
+                      src={(spotifyData.tracks[currentTrack] as any).albumImage}
+                      alt={`Capa ${(spotifyData.tracks[currentTrack] as any).albumName}`}
                       style={{
                         width: '100%',
                         height: '100%',
@@ -602,14 +625,14 @@ export default function MusicSection() {
                 </Box>
                 <Box sx={{ flex: 1 }}>
                   <Typography variant="body2" sx={{ color: 'white', fontWeight: 600 }}>
-                    {spotifyData.tracks[currentTrack]?.title}
+                    {(spotifyData.tracks[currentTrack] as any)?.title}
                   </Typography>
                   <Typography variant="caption" sx={{ color: '#B3B3B3' }}>
                     {spotifyData.artist.name}
                   </Typography>
                 </Box>
                 <SpotifyLinkButton
-                  onClick={() => openSpotify(spotifyData.tracks[currentTrack]?.spotifyUrl)}
+                  onClick={() => openSpotify((spotifyData.tracks[currentTrack] as any)?.spotifyUrl)}
                   size="small"
                 >
                   <OpenInNew fontSize="small" />

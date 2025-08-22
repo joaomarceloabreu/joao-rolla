@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { PlayArrow, Album, ShoppingBag } from '@mui/icons-material';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { artistInfo, upcomingEP } from '@/lib/mockData';
 
 const HeroContainer = styled(Box)`
@@ -136,12 +136,12 @@ export default function HeroSection() {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }
+      transition: { duration: 0.6 }
     }
   };
 
@@ -210,7 +210,7 @@ export default function HeroSection() {
             <motion.div variants={itemVariants}>
               <Box sx={{ mb: 4 }}>
                 <EPTitle variant="h3">
-                  EP "{upcomingEP.title}"
+                  EP &quot;{upcomingEP.title}&quot;
                 </EPTitle>
                 <ReleaseDate variant="h6">
                   Lançamento: {upcomingEP.releaseDate}
@@ -220,7 +220,7 @@ export default function HeroSection() {
 
             <motion.div variants={itemVariants}>
               <Grid container spacing={2} justifyContent="center" sx={{ mb: 4 }}>
-                <Grid item xs={12} sm="auto">
+                <Grid size={{ xs: 12, sm: "auto" }}>
                   <motion.div
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -234,7 +234,7 @@ export default function HeroSection() {
                     </ActionButton>
                   </motion.div>
                 </Grid>
-                <Grid item xs={12} sm="auto">
+                <Grid size={{ xs: 12, sm: "auto" }}>
                   <motion.div
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -248,7 +248,7 @@ export default function HeroSection() {
                     </ActionButton>
                   </motion.div>
                 </Grid>
-                <Grid item xs={12} sm="auto">
+                <Grid size={{ xs: 12, sm: "auto" }}>
                   <motion.div
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}

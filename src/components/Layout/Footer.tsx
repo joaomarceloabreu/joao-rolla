@@ -102,7 +102,7 @@ export default function Footer() {
       <Container maxWidth="lg">
         <Grid container spacing={4}>
           {/* Brand Section */}
-          <Grid item xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <FooterSection>
               <FooterLogo variant="h4">João Rolla</FooterLogo>
               <Typography variant="body2" color="#B3B3B3" sx={{ mb: 3, lineHeight: 1.6 }}>
@@ -115,14 +115,16 @@ export default function Footer() {
                     whileHover={{ y: -3 }}
                     whileTap={{ y: 0 }}
                   >
-                    <SocialIcon
+                    <a
                       href={social.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-label={social.label}
+                      style={{ textDecoration: 'none' }}
                     >
-                      {social.icon}
-                    </SocialIcon>
+                      <SocialIcon aria-label={social.label}>
+                        {social.icon}
+                      </SocialIcon>
+                    </a>
                   </motion.div>
                 ))}
               </Box>
@@ -130,7 +132,7 @@ export default function Footer() {
           </Grid>
 
           {/* Quick Links */}
-          <Grid item xs={12} md={2}>
+          <Grid size={{ xs: 12, md: 2 }}>
             <FooterSection>
               <Typography variant="h6" color="white" sx={{ mb: 2, fontWeight: 600 }}>
                 Navegação
@@ -146,7 +148,7 @@ export default function Footer() {
           </Grid>
 
           {/* Contact Info */}
-          <Grid item xs={12} md={3}>
+          <Grid size={{ xs: 12, md: 3 }}>
             <FooterSection>
               <Typography variant="h6" color="white" sx={{ mb: 2, fontWeight: 600 }}>
                 Contato
@@ -167,7 +169,7 @@ export default function Footer() {
           </Grid>
 
           {/* Newsletter */}
-          <Grid item xs={12} md={3}>
+          <Grid size={{ xs: 12, md: 3 }}>
             <FooterSection>
               <Typography variant="h6" color="white" sx={{ mb: 2, fontWeight: 600 }}>
                 Newsletter

@@ -7,14 +7,14 @@ import {
   Typography,
   Grid,
   Card,
-  CardContent,
+
   TextField,
   Button,
   IconButton
 } from '@mui/material';
 import { 
   Email, 
-  Phone, 
+ 
   LocationOn, 
   Instagram, 
   YouTube, 
@@ -23,7 +23,7 @@ import {
   Send
 } from '@mui/icons-material';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { artistInfo, pressKit } from '@/lib/mockData';
 
 const ContactContainer = styled(Box)`
@@ -123,7 +123,7 @@ export default function Contact() {
     console.log('Form submitted:', formData);
   };
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -134,12 +134,12 @@ export default function Contact() {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }
+      transition: { duration: 0.6 }
     }
   };
 
@@ -159,7 +159,7 @@ export default function Contact() {
 
           <Grid container spacing={4}>
             {/* Contact Information */}
-            <Grid item xs={12} md={5}>
+            <Grid size={{ xs: 12, md: 5 }}>
               <motion.div variants={itemVariants}>
                 <ContactCard>
                   <Typography variant="h4" sx={{ color: 'white', fontWeight: 700, mb: 3 }}>
@@ -229,14 +229,16 @@ export default function Contact() {
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
                         >
-                          <SocialIcon
+                          <a
                             href={social.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            aria-label={social.label}
+                            style={{ textDecoration: 'none' }}
                           >
-                            {social.icon}
-                          </SocialIcon>
+                            <SocialIcon aria-label={social.label}>
+                              {social.icon}
+                            </SocialIcon>
+                          </a>
                         </motion.div>
                       ))}
                     </Box>
@@ -246,7 +248,7 @@ export default function Contact() {
             </Grid>
 
             {/* Contact Form */}
-            <Grid item xs={12} md={7}>
+            <Grid size={{ xs: 12, md: 7 }}>
               <motion.div variants={itemVariants}>
                 <ContactForm>
                   <Typography variant="h5" sx={{ color: 'white', fontWeight: 600, mb: 3 }}>
@@ -255,7 +257,7 @@ export default function Contact() {
                   
                   <form onSubmit={handleSubmit}>
                     <Grid container spacing={3}>
-                      <Grid item xs={12} sm={6}>
+                      <Grid size={{ xs: 12, sm: 6 }}>
                         <TextField
                           fullWidth
                           label="Nome"
@@ -274,7 +276,7 @@ export default function Contact() {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={12} sm={6}>
+                      <Grid size={{ xs: 12, sm: 6 }}>
                         <TextField
                           fullWidth
                           label="Email"
@@ -294,7 +296,7 @@ export default function Contact() {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid size={{ xs: 12 }}>
                         <TextField
                           fullWidth
                           label="Assunto"
@@ -313,7 +315,7 @@ export default function Contact() {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid size={{ xs: 12 }}>
                         <TextField
                           fullWidth
                           label="Mensagem"
@@ -334,7 +336,7 @@ export default function Contact() {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid size={{ xs: 12 }}>
                         <motion.div
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
