@@ -117,8 +117,13 @@ const AnimatedBackground = styled(Box)`
 `;
 
 export default function HeroSection() {
+  const [mounted, setMounted] = React.useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -136,7 +141,7 @@ export default function HeroSection() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: "easeOut" }
+      transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }
     }
   };
 
@@ -153,7 +158,7 @@ export default function HeroSection() {
           transition={{
             duration: 6,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: [0.42, 0, 0.58, 1]
           }}
         />
         <FloatingElement
@@ -166,7 +171,7 @@ export default function HeroSection() {
           transition={{
             duration: 8,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: [0.42, 0, 0.58, 1]
           }}
         />
         <FloatingElement

@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import { MusicNote, LocationOn, Email } from '@mui/icons-material';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { artistInfo, pressKit } from '@/lib/mockData';
 
 const AboutContainer = styled(Box)`
@@ -92,7 +92,7 @@ const ContactButton = styled(Button)`
 `;
 
 export default function About() {
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -103,12 +103,12 @@ export default function About() {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: "easeOut" }
+      transition: { duration: 0.6 }
     }
   };
 
@@ -128,7 +128,7 @@ export default function About() {
 
           <Grid container spacing={4}>
             {/* Artist Image */}
-            <Grid item xs={12} md={5}>
+            <Grid item xs={12} md={5} component="div">
               <motion.div variants={itemVariants}>
                 <ArtistImage>
                   <MusicNote sx={{ fontSize: 80, color: 'white', zIndex: 2 }} />
@@ -173,7 +173,7 @@ export default function About() {
             </Grid>
 
             {/* Biography */}
-            <Grid item xs={12} md={7}>
+            <Grid item xs={12} md={7} component="div">
               <motion.div variants={itemVariants}>
                 <BioCard>
                   <Typography variant="h4" sx={{ color: 'white', fontWeight: 700, mb: 3 }}>

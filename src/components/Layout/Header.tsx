@@ -79,17 +79,26 @@ const navItems = [
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
     const handleScroll = () => {
-      const isScrolled = window.scrollY > 50;
-      setScrolled(isScrolled);
+      if (typeof window !== 'undefined') {
+        const isScrolled = window.scrollY > 50;
+        setScrolled(isScrolled);
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+    }
   }, []);
 
   const handleDrawerToggle = () => {
@@ -139,7 +148,7 @@ export default function Header() {
             </motion.div>
           </Link>
 
-          {isMobile ? (
+          {mounted && isMobile ? (
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -148,7 +157,7 @@ export default function Header() {
             >
               <MenuIcon />
             </IconButton>
-          ) : (
+          ) : mounted ? (
             <Box sx={{ display: 'flex', gap: 1 }}>
               {navItems.map((item) => (
                 <Link key={item.label} href={item.href} style={{ textDecoration: 'none' }}>
@@ -161,6 +170,8 @@ export default function Header() {
                 </Link>
               ))}
             </Box>
+          ) : (
+            <Box sx={{ width: 40, height: 40 }} />
           )}
         </Toolbar>
       </StyledAppBar>

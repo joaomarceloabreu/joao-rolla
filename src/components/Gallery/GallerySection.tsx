@@ -7,16 +7,24 @@ import {
   Container,
   Grid,
   Card,
-  CardMedia,
   Dialog,
   IconButton,
   Tab,
-  Tabs
+  Tabs,
+  Button
 } from '@mui/material';
-import { Close, PhotoLibrary, Brush } from '@mui/icons-material';
+import { 
+  Close, 
+  PhotoLibrary, 
+  Brush, 
+  ChevronLeft, 
+  ChevronRight,
+  ZoomIn
+} from '@mui/icons-material';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { gallery } from '@/lib/mockData';
+import { GalleryImage } from '@/types/gallery';
 
 const GalleryContainer = styled(Box)`
   padding: 100px 0;
@@ -63,27 +71,61 @@ const GalleryTabs = styled(Tabs)`
   }
 `;
 
-const GalleryCard = styled(Card)`
+
+
+const CarouselContainer = styled(Box)`
+  position: relative;
+  margin-bottom: 40px;
+`;
+
+const CarouselTrack = styled(Box)`
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 20px 0;
+  
+  &::-webkit-scrollbar {
+    height: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #333;
+    border-radius: 3px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%);
+    border-radius: 3px;
+  }
+`;
+
+const ImageCard = styled(Card)`
+  min-width: 280px;
+  height: 200px;
   background: #1A1A1A !important;
-  border: 1px solid #333 !important;
+  border: 2px solid #333 !important;
   border-radius: 16px !important;
   overflow: hidden;
   cursor: pointer;
+  position: relative;
   transition: all 0.3s ease !important;
   
   &:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(255, 107, 53, 0.2) !important;
+    box-shadow: 0 20px 40px rgba(255, 107, 53, 0.3) !important;
     border-color: #FF6B35 !important;
   }
 `;
 
-const GalleryImage = styled(CardMedia)`
-  height: 250px;
+const ImagePreview = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   transition: transform 0.3s ease;
   
-  ${GalleryCard}:hover & {
-    transform: scale(1.05);
+  ${ImageCard}:hover & {
+    transform: scale(1.1);
   }
 `;
 
@@ -92,16 +134,37 @@ const ImageOverlay = styled(Box)`
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
   color: white;
-  padding: 20px;
+  padding: 16px;
   transform: translateY(100%);
   transition: transform 0.3s ease;
   
-  ${GalleryCard}:hover & {
+  ${ImageCard}:hover & {
     transform: translateY(0);
   }
 `;
+
+const ZoomButton = styled(IconButton)`
+  position: absolute !important;
+  top: 12px;
+  right: 12px;
+  background: rgba(0, 0, 0, 0.7) !important;
+  color: white !important;
+  opacity: 0;
+  transition: all 0.3s ease !important;
+  
+  ${ImageCard}:hover & {
+    opacity: 1;
+  }
+  
+  &:hover {
+    background: rgba(255, 107, 53, 0.8) !important;
+    transform: scale(1.1);
+  }
+`;
+
+
 
 const FullscreenDialog = styled(Dialog)`
   .MuiDialog-paper {
@@ -139,10 +202,10 @@ function TabPanel({ children, value, index }: TabPanelProps) {
 }
 
 export default function GallerySection() {
-  const [selectedImage, setSelectedImage] = useState<any>(null);
+  const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [tabValue, setTabValue] = useState(0);
 
-  const handleImageClick = (image: any) => {
+  const handleImageClick = (image: GalleryImage) => {
     setSelectedImage(image);
   };
 
@@ -170,7 +233,7 @@ export default function GallerySection() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: "easeOut" }
+      transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }
     }
   };
 
@@ -210,67 +273,79 @@ export default function GallerySection() {
           </motion.div>
 
           <TabPanel value={tabValue} index={0}>
-            <Grid container spacing={3}>
-              {gallery.photos.map((photo, index) => (
-                <Grid item xs={12} sm={6} md={4} key={photo.id}>
-                  <motion.div
-                    variants={itemVariants}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <GalleryCard onClick={() => handleImageClick(photo)}>
-                      <Box sx={{ position: 'relative' }}>
-                        <GalleryImage
-                          component="img"
-                          image={photo.url}
+            <motion.div variants={itemVariants}>
+              <CarouselContainer>
+                <CarouselTrack>
+                  {gallery.photos.map((photo, index) => (
+                    <motion.div
+                      key={photo.id}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <ImageCard onClick={() => handleImageClick(photo)}>
+                        <ImagePreview
+                          src={photo.url}
                           alt={photo.title}
+                          onError={(e) => {
+                            console.error('Erro ao carregar imagem:', photo.url);
+                            e.currentTarget.style.display = 'none';
+                          }}
                         />
+                        <ZoomButton>
+                          <ZoomIn />
+                        </ZoomButton>
                         <ImageOverlay>
-                          <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+                          <Typography variant="h6" sx={{ fontWeight: 600, mb: 1, fontSize: '1rem' }}>
                             {photo.title}
                           </Typography>
-                          <Typography variant="body2" sx={{ color: '#B3B3B3' }}>
+                          <Typography variant="body2" sx={{ color: '#B3B3B3', fontSize: '0.8rem' }}>
                             {photo.description}
                           </Typography>
                         </ImageOverlay>
-                      </Box>
-                    </GalleryCard>
-                  </motion.div>
-                </Grid>
-              ))}
-            </Grid>
+                      </ImageCard>
+                    </motion.div>
+                  ))}
+                </CarouselTrack>
+              </CarouselContainer>
+            </motion.div>
           </TabPanel>
 
           <TabPanel value={tabValue} index={1}>
-            <Grid container spacing={3}>
-              {gallery.sketches.map((sketch, index) => (
-                <Grid item xs={12} sm={6} md={4} key={sketch.id}>
-                  <motion.div
-                    variants={itemVariants}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <GalleryCard onClick={() => handleImageClick(sketch)}>
-                      <Box sx={{ position: 'relative' }}>
-                        <GalleryImage
-                          component="img"
-                          image={sketch.url}
+            <motion.div variants={itemVariants}>
+              <CarouselContainer>
+                <CarouselTrack>
+                  {gallery.sketches.map((sketch, index) => (
+                    <motion.div
+                      key={sketch.id}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <ImageCard onClick={() => handleImageClick(sketch)}>
+                        <ImagePreview
+                          src={sketch.url}
                           alt={sketch.title}
+                          onError={(e) => {
+                            console.error('Erro ao carregar imagem:', sketch.url);
+                            e.currentTarget.style.display = 'none';
+                          }}
                         />
+                        <ZoomButton>
+                          <ZoomIn />
+                        </ZoomButton>
                         <ImageOverlay>
-                          <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+                          <Typography variant="h6" sx={{ fontWeight: 600, mb: 1, fontSize: '1rem' }}>
                             {sketch.title}
                           </Typography>
-                          <Typography variant="body2" sx={{ color: '#B3B3B3' }}>
+                          <Typography variant="body2" sx={{ color: '#B3B3B3', fontSize: '0.8rem' }}>
                             {sketch.description}
                           </Typography>
                         </ImageOverlay>
-                      </Box>
-                    </GalleryCard>
-                  </motion.div>
-                </Grid>
-              ))}
-            </Grid>
+                      </ImageCard>
+                    </motion.div>
+                  ))}
+                </CarouselTrack>
+              </CarouselContainer>
+            </motion.div>
           </TabPanel>
         </motion.div>
       </Container>
@@ -306,7 +381,9 @@ export default function GallerySection() {
                     maxWidth: '100%',
                     maxHeight: '70vh',
                     objectFit: 'contain',
-                    borderRadius: '8px'
+                    borderRadius: '8px',
+                    width: 'auto',
+                    height: 'auto'
                   }}
                 />
                 <Box sx={{ mt: 3, textAlign: 'center', maxWidth: 600 }}>

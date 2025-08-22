@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Box, 
   Typography, 
@@ -10,12 +10,25 @@ import {
   Container,
   Grid,
   Chip,
-  Button
+  Button,
+  LinearProgress,
+  Slider,
+  CircularProgress
 } from '@mui/material';
-import { PlayArrow, Pause, MusicNote, Album } from '@mui/icons-material';
+import { 
+  PlayArrow, 
+  Pause, 
+  MusicNote, 
+  Album, 
+  OpenInNew,
+  VolumeUp,
+  SkipNext,
+  SkipPrevious
+} from '@mui/icons-material';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
-import { upcomingEP, artistInfo } from '@/lib/mockData';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useSpotifyPlayer } from '@/hooks/useSpotifyPlayer';
+import { useSpotifyData } from '@/utils/spotifyApi';
 
 const MusicContainer = styled(Box)`
   padding: 100px 0;
@@ -129,18 +142,172 @@ const SpotifyButton = styled(Button)`
   }
 `;
 
+const MiniPlayer = styled(Box)`
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%);
+  border: 1px solid #FF6B35;
+  border-radius: 16px;
+  padding: 16px;
+  min-width: 300px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+`;
+
+const PlayerControls = styled(Box)`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+`;
+
+const ProgressContainer = styled(Box)`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+`;
+
+const TrackInfo = styled(Box)`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+`;
+
+const SpotifyLinkButton = styled(IconButton)`
+  background: rgba(29, 185, 84, 0.1) !important;
+  color: #1DB954 !important;
+  
+  &:hover {
+    background: rgba(29, 185, 84, 0.2) !important;
+    transform: scale(1.1);
+  }
+`;
+
 export default function MusicSection() {
-  const [currentTrack, setCurrentTrack] = React.useState<number | null>(null);
-  const [isPlaying, setIsPlaying] = React.useState(false);
+  const [spotifyData, setSpotifyData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const { getJoaoRollaData } = useSpotifyData();
+  
+  const {
+    currentTrack,
+    isPlaying,
+    currentTime,
+    duration,
+    volume,
+    playTrack,
+    pauseTrack,
+    seekTo,
+    changeVolume,
+    openSpotify
+  } = useSpotifyPlayer();
+
+  // Carregar dados do Spotify na inicialização
+  useEffect(() => {
+    const loadSpotifyData = async () => {
+      try {
+        setLoading(true);
+        const data = await getJoaoRollaData();
+        if (data) {
+          console.log('Dados do Spotify carregados:', data);
+          console.log('Imagem do artista:', data.artist.image);
+          setSpotifyData(data);
+        } else {
+          setError('Não foi possível carregar os dados do Spotify');
+        }
+      } catch (err) {
+        setError('Erro ao conectar com a API do Spotify');
+        console.error('Erro ao carregar dados:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadSpotifyData();
+  }, []); // Array vazio para executar apenas uma vez
 
   const handlePlayPause = (trackIndex: number) => {
-    if (currentTrack === trackIndex && isPlaying) {
-      setIsPlaying(false);
+    if (!spotifyData?.tracks) return;
+    
+    const track = spotifyData.tracks[trackIndex];
+    
+    if (track.preview) {
+      playTrack(trackIndex, track.preview);
     } else {
-      setCurrentTrack(trackIndex);
-      setIsPlaying(true);
+      // Se não há preview, abrir diretamente no Spotify
+      openSpotify(track.spotifyUrl);
     }
   };
+
+  const formatTime = (time: number) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  };
+
+  // Loading state
+  if (loading) {
+    return (
+      <MusicContainer>
+        <Container maxWidth="lg">
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            alignItems: 'center', 
+            justifyContent: 'center',
+            minHeight: '400px',
+            gap: 3
+          }}>
+            <CircularProgress size={60} sx={{ color: '#FF6B35' }} />
+            <Typography variant="h6" sx={{ color: 'white' }}>
+              Carregando dados do Spotify...
+            </Typography>
+          </Box>
+        </Container>
+      </MusicContainer>
+    );
+  }
+
+  // Error state
+  if (error || !spotifyData) {
+    return (
+      <MusicContainer>
+        <Container maxWidth="lg">
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            alignItems: 'center', 
+            justifyContent: 'center',
+            minHeight: '400px',
+            gap: 3
+          }}>
+            <Typography variant="h6" sx={{ color: '#FF6B35' }}>
+              {error || 'Dados não disponíveis'}
+            </Typography>
+            <Typography variant="body2" sx={{ color: '#B3B3B3', textAlign: 'center' }}>
+              Verifique suas credenciais do Spotify ou tente novamente mais tarde.
+            </Typography>
+            <Button 
+              variant="contained" 
+              onClick={() => window.location.reload()}
+              sx={{ 
+                background: 'linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%)',
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #E55A2B 0%, #3BBEB5 100%)',
+                }
+              }}
+            >
+              Tentar Novamente
+            </Button>
+          </Box>
+        </Container>
+      </MusicContainer>
+    );
+  }
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -158,7 +325,7 @@ export default function MusicSection() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: "easeOut" }
+      transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }
     }
   };
 
@@ -172,9 +339,30 @@ export default function MusicSection() {
           viewport={{ once: true, amount: 0.3 }}
         >
           <motion.div variants={itemVariants}>
-            <SectionTitle variant="h2">
-              Música
-            </SectionTitle>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2, mb: 2 }}>
+              {spotifyData.artist.image && (
+                <Box sx={{
+                  width: 60,
+                  height: 60,
+                  borderRadius: '50%',
+                  overflow: 'hidden',
+                  border: '2px solid #FF6B35'
+                }}>
+                  <img
+                    src={spotifyData.artist.image}
+                    alt={spotifyData.artist.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover'
+                    }}
+                  />
+                </Box>
+              )}
+              <SectionTitle variant="h2">
+                Música
+              </SectionTitle>
+            </Box>
             <SectionSubtitle variant="h6">
               Explore minha jornada musical através de sons únicos e experiências imersivas
             </SectionSubtitle>
@@ -186,21 +374,64 @@ export default function MusicSection() {
               <motion.div variants={itemVariants}>
                 <EPCard>
                   <EPCover>
-                    <Album sx={{ fontSize: 80, color: 'white', zIndex: 2 }} />
+                    {spotifyData.artist.image ? (
+                      <Box sx={{ 
+                        position: 'relative',
+                        width: '100%',
+                        height: '100%',
+                        '&::before': {
+                          content: '""',
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          background: 'linear-gradient(135deg, rgba(255, 107, 53, 0.3) 0%, rgba(78, 205, 196, 0.3) 100%)',
+                          zIndex: 2
+                        }
+                      }}>
+                        <img
+                          src={spotifyData.artist.image}
+                          alt={`Foto do artista ${spotifyData.artist.name}`}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            position: 'absolute',
+                            top: 0,
+                            left: 0
+                          }}
+                        />
+                        <Box sx={{
+                          position: 'absolute',
+                          bottom: 20,
+                          right: 20,
+                          zIndex: 3,
+                          background: 'rgba(0, 0, 0, 0.7)',
+                          borderRadius: '50%',
+                          padding: '12px',
+                          backdropFilter: 'blur(10px)'
+                        }}>
+                          <Album sx={{ fontSize: 24, color: 'white' }} />
+                        </Box>
+                      </Box>
+                    ) : (
+                      <Album sx={{ fontSize: 80, color: 'white', zIndex: 2 }} />
+                    )}
                   </EPCover>
                   <CardContent sx={{ p: 3 }}>
                     <Typography variant="h4" sx={{ color: 'white', fontWeight: 700, mb: 1 }}>
-                      {upcomingEP.title}
+                      {spotifyData.artist.name}
                     </Typography>
                     <Typography variant="body1" sx={{ color: '#4ECDC4', fontWeight: 600, mb: 2 }}>
-                      {upcomingEP.releaseDate}
+                      {spotifyData.artist.followers.toLocaleString()} seguidores
                     </Typography>
                     <Typography variant="body2" sx={{ color: '#B3B3B3', mb: 3, lineHeight: 1.6 }}>
-                      {upcomingEP.description}
+                      Últimos lançamentos no Spotify
                     </Typography>
                     
                     <Box sx={{ mb: 3 }}>
-                      {artistInfo.genres.map((genre) => (
+                      {spotifyData.artist.genres.slice(0, 4).map((genre: string) => (
                         <GenreChip
                           key={genre}
                           label={genre}
@@ -212,8 +443,9 @@ export default function MusicSection() {
                     <SpotifyButton
                       startIcon={<MusicNote />}
                       fullWidth
+                      onClick={() => openSpotify(spotifyData.artist.spotifyUrl)}
                     >
-                      Ouvir no Spotify
+                      Perfil no Spotify
                     </SpotifyButton>
                   </CardContent>
                 </EPCard>
@@ -224,10 +456,10 @@ export default function MusicSection() {
             <Grid item xs={12} md={7}>
               <motion.div variants={itemVariants}>
                 <Typography variant="h5" sx={{ color: 'white', fontWeight: 600, mb: 3 }}>
-                  Faixas do EP
+                  Músicas no Spotify ({spotifyData.tracks.length})
                 </Typography>
                 
-                {upcomingEP.tracks.map((track, index) => (
+                {spotifyData.tracks.map((track: any, index: number) => (
                   <motion.div
                     key={index}
                     variants={itemVariants}
@@ -242,38 +474,86 @@ export default function MusicSection() {
                         '&:last-child': { pb: 2 }
                       }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', flex: 1 }}>
+                          {/* Album Cover */}
+                          <Box sx={{ 
+                            width: 50, 
+                            height: 50, 
+                            borderRadius: '8px',
+                            overflow: 'hidden',
+                            mr: 2,
+                            flexShrink: 0
+                          }}>
+                            <img
+                              src={track.albumImage || '/api/placeholder/50/50'}
+                              alt={`Capa do álbum ${track.albumName}`}
+                              style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'cover'
+                              }}
+                              onError={(e) => {
+                                // Fallback para ícone se imagem falhar
+                                const target = e.target as HTMLImageElement;
+                                target.style.display = 'none';
+                                const parent = target.parentElement;
+                                if (parent) {
+                                  parent.innerHTML = `
+                                    <div style="
+                                      width: 100%; 
+                                      height: 100%; 
+                                      background: linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%);
+                                      display: flex;
+                                      align-items: center;
+                                      justify-content: center;
+                                    ">
+                                      <svg width="24" height="24" fill="white" viewBox="0 0 24 24">
+                                        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                                      </svg>
+                                    </div>
+                                  `;
+                                }
+                              }}
+                            />
+                          </Box>
+
                           <PlayButton
                             onClick={() => handlePlayPause(index)}
                             size="small"
+                            title={track.preview ? 'Tocar preview de 30s' : 'Ouvir no Spotify'}
+                            sx={{ mr: 2 }}
                           >
                             {currentTrack === index && isPlaying ? <Pause /> : <PlayArrow />}
                           </PlayButton>
                           
-                          <Box sx={{ ml: 2, flex: 1 }}>
+                          <Box sx={{ flex: 1 }}>
                             <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
                               {index + 1}. {track.title}
                             </Typography>
                             <Typography variant="body2" sx={{ color: '#B3B3B3' }}>
-                              {track.duration}
+                              {track.duration} {track.preview ? '• Preview 30s' : '• Ouvir no Spotify'}
                             </Typography>
+                            {track.albumName && (
+                              <Typography variant="caption" sx={{ color: '#666', fontSize: '0.75rem' }}>
+                                Álbum: {track.albumName}
+                              </Typography>
+                            )}
                           </Box>
                         </Box>
 
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <Typography variant="body2" sx={{ color: '#666', mr: 2 }}>
-                            Preview
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                          <Typography variant="body2" sx={{ color: '#666' }}>
+                            Preview 30s
                           </Typography>
-                          <Box sx={{ 
-                            width: 40, 
-                            height: 40, 
-                            borderRadius: '50%',
-                            background: 'linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                          }}>
-                            <MusicNote sx={{ color: 'white', fontSize: 20 }} />
-                          </Box>
+                          <SpotifyLinkButton
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openSpotify(track.spotifyUrl);
+                            }}
+                            size="small"
+                            title="Ouvir completa no Spotify"
+                          >
+                            <OpenInNew fontSize="small" />
+                          </SpotifyLinkButton>
                         </Box>
                       </CardContent>
                     </TrackCard>
@@ -284,6 +564,139 @@ export default function MusicSection() {
           </Grid>
         </motion.div>
       </Container>
+
+      {/* Mini Player Flutuante */}
+      <AnimatePresence>
+        {currentTrack !== null && (
+          <motion.div
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 100 }}
+            transition={{ duration: 0.3 }}
+          >
+            <MiniPlayer>
+              <TrackInfo>
+                <Box sx={{ 
+                  width: 40, 
+                  height: 40, 
+                  borderRadius: '8px',
+                  overflow: 'hidden',
+                  background: 'linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  {spotifyData.tracks[currentTrack]?.albumImage ? (
+                    <img
+                      src={spotifyData.tracks[currentTrack].albumImage}
+                      alt={`Capa ${spotifyData.tracks[currentTrack].albumName}`}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover'
+                      }}
+                    />
+                  ) : (
+                    <Album sx={{ color: 'white', fontSize: 20 }} />
+                  )}
+                </Box>
+                <Box sx={{ flex: 1 }}>
+                  <Typography variant="body2" sx={{ color: 'white', fontWeight: 600 }}>
+                    {spotifyData.tracks[currentTrack]?.title}
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: '#B3B3B3' }}>
+                    {spotifyData.artist.name}
+                  </Typography>
+                </Box>
+                <SpotifyLinkButton
+                  onClick={() => openSpotify(spotifyData.tracks[currentTrack]?.spotifyUrl)}
+                  size="small"
+                >
+                  <OpenInNew fontSize="small" />
+                </SpotifyLinkButton>
+              </TrackInfo>
+
+              <PlayerControls>
+                <IconButton
+                  onClick={() => handlePlayPause(Math.max(0, currentTrack - 1))}
+                  disabled={currentTrack === 0}
+                  sx={{ color: 'white' }}
+                >
+                  <SkipPrevious />
+                </IconButton>
+                
+                <IconButton
+                  onClick={() => isPlaying ? pauseTrack() : handlePlayPause(currentTrack)}
+                  sx={{ 
+                    color: 'white',
+                    background: 'linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%)',
+                    '&:hover': {
+                      background: 'linear-gradient(135deg, #E55A2B 0%, #3BBEB5 100%)',
+                    }
+                  }}
+                >
+                  {isPlaying ? <Pause /> : <PlayArrow />}
+                </IconButton>
+
+                <IconButton
+                  onClick={() => handlePlayPause(Math.min(spotifyData.tracks.length - 1, currentTrack + 1))}
+                  disabled={currentTrack === spotifyData.tracks.length - 1}
+                  sx={{ color: 'white' }}
+                >
+                  <SkipNext />
+                </IconButton>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 2, flex: 1 }}>
+                  <VolumeUp sx={{ color: '#B3B3B3', fontSize: 20 }} />
+                  <Slider
+                    size="small"
+                    value={volume}
+                    onChange={(_, value) => changeVolume(value as number)}
+                    min={0}
+                    max={1}
+                    step={0.1}
+                    sx={{
+                      color: '#FF6B35',
+                      '& .MuiSlider-thumb': {
+                        backgroundColor: '#FF6B35',
+                      },
+                      '& .MuiSlider-track': {
+                        backgroundColor: '#FF6B35',
+                      }
+                    }}
+                  />
+                </Box>
+              </PlayerControls>
+
+              <ProgressContainer>
+                <Typography variant="caption" sx={{ color: '#B3B3B3', minWidth: 40 }}>
+                  {formatTime(currentTime)}
+                </Typography>
+                <Slider
+                  size="small"
+                  value={currentTime}
+                  onChange={(_, value) => seekTo(value as number)}
+                  min={0}
+                  max={duration || 100}
+                  sx={{
+                    flex: 1,
+                    color: '#4ECDC4',
+                    '& .MuiSlider-thumb': {
+                      backgroundColor: '#4ECDC4',
+                    },
+                    '& .MuiSlider-track': {
+                      backgroundColor: '#4ECDC4',
+                    }
+                  }}
+                />
+                <Typography variant="caption" sx={{ color: '#B3B3B3', minWidth: 40 }}>
+                  {formatTime(duration)}
+                </Typography>
+              </ProgressContainer>
+            </MiniPlayer>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </MusicContainer>
   );
 }

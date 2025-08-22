@@ -1,13 +1,16 @@
 // Dados mockados para demonstração e brainstorming
+import { GalleryData } from '@/types/gallery';
 
 export const artistInfo = {
   name: "João Rolla",
-  tagline: "Descobrindo novos horizontes sonoros",
-  bio: "Artista emergente que combina elementos eletrônicos contemporâneos com melodias orgânicas, criando uma sonoridade única e envolvente. Influenciado por diversos gêneros musicais, João Rolla traz uma proposta fresca e inovadora para a cena musical atual.",
-  location: "São Paulo, Brasil",
-  genres: ["Electronic", "Indie Pop", "Alternative"],
+  tagline: "Representante da boemia no século XXI",
+  bio: "Nascido e criado em João Monlevade e hoje vivendo em Belo Horizonte, João Rolla traz consigo um legado musical que começou na igreja. Desde 2020, encanta os ouvidos com suas próprias composições que misturam samba, rock e aquela batida que faz até os santos dançarem no céu! Com humor e irreverência, inspirado por Jorge Ben Jor, Tim Maia e Vinicius de Moraes, cria um som único capaz de fazer até as estátuas de Aleijadinho se mexerem!",
+  location: "Belo Horizonte, MG",
+  genres: ["Samba", "Rock", "MPB", "Groove"],
+  followers: 272,
+  monthlyListeners: 38,
   socialMedia: {
-    spotify: "https://open.spotify.com/artist/joaorolla",
+    spotify: "https://open.spotify.com/artist/55iD3A1B8KCQGFGz2k3OKh",
     instagram: "@joaorolla.music",
     youtube: "https://youtube.com/@joaorollamusic",
     tiktok: "@joaorolla",
@@ -21,69 +24,90 @@ export const upcomingEP = {
   description: "Um EP que explora as nuances entre luz e sombra, trazendo 5 faixas que navegam por paisagens sonoras emotivas e envolventes.",
   coverArt: "/api/placeholder/400/400",
   tracks: [
-    { title: "Dawn", duration: "3:42", preview: "/previews/dawn.mp3" },
-    { title: "Neon Dreams", duration: "4:15", preview: "/previews/neon-dreams.mp3" },
-    { title: "Midnight Revival", duration: "3:58", preview: "/previews/midnight-revival.mp3" },
-    { title: "Solar Flare", duration: "4:22", preview: "/previews/solar-flare.mp3" },
-    { title: "Aurora", duration: "5:01", preview: "/previews/aurora.mp3" }
-  ]
+    { 
+      title: "Dawn", 
+      duration: "3:42", 
+      preview: "https://p.scdn.co/mp3-preview/9af2948ac8b56d9ad0347d7b5b49b5c62cf863a8?cid=your-client-id",
+      spotifyUrl: "https://open.spotify.com/track/example1"
+    },
+    { 
+      title: "Neon Dreams", 
+      duration: "4:15", 
+      preview: "https://p.scdn.co/mp3-preview/example2",
+      spotifyUrl: "https://open.spotify.com/track/example2"
+    },
+    { 
+      title: "Midnight Revival", 
+      duration: "3:58", 
+      preview: "https://p.scdn.co/mp3-preview/example3",
+      spotifyUrl: "https://open.spotify.com/track/example3"
+    },
+    { 
+      title: "Solar Flare", 
+      duration: "4:22", 
+      preview: "https://p.scdn.co/mp3-preview/example4",
+      spotifyUrl: "https://open.spotify.com/track/example4"
+    },
+    { 
+      title: "Aurora", 
+      duration: "5:01", 
+      preview: "https://p.scdn.co/mp3-preview/example5",
+      spotifyUrl: "https://open.spotify.com/track/example5"
+    }
+  ],
+  spotifyAlbumUrl: "https://open.spotify.com/album/your-album-id",
+  spotifyArtistUrl: "https://open.spotify.com/artist/your-artist-id"
 };
 
-export const gallery = {
+export const gallery: GalleryData = {
   photos: [
     {
       id: 1,
-      url: "/api/placeholder/600/400",
+      url: "/images/gallery/1.png",
       title: "Sessão de fotos - Estúdio",
       description: "Registros íntimos do processo criativo no estúdio"
     },
     {
       id: 2,
-      url: "/api/placeholder/600/400",
+      url: "/images/gallery/2.png",
       title: "Behind the Scenes - Gravação",
       description: "Momentos especiais durante a gravação do EP AURORA"
     },
     {
       id: 3,
-      url: "/api/placeholder/600/400",
+      url: "/images/gallery/3.png",
       title: "Ensaio Conceitual",
       description: "Ensaio fotográfico explorando a identidade visual do artista"
     },
     {
       id: 4,
-      url: "/api/placeholder/600/400",
+      url: "/images/gallery/4.png",
       title: "Processo Criativo",
       description: "Rascunhos e anotações musicais"
     },
     {
       id: 5,
-      url: "/api/placeholder/600/400",
+      url: "/images/gallery/5.png",
       title: "Instrumentos",
       description: "Os instrumentos que dão vida às composições"
-    },
-    {
-      id: 6,
-      url: "/api/placeholder/600/400",
-      title: "Live Session",
-      description: "Apresentação acústica exclusiva"
     }
   ],
   sketches: [
     {
       id: 1,
-      url: "/api/placeholder/400/500",
+      url: "/images/gallery/3.png",
       title: "Composição - Dawn",
       description: "Rascunho original da primeira faixa do EP"
     },
     {
       id: 2,
-      url: "/api/placeholder/400/500",
+      url: "/images/gallery/4.png",
       title: "Arte Conceitual - Aurora",
       description: "Estudos visuais para a capa do EP"
     },
     {
       id: 3,
-      url: "/api/placeholder/400/500",
+      url: "/images/gallery/5.png",
       title: "Lettering Studies",
       description: "Estudos tipográficos para a identidade visual"
     }
