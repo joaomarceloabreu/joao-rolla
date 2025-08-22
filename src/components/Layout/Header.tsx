@@ -28,12 +28,12 @@ const StyledAppBar = styled(AppBar)`
   
   &.scrolled {
     background: rgba(10, 10, 10, 0.98) !important;
-    box-shadow: 0 8px 32px rgba(255, 107, 53, 0.15) !important;
+    box-shadow: 0 8px 32px rgba(229, 87, 34, 0.15) !important;
   }
 `;
 
 const Logo = styled(Typography)`
-  background: linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%);
+  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -53,14 +53,14 @@ const NavButton = styled(Button)`
   transition: all 0.3s ease !important;
   
   &:hover {
-    background: rgba(255, 107, 53, 0.1) !important;
-    color: #FF6B35 !important;
+    background: rgba(229, 87, 34, 0.1) !important;
+    color: #E55722 !important;
   }
 `;
 
 const MobileDrawer = styled(Drawer)`
   .MuiDrawer-paper {
-    background: #0A0A0A;
+    background: #1A1A1A;
     width: 280px;
     padding: 20px;
     border-right: 1px solid #333;
@@ -124,7 +124,7 @@ export default function Header() {
                   color: 'white',
                   py: 1,
                   '&:hover': {
-                    color: '#FF6B35'
+                    color: '#E55722'
                   }
                 }} 
               />

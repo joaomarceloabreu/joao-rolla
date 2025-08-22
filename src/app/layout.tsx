@@ -1,11 +1,18 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Crimson_Text, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Layout from "@/components/Layout/Layout";
 
-const inter = Inter({
+const crimsonText = Crimson_Text({
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: ["400", "600", "700"],
+  variable: "--font-crimson",
+});
+
+const playfairDisplay = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  variable: "--font-playfair",
 });
 
 export const metadata: Metadata = {
@@ -57,7 +64,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={inter.variable}>
+      <body className={`${crimsonText.variable} ${playfairDisplay.variable}`}>
         <Layout>{children}</Layout>
       </body>
     </html>

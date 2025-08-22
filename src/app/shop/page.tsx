@@ -12,12 +12,12 @@ import ShopSection from '@/components/Shop/ShopSection';
 
 const ShopPageContainer = styled(Box)`
   padding-top: 100px;
-  background: #0A0A0A;
+  background: #1A1A1A;
   min-height: 100vh;
 `;
 
 const PageTitle = styled(Typography)`
-  background: linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%);
+  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

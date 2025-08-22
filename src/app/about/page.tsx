@@ -1,4 +1,6 @@
 'use client';
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import React from 'react';
 import { 
@@ -19,13 +21,13 @@ import { artistInfo, pressKit } from '@/lib/mockData';
 const AboutContainer = styled(Box)`
   padding: 120px 0 100px;
   background: 
-    linear-gradient(135deg, rgba(255, 107, 53, 0.05) 0%, rgba(78, 205, 196, 0.05) 100%),
-    #0A0A0A;
+    linear-gradient(135deg, rgba(229, 87, 34, 0.05) 0%, rgba(139, 148, 86, 0.05) 100%),
+    #1A1A1A;
   min-height: 100vh;
 `;
 
 const PageTitle = styled(Typography)`
-  background: linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%);
+  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -35,7 +37,7 @@ const PageTitle = styled(Typography)`
 `;
 
 const BioCard = styled(Card)`
-  background: #1A1A1A !important;
+  background: #2A2A2A !important;
   border: 1px solid #333 !important;
   border-radius: 20px !important;
   padding: 40px;
@@ -45,7 +47,7 @@ const BioCard = styled(Card)`
 const ArtistImage = styled(Box)`
   width: 100%;
   height: 400px;
-  background: linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%);
+  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%);
   border-radius: 16px;
   display: flex;
   align-items: center;
@@ -69,15 +71,15 @@ const ArtistImage = styled(Box)`
 `;
 
 const GenreChip = styled(Chip)`
-  background: rgba(255, 107, 53, 0.2) !important;
-  color: #FF6B35 !important;
-  border: 1px solid #FF6B35 !important;
+  background: rgba(229, 87, 34, 0.2) !important;
+  color: #E55722 !important;
+  border: 1px solid #E55722 !important;
   margin: 4px !important;
   font-weight: 600 !important;
 `;
 
 const ContactButton = styled(Button)`
-  background: linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%) !important;
+  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%) !important;
   color: white !important;
   font-weight: 600 !important;
   text-transform: none !important;
@@ -87,7 +89,7 @@ const ContactButton = styled(Button)`
   
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3) !important;
+    box-shadow: 0 8px 25px rgba(229, 87, 34, 0.3) !important;
   }
 `;
 
@@ -134,7 +136,7 @@ export default function About() {
                   <MusicNote sx={{ fontSize: 80, color: 'white', zIndex: 2 }} />
                 </ArtistImage>
                 
-                <Card sx={{ background: '#1A1A1A', border: '1px solid #333', borderRadius: '16px' }}>
+                <Card sx={{ background: '#2A2A2A', border: '1px solid #333', borderRadius: '16px' }}>
                   <CardContent sx={{ p: 3 }}>
                     <Typography variant="h6" sx={{ color: 'white', fontWeight: 600, mb: 2 }}>
                       Informações
@@ -142,14 +144,14 @@ export default function About() {
                     
                     <Box sx={{ mb: 2 }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                        <LocationOn sx={{ color: '#FF6B35', mr: 1, fontSize: '1.2rem' }} />
-                        <Typography variant="body1" sx={{ color: '#B3B3B3' }}>
+                        <LocationOn sx={{ color: '#E55722', mr: 1, fontSize: '1.2rem' }} />
+                        <Typography variant="body1" sx={{ color: '#E5D4C1' }}>
                           {artistInfo.location}
                         </Typography>
                       </Box>
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                        <Email sx={{ color: '#FF6B35', mr: 1, fontSize: '1.2rem' }} />
-                        <Typography variant="body1" sx={{ color: '#B3B3B3' }}>
+                        <Email sx={{ color: '#E55722', mr: 1, fontSize: '1.2rem' }} />
+                        <Typography variant="body1" sx={{ color: '#E5D4C1' }}>
                           {pressKit.contact.management}
                         </Typography>
                       </Box>
@@ -180,12 +182,12 @@ export default function About() {
                     Minha História
                   </Typography>
                   
-                  <Typography variant="h6" sx={{ color: '#4ECDC4', fontWeight: 600, mb: 2 }}>
+                  <Typography variant="h6" sx={{ color: '#8B9456', fontWeight: 600, mb: 2 }}>
                     {artistInfo.tagline}
                   </Typography>
                   
                   <Typography variant="body1" sx={{ 
-                    color: '#B3B3B3', 
+                    color: '#E5D4C1', 
                     lineHeight: 1.8, 
                     mb: 4,
                     fontSize: '1.1rem'
@@ -198,7 +200,7 @@ export default function About() {
                   </Typography>
                   
                   <Typography variant="body1" sx={{ 
-                    color: '#B3B3B3', 
+                    color: '#E5D4C1', 
                     lineHeight: 1.8,
                     fontSize: '1rem'
                   }}>

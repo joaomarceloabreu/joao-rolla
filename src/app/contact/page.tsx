@@ -29,13 +29,13 @@ import { artistInfo, pressKit } from '@/lib/mockData';
 const ContactContainer = styled(Box)`
   padding: 120px 0 100px;
   background: 
-    linear-gradient(135deg, rgba(255, 107, 53, 0.05) 0%, rgba(78, 205, 196, 0.05) 100%),
-    #0A0A0A;
+    linear-gradient(135deg, rgba(229, 87, 34, 0.05) 0%, rgba(139, 148, 86, 0.05) 100%),
+    #1A1A1A;
   min-height: 100vh;
 `;
 
 const PageTitle = styled(Typography)`
-  background: linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%);
+  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -45,7 +45,7 @@ const PageTitle = styled(Typography)`
 `;
 
 const ContactCard = styled(Card)`
-  background: #1A1A1A !important;
+  background: #2A2A2A !important;
   border: 1px solid #333 !important;
   border-radius: 20px !important;
   padding: 40px;
@@ -53,25 +53,25 @@ const ContactCard = styled(Card)`
 `;
 
 const ContactForm = styled(Card)`
-  background: #1A1A1A !important;
+  background: #2A2A2A !important;
   border: 1px solid #333 !important;
   border-radius: 20px !important;
   padding: 40px;
 `;
 
 const SocialIcon = styled(IconButton)`
-  background: rgba(255, 107, 53, 0.1) !important;
-  color: #FF6B35 !important;
+  background: rgba(229, 87, 34, 0.1) !important;
+  color: #E55722 !important;
   margin: 8px !important;
   
   &:hover {
-    background: rgba(255, 107, 53, 0.2) !important;
+    background: rgba(229, 87, 34, 0.2) !important;
     transform: translateY(-3px);
   }
 `;
 
 const SubmitButton = styled(Button)`
-  background: linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%) !important;
+  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%) !important;
   color: white !important;
   font-weight: 600 !important;
   text-transform: none !important;
@@ -81,7 +81,7 @@ const SubmitButton = styled(Button)`
   
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3) !important;
+    box-shadow: 0 8px 25px rgba(229, 87, 34, 0.3) !important;
   }
 `;
 
@@ -91,8 +91,8 @@ const ContactInfo = styled(Box)`
   margin-bottom: 24px;
   padding: 16px;
   border-radius: 12px;
-  background: rgba(255, 107, 53, 0.05);
-  border: 1px solid rgba(255, 107, 53, 0.2);
+  background: rgba(229, 87, 34, 0.05);
+  border: 1px solid rgba(229, 87, 34, 0.2);
 `;
 
 const socialLinks = [
@@ -166,53 +166,53 @@ export default function Contact() {
                     Vamos Conversar
                   </Typography>
                   
-                  <Typography variant="body1" sx={{ color: '#B3B3B3', mb: 4, lineHeight: 1.6 }}>
+                  <Typography variant="body1" sx={{ color: '#E5D4C1', mb: 4, lineHeight: 1.6 }}>
                     Entre em contato para parcerias, shows, entrevistas ou apenas para trocar uma ideia sobre música!
                   </Typography>
 
                   <ContactInfo>
-                    <Email sx={{ color: '#FF6B35', mr: 2, fontSize: '1.5rem' }} />
+                    <Email sx={{ color: '#E55722', mr: 2, fontSize: '1.5rem' }} />
                     <Box>
                       <Typography variant="subtitle1" sx={{ color: 'white', fontWeight: 600 }}>
                         Email Geral
                       </Typography>
-                      <Typography variant="body2" sx={{ color: '#B3B3B3' }}>
+                      <Typography variant="body2" sx={{ color: '#E5D4C1' }}>
                         {pressKit.contact.management}
                       </Typography>
                     </Box>
                   </ContactInfo>
 
                   <ContactInfo>
-                    <Email sx={{ color: '#FF6B35', mr: 2, fontSize: '1.5rem' }} />
+                    <Email sx={{ color: '#E55722', mr: 2, fontSize: '1.5rem' }} />
                     <Box>
                       <Typography variant="subtitle1" sx={{ color: 'white', fontWeight: 600 }}>
                         Imprensa
                       </Typography>
-                      <Typography variant="body2" sx={{ color: '#B3B3B3' }}>
+                      <Typography variant="body2" sx={{ color: '#E5D4C1' }}>
                         {pressKit.contact.press}
                       </Typography>
                     </Box>
                   </ContactInfo>
 
                   <ContactInfo>
-                    <MusicNote sx={{ color: '#FF6B35', mr: 2, fontSize: '1.5rem' }} />
+                    <MusicNote sx={{ color: '#E55722', mr: 2, fontSize: '1.5rem' }} />
                     <Box>
                       <Typography variant="subtitle1" sx={{ color: 'white', fontWeight: 600 }}>
                         Shows & Booking
                       </Typography>
-                      <Typography variant="body2" sx={{ color: '#B3B3B3' }}>
+                      <Typography variant="body2" sx={{ color: '#E5D4C1' }}>
                         {pressKit.contact.booking}
                       </Typography>
                     </Box>
                   </ContactInfo>
 
                   <ContactInfo>
-                    <LocationOn sx={{ color: '#FF6B35', mr: 2, fontSize: '1.5rem' }} />
+                    <LocationOn sx={{ color: '#E55722', mr: 2, fontSize: '1.5rem' }} />
                     <Box>
                       <Typography variant="subtitle1" sx={{ color: 'white', fontWeight: 600 }}>
                         Localização
                       </Typography>
-                      <Typography variant="body2" sx={{ color: '#B3B3B3' }}>
+                      <Typography variant="body2" sx={{ color: '#E5D4C1' }}>
                         {artistInfo.location}
                       </Typography>
                     </Box>
@@ -266,12 +266,12 @@ export default function Contact() {
                           onChange={handleChange}
                           required
                           sx={{
-                            '& .MuiInputLabel-root': { color: '#B3B3B3' },
+                            '& .MuiInputLabel-root': { color: '#E5D4C1' },
                             '& .MuiOutlinedInput-root': {
                               color: 'white',
                               '& fieldset': { borderColor: '#333' },
-                              '&:hover fieldset': { borderColor: '#FF6B35' },
-                              '&.Mui-focused fieldset': { borderColor: '#FF6B35' }
+                              '&:hover fieldset': { borderColor: '#E55722' },
+                              '&.Mui-focused fieldset': { borderColor: '#E55722' }
                             }
                           }}
                         />
@@ -286,12 +286,12 @@ export default function Contact() {
                           onChange={handleChange}
                           required
                           sx={{
-                            '& .MuiInputLabel-root': { color: '#B3B3B3' },
+                            '& .MuiInputLabel-root': { color: '#E5D4C1' },
                             '& .MuiOutlinedInput-root': {
                               color: 'white',
                               '& fieldset': { borderColor: '#333' },
-                              '&:hover fieldset': { borderColor: '#FF6B35' },
-                              '&.Mui-focused fieldset': { borderColor: '#FF6B35' }
+                              '&:hover fieldset': { borderColor: '#E55722' },
+                              '&.Mui-focused fieldset': { borderColor: '#E55722' }
                             }
                           }}
                         />
@@ -305,12 +305,12 @@ export default function Contact() {
                           onChange={handleChange}
                           required
                           sx={{
-                            '& .MuiInputLabel-root': { color: '#B3B3B3' },
+                            '& .MuiInputLabel-root': { color: '#E5D4C1' },
                             '& .MuiOutlinedInput-root': {
                               color: 'white',
                               '& fieldset': { borderColor: '#333' },
-                              '&:hover fieldset': { borderColor: '#FF6B35' },
-                              '&.Mui-focused fieldset': { borderColor: '#FF6B35' }
+                              '&:hover fieldset': { borderColor: '#E55722' },
+                              '&.Mui-focused fieldset': { borderColor: '#E55722' }
                             }
                           }}
                         />
@@ -326,12 +326,12 @@ export default function Contact() {
                           onChange={handleChange}
                           required
                           sx={{
-                            '& .MuiInputLabel-root': { color: '#B3B3B3' },
+                            '& .MuiInputLabel-root': { color: '#E5D4C1' },
                             '& .MuiOutlinedInput-root': {
                               color: 'white',
                               '& fieldset': { borderColor: '#333' },
-                              '&:hover fieldset': { borderColor: '#FF6B35' },
-                              '&.Mui-focused fieldset': { borderColor: '#FF6B35' }
+                              '&:hover fieldset': { borderColor: '#E55722' },
+                              '&.Mui-focused fieldset': { borderColor: '#E55722' }
                             }
                           }}
                         />

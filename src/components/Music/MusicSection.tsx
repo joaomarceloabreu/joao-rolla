@@ -1,4 +1,8 @@
 'use client';
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 
 import React, { useState, useEffect } from 'react';
 import { 
@@ -33,11 +37,11 @@ import { useSpotifyData } from '@/utils/spotifyApi';
 const MusicContainer = styled(Box)`
   padding: 100px 0;
   background: 
-    linear-gradient(180deg, #0A0A0A 0%, #111111 50%, #0A0A0A 100%);
+    linear-gradient(180deg, #3A3A3A 0%, #3A3A3A 50%, #3A3A3A 100%);
 `;
 
 const SectionTitle = styled(Typography)`
-  background: linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%);
+  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -47,7 +51,7 @@ const SectionTitle = styled(Typography)`
 `;
 
 const SectionSubtitle = styled(Typography)`
-  color: #B3B3B3 !important;
+  color: #E5D4C1 !important;
   text-align: center;
   margin-bottom: 60px !important;
   max-width: 600px;
@@ -56,7 +60,7 @@ const SectionSubtitle = styled(Typography)`
 `;
 
 const EPCard = styled(Card)`
-  background: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%) !important;
+  background: linear-gradient(135deg, #3A3A3A 0%, #3A3A3A 100%) !important;
   border: 1px solid #333 !important;
   border-radius: 20px !important;
   overflow: hidden;
@@ -64,15 +68,15 @@ const EPCard = styled(Card)`
   
   &:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(255, 107, 53, 0.2) !important;
-    border-color: #FF6B35 !important;
+    box-shadow: 0 20px 40px rgba(229, 87, 34, 0.2) !important;
+    border-color: #E55722 !important;
   }
 `;
 
 const EPCover = styled(Box)`
   width: 100%;
   height: 300px;
-  background: linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%);
+  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -94,7 +98,7 @@ const EPCover = styled(Box)`
 `;
 
 const TrackCard = styled(Card)`
-  background: #1A1A1A !important;
+  background: #3A3A3A !important;
   border: 1px solid #333 !important;
   border-radius: 12px !important;
   margin-bottom: 12px;
@@ -102,27 +106,27 @@ const TrackCard = styled(Card)`
   
   &:hover {
     background: #222 !important;
-    border-color: #FF6B35 !important;
+    border-color: #E55722 !important;
     transform: translateX(8px);
   }
 `;
 
 const PlayButton = styled(IconButton)`
-  background: linear-gradient(135deg, #FF6B35 0%, #E55A2B 100%) !important;
+  background: linear-gradient(135deg, #E55722 0%, #E55A2B 100%) !important;
   color: white !important;
   width: 50px !important;
   height: 50px !important;
   
   &:hover {
-    background: linear-gradient(135deg, #E55A2B 0%, #D44A20 100%) !important;
+    background: linear-gradient(135deg, #B91C3C 0%, #8B9456 100%) !important;
     transform: scale(1.1);
   }
 `;
 
 const GenreChip = styled(Chip)`
-  background: rgba(78, 205, 196, 0.2) !important;
-  color: #4ECDC4 !important;
-  border: 1px solid #4ECDC4 !important;
+  background: rgba(139, 148, 86, 0.2) !important;
+  color: #8B9456 !important;
+  border: 1px solid #8B9456 !important;
   margin: 4px !important;
 `;
 
@@ -146,8 +150,8 @@ const MiniPlayer = styled(Box)`
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%);
-  border: 1px solid #FF6B35;
+  background: linear-gradient(135deg, #3A3A3A 0%, #3A3A3A 100%);
+  border: 1px solid #E55722;
   border-radius: 16px;
   padding: 16px;
   min-width: 300px;
@@ -285,7 +289,7 @@ export default function MusicSection() {
             minHeight: '400px',
             gap: 3
           }}>
-            <CircularProgress size={60} sx={{ color: '#FF6B35' }} />
+            <CircularProgress size={60} sx={{ color: '#E55722' }} />
             <Typography variant="h6" sx={{ color: 'white' }}>
               Carregando dados do Spotify...
             </Typography>
@@ -308,19 +312,19 @@ export default function MusicSection() {
             minHeight: '400px',
             gap: 3
           }}>
-            <Typography variant="h6" sx={{ color: '#FF6B35' }}>
+            <Typography variant="h6" sx={{ color: '#E55722' }}>
               {error || 'Dados não disponíveis'}
             </Typography>
-            <Typography variant="body2" sx={{ color: '#B3B3B3', textAlign: 'center' }}>
+            <Typography variant="body2" sx={{ color: '#E5D4C1', textAlign: 'center' }}>
               Verifique suas credenciais do Spotify ou tente novamente mais tarde.
             </Typography>
             <Button 
               variant="contained" 
               onClick={() => window.location.reload()}
               sx={{ 
-                background: 'linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%)',
+                background: 'linear-gradient(135deg, #E55722 0%, #F4A842 100%)',
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #E55A2B 0%, #3BBEB5 100%)',
+                  background: 'linear-gradient(135deg, #B91C3C 0%, #8B9456 100%)',
                 }
               }}
             >
@@ -369,7 +373,7 @@ export default function MusicSection() {
                   height: 60,
                   borderRadius: '50%',
                   overflow: 'hidden',
-                  border: '2px solid #FF6B35'
+                  border: '2px solid #E55722'
                 }}>
                   <img
                     src={spotifyData.artist.image}
@@ -409,7 +413,7 @@ export default function MusicSection() {
                           left: 0,
                           right: 0,
                           bottom: 0,
-                          background: 'linear-gradient(135deg, rgba(255, 107, 53, 0.3) 0%, rgba(78, 205, 196, 0.3) 100%)',
+                          background: 'linear-gradient(135deg, rgba(229, 87, 34, 0.3) 0%, rgba(139, 148, 86, 0.3) 100%)',
                           zIndex: 2
                         }
                       }}>
@@ -446,10 +450,10 @@ export default function MusicSection() {
                     <Typography variant="h4" sx={{ color: 'white', fontWeight: 700, mb: 1 }}>
                       {spotifyData.artist.name}
                     </Typography>
-                    <Typography variant="body1" sx={{ color: '#4ECDC4', fontWeight: 600, mb: 2 }}>
+                    <Typography variant="body1" sx={{ color: '#8B9456', fontWeight: 600, mb: 2 }}>
                       {spotifyData.artist.followers.toLocaleString()} seguidores
                     </Typography>
-                    <Typography variant="body2" sx={{ color: '#B3B3B3', mb: 3, lineHeight: 1.6 }}>
+                    <Typography variant="body2" sx={{ color: '#E5D4C1', mb: 3, lineHeight: 1.6 }}>
                       Últimos lançamentos no Spotify
                     </Typography>
                     
@@ -524,7 +528,7 @@ export default function MusicSection() {
                                     <div style="
                                       width: 100%; 
                                       height: 100%; 
-                                      background: linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%);
+                                      background: linear-gradient(135deg, #E55722 0%, #F4A842 100%);
                                       display: flex;
                                       align-items: center;
                                       justify-content: center;
@@ -552,11 +556,11 @@ export default function MusicSection() {
                             <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
                               {index + 1}. {track.title}
                             </Typography>
-                            <Typography variant="body2" sx={{ color: '#B3B3B3' }}>
+                            <Typography variant="body2" sx={{ color: '#E5D4C1' }}>
                               {track.duration} {track.preview ? '• Preview 30s' : '• Ouvir no Spotify'}
                             </Typography>
                             {track.albumName && (
-                              <Typography variant="caption" sx={{ color: '#666', fontSize: '0.75rem' }}>
+                              <Typography variant="caption" sx={{ color: '#8B9456', fontSize: '0.75rem' }}>
                                 Álbum: {track.albumName}
                               </Typography>
                             )}
@@ -564,7 +568,7 @@ export default function MusicSection() {
                         </Box>
 
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <Typography variant="body2" sx={{ color: '#666' }}>
+                          <Typography variant="body2" sx={{ color: '#8B9456' }}>
                             Preview 30s
                           </Typography>
                           <SpotifyLinkButton
@@ -604,7 +608,7 @@ export default function MusicSection() {
                   height: 40, 
                   borderRadius: '8px',
                   overflow: 'hidden',
-                  background: 'linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%)',
+                  background: 'linear-gradient(135deg, #E55722 0%, #F4A842 100%)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center'
@@ -627,7 +631,7 @@ export default function MusicSection() {
                   <Typography variant="body2" sx={{ color: 'white', fontWeight: 600 }}>
                     {(spotifyData.tracks[currentTrack] as any)?.title}
                   </Typography>
-                  <Typography variant="caption" sx={{ color: '#B3B3B3' }}>
+                  <Typography variant="caption" sx={{ color: '#E5D4C1' }}>
                     {spotifyData.artist.name}
                   </Typography>
                 </Box>
@@ -652,9 +656,9 @@ export default function MusicSection() {
                   onClick={() => isPlaying ? pauseTrack() : handlePlayPause(currentTrack)}
                   sx={{ 
                     color: 'white',
-                    background: 'linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%)',
+                    background: 'linear-gradient(135deg, #E55722 0%, #F4A842 100%)',
                     '&:hover': {
-                      background: 'linear-gradient(135deg, #E55A2B 0%, #3BBEB5 100%)',
+                      background: 'linear-gradient(135deg, #B91C3C 0%, #8B9456 100%)',
                     }
                   }}
                 >
@@ -670,7 +674,7 @@ export default function MusicSection() {
                 </IconButton>
 
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 2, flex: 1 }}>
-                  <VolumeUp sx={{ color: '#B3B3B3', fontSize: 20 }} />
+                  <VolumeUp sx={{ color: '#E5D4C1', fontSize: 20 }} />
                   <Slider
                     size="small"
                     value={volume}
@@ -679,12 +683,12 @@ export default function MusicSection() {
                     max={1}
                     step={0.1}
                     sx={{
-                      color: '#FF6B35',
+                      color: '#E55722',
                       '& .MuiSlider-thumb': {
-                        backgroundColor: '#FF6B35',
+                        backgroundColor: '#E55722',
                       },
                       '& .MuiSlider-track': {
-                        backgroundColor: '#FF6B35',
+                        backgroundColor: '#E55722',
                       }
                     }}
                   />
@@ -692,7 +696,7 @@ export default function MusicSection() {
               </PlayerControls>
 
               <ProgressContainer>
-                <Typography variant="caption" sx={{ color: '#B3B3B3', minWidth: 40 }}>
+                <Typography variant="caption" sx={{ color: '#E5D4C1', minWidth: 40 }}>
                   {formatTime(currentTime)}
                 </Typography>
                 <Slider
@@ -703,16 +707,16 @@ export default function MusicSection() {
                   max={duration || 100}
                   sx={{
                     flex: 1,
-                    color: '#4ECDC4',
+                    color: '#8B9456',
                     '& .MuiSlider-thumb': {
-                      backgroundColor: '#4ECDC4',
+                      backgroundColor: '#8B9456',
                     },
                     '& .MuiSlider-track': {
-                      backgroundColor: '#4ECDC4',
+                      backgroundColor: '#8B9456',
                     }
                   }}
                 />
-                <Typography variant="caption" sx={{ color: '#B3B3B3', minWidth: 40 }}>
+                <Typography variant="caption" sx={{ color: '#E5D4C1', minWidth: 40 }}>
                   {formatTime(duration)}
                 </Typography>
               </ProgressContainer>

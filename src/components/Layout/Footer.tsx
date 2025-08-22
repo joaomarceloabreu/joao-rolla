@@ -24,24 +24,24 @@ import { motion } from 'framer-motion';
 import { artistInfo } from '@/lib/mockData';
 
 const FooterContainer = styled(Box)`
-  background: linear-gradient(180deg, #0A0A0A 0%, #111111 100%);
+  background: linear-gradient(180deg, #1A1A1A 0%, #2A2A2A 100%);
   border-top: 1px solid #333;
   padding: 60px 0 30px;
   margin-top: auto;
 `;
 
 const SocialIcon = styled(IconButton)`
-  color: #B3B3B3 !important;
+  color: #E5D4C1 !important;
   transition: all 0.3s ease !important;
   
   &:hover {
-    color: #FF6B35 !important;
+    color: #E55722 !important;
     transform: translateY(-3px);
   }
 `;
 
 const FooterLogo = styled(Typography)`
-  background: linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%);
+  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -56,18 +56,18 @@ const FooterSection = styled(Box)`
 `;
 
 const FooterLink = styled(Typography)`
-  color: #B3B3B3;
+  color: #E5D4C1;
   cursor: pointer;
   transition: color 0.3s ease;
   margin-bottom: 8px;
   
   &:hover {
-    color: #FF6B35;
+    color: #E55722;
   }
 `;
 
 const NewsletterButton = styled(Button)`
-  background: linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%) !important;
+  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%) !important;
   color: white !important;
   font-weight: 600 !important;
   text-transform: none !important;
@@ -77,7 +77,7 @@ const NewsletterButton = styled(Button)`
   
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3) !important;
+    box-shadow: 0 8px 25px rgba(229, 87, 34, 0.3) !important;
   }
 `;
 
@@ -105,7 +105,7 @@ export default function Footer() {
           <Grid size={{ xs: 12, md: 4 }}>
             <FooterSection>
               <FooterLogo variant="h4">João Rolla</FooterLogo>
-              <Typography variant="body2" color="#B3B3B3" sx={{ mb: 3, lineHeight: 1.6 }}>
+              <Typography variant="body2" color="#E5D4C1" sx={{ mb: 3, lineHeight: 1.6 }}>
                 {artistInfo.tagline}
               </Typography>
               <Box sx={{ display: 'flex', gap: 1, mb: 3 }}>
@@ -154,14 +154,14 @@ export default function Footer() {
                 Contato
               </Typography>
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                <LocationOn sx={{ color: '#B3B3B3', mr: 1, fontSize: '1rem' }} />
-                <Typography variant="body2" color="#B3B3B3">
+                <LocationOn sx={{ color: '#E5D4C1', mr: 1, fontSize: '1rem' }} />
+                <Typography variant="body2" color="#E5D4C1">
                   {artistInfo.location}
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                <Email sx={{ color: '#B3B3B3', mr: 1, fontSize: '1rem' }} />
-                <Typography variant="body2" color="#B3B3B3">
+                <Email sx={{ color: '#E5D4C1', mr: 1, fontSize: '1rem' }} />
+                <Typography variant="body2" color="#E5D4C1">
                   contato@arianova.com.br
                 </Typography>
               </Box>
@@ -174,7 +174,7 @@ export default function Footer() {
               <Typography variant="h6" color="white" sx={{ mb: 2, fontWeight: 600 }}>
                 Newsletter
               </Typography>
-              <Typography variant="body2" color="#B3B3B3" sx={{ mb: 2 }}>
+              <Typography variant="body2" color="#E5D4C1" sx={{ mb: 2 }}>
                 Receba novidades sobre lançamentos e shows exclusivos.
               </Typography>
               <motion.div

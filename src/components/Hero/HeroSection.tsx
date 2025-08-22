@@ -1,4 +1,6 @@
 'use client';
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 import React from 'react';
 import { 
@@ -21,10 +23,10 @@ const HeroContainer = styled(Box)`
   display: flex;
   align-items: center;
   background: 
-    linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(78, 205, 196, 0.1) 100%),
-    radial-gradient(circle at 30% 20%, rgba(255, 107, 53, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 70% 80%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
-    #0A0A0A;
+    linear-gradient(135deg, rgba(229, 87, 34, 0.1) 0%, rgba(139, 148, 86, 0.1) 100%),
+    radial-gradient(circle at 30% 20%, rgba(229, 87, 34, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 70% 80%, rgba(244, 168, 66, 0.15) 0%, transparent 50%),
+    #1A1A1A;
   overflow: hidden;
 `;
 
@@ -36,7 +38,7 @@ const HeroContent = styled(Box)`
 `;
 
 const ArtistName = styled(Typography)`
-  background: linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%);
+  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -44,11 +46,11 @@ const ArtistName = styled(Typography)`
   font-size: clamp(3rem, 8vw, 6rem) !important;
   letter-spacing: -0.02em;
   margin-bottom: 16px !important;
-  text-shadow: 0 0 40px rgba(255, 107, 53, 0.3);
+  text-shadow: 0 0 40px rgba(229, 87, 34, 0.3);
 `;
 
 const Tagline = styled(Typography)`
-  color: #B3B3B3 !important;
+  color: #E5D4C1 !important;
   font-size: clamp(1.2rem, 3vw, 1.8rem) !important;
   font-weight: 300 !important;
   margin-bottom: 48px !important;
@@ -56,7 +58,7 @@ const Tagline = styled(Typography)`
 `;
 
 const EPTitle = styled(Typography)`
-  color: white !important;
+  color: #F5E6D3 !important;
   font-weight: 700 !important;
   font-size: 2rem !important;
   margin-bottom: 8px !important;
@@ -65,7 +67,7 @@ const EPTitle = styled(Typography)`
 `;
 
 const ReleaseDate = styled(Typography)`
-  color: #FF6B35 !important;
+  color: #E55722 !important;
   font-weight: 600 !important;
   font-size: 1.1rem !important;
   margin-bottom: 32px !important;
@@ -73,11 +75,11 @@ const ReleaseDate = styled(Typography)`
 
 const ActionButton = styled(Button)`
   background: ${props => props.variant === 'contained' 
-    ? 'linear-gradient(135deg, #FF6B35 0%, #E55A2B 100%) !important'
+    ? 'linear-gradient(135deg, #E55722 0%, #B91C3C 100%) !important'
     : 'transparent !important'
   };
-  border: ${props => props.variant === 'outlined' ? '2px solid #4ECDC4 !important' : 'none'};
-  color: white !important;
+  border: ${props => props.variant === 'outlined' ? '2px solid #8B9456 !important' : 'none'};
+  color: #F5E6D3 !important;
   font-weight: 600 !important;
   text-transform: none !important;
   padding: 16px 32px !important;
@@ -90,8 +92,8 @@ const ActionButton = styled(Button)`
   &:hover {
     transform: translateY(-3px);
     box-shadow: ${props => props.variant === 'contained' 
-      ? '0 12px 30px rgba(255, 107, 53, 0.4) !important'
-      : '0 12px 30px rgba(78, 205, 196, 0.4) !important'
+      ? '0 12px 30px rgba(229, 87, 34, 0.4) !important'
+      : '0 12px 30px rgba(139, 148, 86, 0.4) !important'
     };
   }
 `;
@@ -101,9 +103,9 @@ const FloatingElement = styled(motion.div)`
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(78, 205, 196, 0.1));
+  background: linear-gradient(135deg, rgba(229, 87, 34, 0.1), rgba(139, 148, 86, 0.1));
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(245, 230, 211, 0.1);
 `;
 
 const AnimatedBackground = styled(Box)`
@@ -266,7 +268,7 @@ export default function HeroSection() {
             </motion.div>
 
             <motion.div variants={itemVariants}>
-              <Typography variant="body1" color="#666" sx={{ maxWidth: 600, mx: 'auto' }}>
+              <Typography variant="body1" color="#E5D4C1" sx={{ maxWidth: 600, mx: 'auto' }}>
                 {upcomingEP.description}
               </Typography>
             </motion.div>

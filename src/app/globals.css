@@ -1,5 +1,6 @@
 :root {
-  --font-inter: Inter, system-ui, sans-serif;
+  --font-crimson: "Crimson Text", Georgia, serif;
+  --font-playfair: "Playfair Display", Georgia, serif;
 }
 
 * {
@@ -16,11 +17,15 @@ body {
 }
 
 body {
-  font-family: var(--font-inter);
+  font-family: var(--font-crimson);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #0A0A0A;
-  color: #FFFFFF;
+  background: #1A1A1A;
+  color: #F5E6D3;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-playfair);
 }
 
 a {
@@ -34,25 +39,25 @@ a {
 }
 
 ::-webkit-scrollbar-track {
-  background: #1A1A1A;
+  background: #2A2A2A;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%);
+  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #E55A2B 0%, #3BBEB5 100%);
+  background: linear-gradient(135deg, #B91C3C 0%, #8B9456 100%);
 }
 
 /* Selection */
 ::selection {
-  background: rgba(255, 107, 53, 0.3);
-  color: #FFFFFF;
+  background: rgba(229, 87, 34, 0.3);
+  color: #F5E6D3;
 }
 
 ::-moz-selection {
-  background: rgba(255, 107, 53, 0.3);
-  color: #FFFFFF;
+  background: rgba(229, 87, 34, 0.3);
+  color: #F5E6D3;
 }

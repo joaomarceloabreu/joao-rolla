@@ -21,11 +21,11 @@ import { merchandise } from '@/lib/mockData';
 const ShopContainer = styled(Box)`
   padding: 100px 0;
   background: 
-    linear-gradient(180deg, #111111 0%, #0A0A0A 50%, #111111 100%);
+    linear-gradient(180deg, #2A2A2A 0%, #1A1A1A 50%, #2A2A2A 100%);
 `;
 
 const SectionTitle = styled(Typography)`
-  background: linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%);
+  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -35,7 +35,7 @@ const SectionTitle = styled(Typography)`
 `;
 
 const SectionSubtitle = styled(Typography)`
-  color: #B3B3B3 !important;
+  color: #E5D4C1 !important;
   text-align: center;
   margin-bottom: 60px !important;
   max-width: 600px;
@@ -44,7 +44,7 @@ const SectionSubtitle = styled(Typography)`
 `;
 
 const ProductCard = styled(Card)`
-  background: #1A1A1A !important;
+  background: #3A3A3A !important;
   border: 1px solid #333 !important;
   border-radius: 16px !important;
   overflow: hidden;
@@ -53,14 +53,14 @@ const ProductCard = styled(Card)`
   
   &:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(255, 107, 53, 0.2) !important;
-    border-color: #FF6B35 !important;
+    box-shadow: 0 20px 40px rgba(229, 87, 34, 0.2) !important;
+    border-color: #E55722 !important;
   }
 `;
 
 const FeaturedCard = styled(Card)`
-  background: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%) !important;
-  border: 2px solid #FF6B35 !important;
+  background: linear-gradient(135deg, #3A3A3A 0%, #3A3A3A 100%) !important;
+  border: 2px solid #E55722 !important;
   border-radius: 20px !important;
   overflow: hidden;
   transition: all 0.3s ease !important;
@@ -68,7 +68,7 @@ const FeaturedCard = styled(Card)`
   
   &:hover {
     transform: translateY(-12px);
-    box-shadow: 0 25px 50px rgba(255, 107, 53, 0.3) !important;
+    box-shadow: 0 25px 50px rgba(229, 87, 34, 0.3) !important;
   }
   
   &::before {
@@ -78,7 +78,7 @@ const FeaturedCard = styled(Card)`
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%);
+    background: linear-gradient(135deg, #E55722 0%, #F4A842 100%);
   }
 `;
 
@@ -92,7 +92,7 @@ const ProductImage = styled(CardMedia)`
 `;
 
 const PriceTag = styled(Typography)`
-  background: linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%);
+  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -101,7 +101,7 @@ const PriceTag = styled(Typography)`
 `;
 
 const AddToCartButton = styled(Button)`
-  background: linear-gradient(135deg, #FF6B35 0%, #E55A2B 100%) !important;
+  background: linear-gradient(135deg, #E55722 0%, #E55A2B 100%) !important;
   color: white !important;
   font-weight: 600 !important;
   text-transform: none !important;
@@ -109,15 +109,15 @@ const AddToCartButton = styled(Button)`
   padding: 12px 24px !important;
   
   &:hover {
-    background: linear-gradient(135deg, #E55A2B 0%, #D44A20 100%) !important;
+    background: linear-gradient(135deg, #B91C3C 0%, #8B9456 100%) !important;
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4) !important;
+    box-shadow: 0 8px 25px rgba(229, 87, 34, 0.4) !important;
   }
 `;
 
 const OutOfStockButton = styled(Button)`
   background: #333 !important;
-  color: #999 !important;
+  color: #8B9456 !important;
   font-weight: 600 !important;
   text-transform: none !important;
   border-radius: 10px !important;
@@ -129,14 +129,14 @@ const FeaturedBadge = styled(Chip)`
   position: absolute;
   top: 16px;
   right: 16px;
-  background: linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%) !important;
+  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%) !important;
   color: white !important;
   font-weight: 600 !important;
   z-index: 2;
 `;
 
 const ShopifyButton = styled(Button)`
-  background: linear-gradient(135deg, #96BF48 0%, #7BA83A 100%) !important;
+  background: linear-gradient(135deg, #8B9456 0%, #6B7344 100%) !important;
   color: white !important;
   font-weight: 600 !important;
   text-transform: none !important;
@@ -146,7 +146,7 @@ const ShopifyButton = styled(Button)`
   margin-top: 40px !important;
   
   &:hover {
-    background: linear-gradient(135deg, #7BA83A 0%, #6A9733 100%) !important;
+    background: linear-gradient(135deg, #6B7344 0%, #5A6238 100%) !important;
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(150, 191, 72, 0.4) !important;
   }
@@ -215,7 +215,7 @@ export default function ShopSection() {
                         <Typography variant="h4" sx={{ color: 'white', fontWeight: 700, mb: 2 }}>
                           {merchandise.featured.name}
                         </Typography>
-                        <Typography variant="body1" sx={{ color: '#B3B3B3', mb: 3, flex: 1 }}>
+                        <Typography variant="body1" sx={{ color: '#E5D4C1', mb: 3, flex: 1 }}>
                           {merchandise.featured.description}
                         </Typography>
                         <PriceTag variant="h3" sx={{ mb: 3 }}>
@@ -259,13 +259,13 @@ export default function ShopSection() {
                       <Typography variant="h6" sx={{ color: 'white', fontWeight: 600, mb: 1 }}>
                         {item.name}
                       </Typography>
-                      <Typography variant="body2" sx={{ color: '#B3B3B3', mb: 2, minHeight: 40 }}>
+                      <Typography variant="body2" sx={{ color: '#E5D4C1', mb: 2, minHeight: 40 }}>
                         {item.description}
                       </Typography>
                       
                       {item.sizes && (
                         <Box sx={{ mb: 2 }}>
-                          <Typography variant="caption" sx={{ color: '#999', mb: 1, display: 'block' }}>
+                          <Typography variant="caption" sx={{ color: '#8B9456', mb: 1, display: 'block' }}>
                             Tamanhos disponíveis:
                           </Typography>
                           <Box sx={{ display: 'flex', gap: 1 }}>
@@ -276,7 +276,7 @@ export default function ShopSection() {
                                 size="small"
                                 sx={{
                                   background: '#333',
-                                  color: '#B3B3B3',
+                                  color: '#E5D4C1',
                                   border: '1px solid #555'
                                 }}
                               />
@@ -294,9 +294,9 @@ export default function ShopSection() {
                             label="Em Estoque"
                             size="small"
                             sx={{
-                              background: 'rgba(78, 205, 196, 0.2)',
-                              color: '#4ECDC4',
-                              border: '1px solid #4ECDC4'
+                              background: 'rgba(139, 148, 86, 0.2)',
+                              color: '#8B9456',
+                              border: '1px solid #8B9456'
                             }}
                           />
                         ) : (
@@ -304,9 +304,9 @@ export default function ShopSection() {
                             label="Esgotado"
                             size="small"
                             sx={{
-                              background: 'rgba(255, 107, 53, 0.2)',
-                              color: '#FF6B35',
-                              border: '1px solid #FF6B35'
+                              background: 'rgba(229, 87, 34, 0.2)',
+                              color: '#E55722',
+                              border: '1px solid #E55722'
                             }}
                           />
                         )}
@@ -339,7 +339,7 @@ export default function ShopSection() {
               <Typography variant="h5" sx={{ color: 'white', mb: 2, fontWeight: 600 }}>
                 Mais produtos em breve!
               </Typography>
-              <Typography variant="body1" sx={{ color: '#B3B3B3', mb: 4 }}>
+              <Typography variant="body1" sx={{ color: '#E5D4C1', mb: 4 }}>
                 Nossa loja completa estará disponível no Shopify com muito mais opções
               </Typography>
               <motion.div

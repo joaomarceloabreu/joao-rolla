@@ -28,11 +28,11 @@ import { GalleryImage } from '@/types/gallery';
 
 const GalleryContainer = styled(Box)`
   padding: 100px 0;
-  background: #0A0A0A;
+  background: #1A1A1A;
 `;
 
 const SectionTitle = styled(Typography)`
-  background: linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%);
+  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -42,7 +42,7 @@ const SectionTitle = styled(Typography)`
 `;
 
 const SectionSubtitle = styled(Typography)`
-  color: #B3B3B3 !important;
+  color: #E5D4C1 !important;
   text-align: center;
   margin-bottom: 60px !important;
   max-width: 600px;
@@ -54,18 +54,18 @@ const GalleryTabs = styled(Tabs)`
   margin-bottom: 40px !important;
   
   .MuiTab-root {
-    color: #B3B3B3 !important;
+    color: #E5D4C1 !important;
     font-weight: 600 !important;
     text-transform: none !important;
     font-size: 1.1rem !important;
     
     &.Mui-selected {
-      color: #FF6B35 !important;
+      color: #E55722 !important;
     }
   }
   
   .MuiTabs-indicator {
-    background: linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%) !important;
+    background: linear-gradient(135deg, #E55722 0%, #F4A842 100%) !important;
     height: 3px !important;
     border-radius: 3px !important;
   }
@@ -95,7 +95,7 @@ const CarouselTrack = styled(Box)`
   }
   
   &::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%);
+    background: linear-gradient(135deg, #E55722 0%, #F4A842 100%);
     border-radius: 3px;
   }
 `;
@@ -103,7 +103,7 @@ const CarouselTrack = styled(Box)`
 const ImageCard = styled(Card)`
   min-width: 280px;
   height: 200px;
-  background: #1A1A1A !important;
+  background: #2A2A2A !important;
   border: 2px solid #333 !important;
   border-radius: 16px !important;
   overflow: hidden;
@@ -113,8 +113,8 @@ const ImageCard = styled(Card)`
   
   &:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(255, 107, 53, 0.3) !important;
-    border-color: #FF6B35 !important;
+    box-shadow: 0 20px 40px rgba(229, 87, 34, 0.3) !important;
+    border-color: #E55722 !important;
   }
 `;
 
@@ -159,7 +159,7 @@ const ZoomButton = styled(IconButton)`
   }
   
   &:hover {
-    background: rgba(255, 107, 53, 0.8) !important;
+    background: rgba(229, 87, 34, 0.8) !important;
     transform: scale(1.1);
   }
 `;
@@ -183,7 +183,7 @@ const CloseButton = styled(IconButton)`
   z-index: 1000;
   
   &:hover {
-    background: rgba(255, 107, 53, 0.8) !important;
+    background: rgba(229, 87, 34, 0.8) !important;
   }
 `;
 
@@ -298,7 +298,7 @@ export default function GallerySection() {
                           <Typography variant="h6" sx={{ fontWeight: 600, mb: 1, fontSize: '1rem' }}>
                             {photo.title}
                           </Typography>
-                          <Typography variant="body2" sx={{ color: '#B3B3B3', fontSize: '0.8rem' }}>
+                          <Typography variant="body2" sx={{ color: '#E5D4C1', fontSize: '0.8rem' }}>
                             {photo.description}
                           </Typography>
                         </ImageOverlay>
@@ -336,7 +336,7 @@ export default function GallerySection() {
                           <Typography variant="h6" sx={{ fontWeight: 600, mb: 1, fontSize: '1rem' }}>
                             {sketch.title}
                           </Typography>
-                          <Typography variant="body2" sx={{ color: '#B3B3B3', fontSize: '0.8rem' }}>
+                          <Typography variant="body2" sx={{ color: '#E5D4C1', fontSize: '0.8rem' }}>
                             {sketch.description}
                           </Typography>
                         </ImageOverlay>
@@ -390,7 +390,7 @@ export default function GallerySection() {
                   <Typography variant="h5" sx={{ color: 'white', fontWeight: 600, mb: 2 }}>
                     {selectedImage.title}
                   </Typography>
-                  <Typography variant="body1" sx={{ color: '#B3B3B3' }}>
+                  <Typography variant="body1" sx={{ color: '#E5D4C1' }}>
                     {selectedImage.description}
                   </Typography>
                 </Box>
