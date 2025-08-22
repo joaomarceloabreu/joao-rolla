@@ -1,0 +1,5 @@
+# Vercel ignore file
+*.log
+.env.local
+.eslintcache
+*.tsbuildinfo
