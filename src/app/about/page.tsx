@@ -21,8 +21,7 @@ import { artistInfo, pressKit } from '@/lib/mockData';
 const AboutContainer = styled(Box)`
   padding: 120px 0 100px;
   background: 
-    linear-gradient(135deg, rgba(229, 87, 34, 0.05) 0%, rgba(139, 148, 86, 0.05) 100%),
-    #1A1A1A;
+    #000000;
   min-height: 100vh;
 `;
 
@@ -37,7 +36,7 @@ const PageTitle = styled(Typography)`
 `;
 
 const BioCard = styled(Card)`
-  background: #2A2A2A !important;
+  background: #111111 !important;
   border: 1px solid #333 !important;
   border-radius: 20px !important;
   padding: 40px;
@@ -136,7 +135,7 @@ export default function About() {
                   <MusicNote sx={{ fontSize: 80, color: 'white', zIndex: 2 }} />
                 </ArtistImage>
                 
-                <Card sx={{ background: '#2A2A2A', border: '1px solid #333', borderRadius: '16px' }}>
+                <Card sx={{ background: '#111111', border: '1px solid #333', borderRadius: '16px' }}>
                   <CardContent sx={{ p: 3 }}>
                     <Typography variant="h6" sx={{ color: 'white', fontWeight: 600, mb: 2 }}>
                       Informações

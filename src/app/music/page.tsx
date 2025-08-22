@@ -12,7 +12,7 @@ import MusicSection from '@/components/Music/MusicSection';
 
 const MusicPageContainer = styled(Box)`
   padding-top: 100px;
-  background: #1A1A1A;
+  background: #000000;
   min-height: 100vh;
 `;
 

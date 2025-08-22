@@ -24,7 +24,7 @@ import { motion } from 'framer-motion';
 import { artistInfo } from '@/lib/mockData';
 
 const FooterContainer = styled(Box)`
-  background: linear-gradient(180deg, #1A1A1A 0%, #2A2A2A 100%);
+  background: #000000;
   border-top: 1px solid #333;
   padding: 60px 0 30px;
   margin-top: auto;

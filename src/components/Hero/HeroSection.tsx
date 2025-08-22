@@ -23,10 +23,9 @@ const HeroContainer = styled(Box)`
   display: flex;
   align-items: center;
   background: 
-    linear-gradient(135deg, rgba(229, 87, 34, 0.1) 0%, rgba(139, 148, 86, 0.1) 100%),
-    radial-gradient(circle at 30% 20%, rgba(229, 87, 34, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 70% 80%, rgba(244, 168, 66, 0.15) 0%, transparent 50%),
-    #1A1A1A;
+    radial-gradient(circle at 30% 20%, rgba(229, 87, 34, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 70% 80%, rgba(244, 168, 66, 0.05) 0%, transparent 50%),
+    #000000;
   overflow: hidden;
 `;
 

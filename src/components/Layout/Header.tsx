@@ -60,7 +60,7 @@ const NavButton = styled(Button)`
 
 const MobileDrawer = styled(Drawer)`
   .MuiDrawer-paper {
-    background: #1A1A1A;
+    background: #000000;
     width: 280px;
     padding: 20px;
     border-right: 1px solid #333;

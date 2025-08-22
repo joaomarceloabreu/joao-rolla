@@ -17,8 +17,8 @@ export const theme = createTheme({
       contrastText: '#F5E6D3',
     },
     background: {
-      default: '#1A1A1A', // Fundo escuro moderno
-      paper: '#2A2A2A', // Cards em tom escuro
+      default: '#000000', // Fundo preto puro
+      paper: '#111111', // Cards em tom escuro sutil
     },
     text: {
       primary: '#F5E6D3', // Bege/creme claro para texto principal
@@ -120,9 +120,9 @@ export const theme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          backgroundColor: '#2A2A2A',
+          backgroundColor: '#111111',
           borderRadius: 16,
-          border: '1px solid #8B9456',
+          border: '1px solid #333333',
         },
       },
     },

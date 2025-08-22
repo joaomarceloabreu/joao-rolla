@@ -20,7 +20,7 @@ body {
   font-family: var(--font-crimson);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #1A1A1A;
+  background: #000000;
   color: #F5E6D3;
 }
 
@@ -39,7 +39,7 @@ a {
 }
 
 ::-webkit-scrollbar-track {
-  background: #2A2A2A;
+  background: #111111;
 }
 
 ::-webkit-scrollbar-thumb {

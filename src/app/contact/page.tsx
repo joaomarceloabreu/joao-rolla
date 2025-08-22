@@ -29,8 +29,7 @@ import { artistInfo, pressKit } from '@/lib/mockData';
 const ContactContainer = styled(Box)`
   padding: 120px 0 100px;
   background: 
-    linear-gradient(135deg, rgba(229, 87, 34, 0.05) 0%, rgba(139, 148, 86, 0.05) 100%),
-    #1A1A1A;
+    #000000;
   min-height: 100vh;
 `;
 
@@ -45,7 +44,7 @@ const PageTitle = styled(Typography)`
 `;
 
 const ContactCard = styled(Card)`
-  background: #2A2A2A !important;
+  background: #111111 !important;
   border: 1px solid #333 !important;
   border-radius: 20px !important;
   padding: 40px;
@@ -53,7 +52,7 @@ const ContactCard = styled(Card)`
 `;
 
 const ContactForm = styled(Card)`
-  background: #2A2A2A !important;
+  background: #111111 !important;
   border: 1px solid #333 !important;
   border-radius: 20px !important;
   padding: 40px;

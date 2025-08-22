@@ -37,7 +37,7 @@ import { useSpotifyData } from '@/utils/spotifyApi';
 const MusicContainer = styled(Box)`
   padding: 100px 0;
   background: 
-    linear-gradient(180deg, #3A3A3A 0%, #3A3A3A 50%, #3A3A3A 100%);
+    #000000;
 `;
 
 const SectionTitle = styled(Typography)`
@@ -60,7 +60,7 @@ const SectionSubtitle = styled(Typography)`
 `;
 
 const EPCard = styled(Card)`
-  background: linear-gradient(135deg, #3A3A3A 0%, #3A3A3A 100%) !important;
+  background: linear-gradient(135deg, #111111 0%, #111111 100%) !important;
   border: 1px solid #333 !important;
   border-radius: 20px !important;
   overflow: hidden;
@@ -98,7 +98,7 @@ const EPCover = styled(Box)`
 `;
 
 const TrackCard = styled(Card)`
-  background: #3A3A3A !important;
+  background: #111111 !important;
   border: 1px solid #333 !important;
   border-radius: 12px !important;
   margin-bottom: 12px;
@@ -150,7 +150,7 @@ const MiniPlayer = styled(Box)`
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background: linear-gradient(135deg, #3A3A3A 0%, #3A3A3A 100%);
+  background: linear-gradient(135deg, #111111 0%, #111111 100%);
   border: 1px solid #E55722;
   border-radius: 16px;
   padding: 16px;

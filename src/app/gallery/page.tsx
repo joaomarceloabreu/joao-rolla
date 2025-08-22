@@ -12,7 +12,7 @@ import GallerySection from '@/components/Gallery/GallerySection';
 
 const GalleryPageContainer = styled(Box)`
   padding-top: 100px;
-  background: #1A1A1A;
+  background: #000000;
   min-height: 100vh;
 `;
 

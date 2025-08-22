@@ -12,7 +12,7 @@ import ShopSection from '@/components/Shop/ShopSection';
 
 const ShopPageContainer = styled(Box)`
   padding-top: 100px;
-  background: #1A1A1A;
+  background: #000000;
   min-height: 100vh;
 `;
 

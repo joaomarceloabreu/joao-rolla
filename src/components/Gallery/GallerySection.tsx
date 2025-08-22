@@ -28,7 +28,7 @@ import { GalleryImage } from '@/types/gallery';
 
 const GalleryContainer = styled(Box)`
   padding: 100px 0;
-  background: #1A1A1A;
+  background: #000000;
 `;
 
 const SectionTitle = styled(Typography)`
