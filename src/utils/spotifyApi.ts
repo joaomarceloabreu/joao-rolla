@@ -81,7 +81,7 @@ class SpotifyAPI {
     this.accessToken = data.access_token;
     this.tokenExpiry = Date.now() + (data.expires_in * 1000) - 60000; // 1 min antes de expirar
 
-    return this.accessToken;
+    return this.accessToken!;
   }
 
   // Fazer requisição autenticada para a API

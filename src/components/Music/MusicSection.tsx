@@ -26,7 +26,7 @@ import {
   SkipPrevious
 } from '@mui/icons-material';
 import styled from 'styled-components';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { useSpotifyPlayer } from '@/hooks/useSpotifyPlayer';
 import { useSpotifyData } from '@/utils/spotifyApi';
 
@@ -343,12 +343,12 @@ export default function MusicSection() {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }
+      transition: { duration: 0.6 }
     }
   };
 

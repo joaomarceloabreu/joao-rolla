@@ -164,12 +164,12 @@ export default function ShopSection() {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }
+      transition: { duration: 0.6 }
     }
   };
 
@@ -199,10 +199,15 @@ export default function ShopSection() {
                   <FeaturedBadge label="Lançamento" icon={<Star />} />
                   <Grid container>
                     <Grid size={{ xs: 12, md: 6 }}>
-                      <ProductImage
-                        component="img"
-                        image={merchandise.featured.image}
+                      <img
+                        src={merchandise.featured.image}
                         alt={merchandise.featured.name}
+                        style={{
+                          width: '100%',
+                          height: '400px',
+                          objectFit: 'cover',
+                          borderRadius: '12px'
+                        }}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, md: 6 }}>
@@ -241,10 +246,14 @@ export default function ShopSection() {
                   whileHover={{ scale: 1.02 }}
                 >
                   <ProductCard>
-                    <ProductImage
-                      component="img"
-                      image={item.image}
+                    <img
+                      src={item.image}
                       alt={item.name}
+                      style={{
+                        width: '100%',
+                        height: '200px',
+                        objectFit: 'cover'
+                      }}
                     />
                     <CardContent sx={{ p: 3 }}>
                       <Typography variant="h6" sx={{ color: 'white', fontWeight: 600, mb: 1 }}>
