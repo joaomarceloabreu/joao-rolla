@@ -20,13 +20,13 @@ import { artistInfo, pressKit } from '@/lib/mockData';
 
 const AboutContainer = styled(Box)`
   padding: 120px 0 100px;
-  background: 
-    #000000;
+  background: transparent;
   min-height: 100vh;
 `;
 
 const PageTitle = styled(Typography)`
-  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%);
+  font-family: var(--font-carina), "Carina", "Playfair Display", Georgia, serif !important;
+  background: linear-gradient(135deg, #6d1f22 0%, #a67c52 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -36,9 +36,10 @@ const PageTitle = styled(Typography)`
 `;
 
 const BioCard = styled(Card)`
-  background: #111111 !important;
-  border: 1px solid #333 !important;
+  background: rgba(28, 27, 24, 0.85) !important;
+  border: 1px solid rgba(90, 107, 58, 0.5) !important;
   border-radius: 20px !important;
+  backdrop-filter: blur(10px);
   padding: 40px;
   margin-bottom: 40px;
 `;
@@ -46,7 +47,7 @@ const BioCard = styled(Card)`
 const ArtistImage = styled(Box)`
   width: 100%;
   height: 400px;
-  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%);
+  background: linear-gradient(135deg, #6d1f22 0%, #a67c52 100%);
   border-radius: 16px;
   display: flex;
   align-items: center;
@@ -62,7 +63,7 @@ const ArtistImage = styled(Box)`
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('/images/placeholder-400x400.svg');
+    background: url('/images/gallery/2.png');
     background-size: cover;
     background-position: center;
     opacity: 0.9;
@@ -70,15 +71,15 @@ const ArtistImage = styled(Box)`
 `;
 
 const GenreChip = styled(Chip)`
-  background: rgba(229, 87, 34, 0.2) !important;
-  color: #E55722 !important;
-  border: 1px solid #E55722 !important;
+  background: rgba(109, 31, 34, 0.2) !important;
+  color: #6d1f22 !important;
+  border: 1px solid #6d1f22 !important;
   margin: 4px !important;
   font-weight: 600 !important;
 `;
 
 const ContactButton = styled(Button)`
-  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%) !important;
+  background: linear-gradient(135deg, #6d1f22 0%, #a67c52 100%) !important;
   color: white !important;
   font-weight: 600 !important;
   text-transform: none !important;
@@ -88,7 +89,7 @@ const ContactButton = styled(Button)`
   
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(229, 87, 34, 0.3) !important;
+    box-shadow: 0 8px 25px rgba(109, 31, 34, 0.3) !important;
   }
 `;
 

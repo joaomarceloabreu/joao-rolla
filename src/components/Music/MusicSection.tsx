@@ -36,8 +36,7 @@ import { useSpotifyData } from '@/utils/spotifyApi';
 
 const MusicContainer = styled(Box)`
   padding: 100px 0;
-  background: 
-    #000000;
+  background: transparent;
 `;
 
 const SectionTitle = styled(Typography)`

@@ -20,8 +20,7 @@ import { merchandise } from '@/lib/mockData';
 
 const ShopContainer = styled(Box)`
   padding: 100px 0;
-  background: 
-    #000000;
+  background: transparent;
 `;
 
 const SectionTitle = styled(Typography)`

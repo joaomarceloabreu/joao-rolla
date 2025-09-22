@@ -28,13 +28,13 @@ import { artistInfo, pressKit } from '@/lib/mockData';
 
 const ContactContainer = styled(Box)`
   padding: 120px 0 100px;
-  background: 
-    #000000;
+  background: transparent;
   min-height: 100vh;
 `;
 
 const PageTitle = styled(Typography)`
-  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%);
+  font-family: var(--font-carina), "Carina", "Playfair Display", Georgia, serif !important;
+  background: linear-gradient(135deg, #6d1f22 0%, #a67c52 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -44,9 +44,10 @@ const PageTitle = styled(Typography)`
 `;
 
 const ContactCard = styled(Card)`
-  background: #111111 !important;
-  border: 1px solid #333 !important;
+  background: rgba(28, 27, 24, 0.85) !important;
+  border: 1px solid rgba(90, 107, 58, 0.5) !important;
   border-radius: 20px !important;
+  backdrop-filter: blur(10px);
   padding: 40px;
   height: 100%;
 `;
@@ -59,18 +60,18 @@ const ContactForm = styled(Card)`
 `;
 
 const SocialIcon = styled(IconButton)`
-  background: rgba(229, 87, 34, 0.1) !important;
-  color: #E55722 !important;
+  background: rgba(109, 31, 34, 0.1) !important;
+  color: #6d1f22 !important;
   margin: 8px !important;
   
   &:hover {
-    background: rgba(229, 87, 34, 0.2) !important;
+    background: rgba(109, 31, 34, 0.2) !important;
     transform: translateY(-3px);
   }
 `;
 
 const SubmitButton = styled(Button)`
-  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%) !important;
+  background: linear-gradient(135deg, #6d1f22 0%, #a67c52 100%) !important;
   color: white !important;
   font-weight: 600 !important;
   text-transform: none !important;
@@ -80,7 +81,7 @@ const SubmitButton = styled(Button)`
   
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(229, 87, 34, 0.3) !important;
+    box-shadow: 0 8px 25px rgba(109, 31, 34, 0.3) !important;
   }
 `;
 
@@ -90,8 +91,8 @@ const ContactInfo = styled(Box)`
   margin-bottom: 24px;
   padding: 16px;
   border-radius: 12px;
-  background: rgba(229, 87, 34, 0.05);
-  border: 1px solid rgba(229, 87, 34, 0.2);
+  background: rgba(109, 31, 34, 0.05);
+  border: 1px solid rgba(109, 31, 34, 0.2);
 `;
 
 const socialLinks = [
@@ -170,7 +171,7 @@ export default function Contact() {
                   </Typography>
 
                   <ContactInfo>
-                    <Email sx={{ color: '#E55722', mr: 2, fontSize: '1.5rem' }} />
+                    <Email sx={{ color: '#6d1f22', mr: 2, fontSize: '1.5rem' }} />
                     <Box>
                       <Typography variant="subtitle1" sx={{ color: 'white', fontWeight: 600 }}>
                         Email Geral
@@ -182,7 +183,7 @@ export default function Contact() {
                   </ContactInfo>
 
                   <ContactInfo>
-                    <Email sx={{ color: '#E55722', mr: 2, fontSize: '1.5rem' }} />
+                    <Email sx={{ color: '#6d1f22', mr: 2, fontSize: '1.5rem' }} />
                     <Box>
                       <Typography variant="subtitle1" sx={{ color: 'white', fontWeight: 600 }}>
                         Imprensa
@@ -194,7 +195,7 @@ export default function Contact() {
                   </ContactInfo>
 
                   <ContactInfo>
-                    <MusicNote sx={{ color: '#E55722', mr: 2, fontSize: '1.5rem' }} />
+                    <MusicNote sx={{ color: '#6d1f22', mr: 2, fontSize: '1.5rem' }} />
                     <Box>
                       <Typography variant="subtitle1" sx={{ color: 'white', fontWeight: 600 }}>
                         Shows & Booking
@@ -206,7 +207,7 @@ export default function Contact() {
                   </ContactInfo>
 
                   <ContactInfo>
-                    <LocationOn sx={{ color: '#E55722', mr: 2, fontSize: '1.5rem' }} />
+                    <LocationOn sx={{ color: '#6d1f22', mr: 2, fontSize: '1.5rem' }} />
                     <Box>
                       <Typography variant="subtitle1" sx={{ color: 'white', fontWeight: 600 }}>
                         Localização
@@ -269,8 +270,8 @@ export default function Contact() {
                             '& .MuiOutlinedInput-root': {
                               color: 'white',
                               '& fieldset': { borderColor: '#333' },
-                              '&:hover fieldset': { borderColor: '#E55722' },
-                              '&.Mui-focused fieldset': { borderColor: '#E55722' }
+                              '&:hover fieldset': { borderColor: '#6d1f22' },
+                              '&.Mui-focused fieldset': { borderColor: '#6d1f22' }
                             }
                           }}
                         />
@@ -289,8 +290,8 @@ export default function Contact() {
                             '& .MuiOutlinedInput-root': {
                               color: 'white',
                               '& fieldset': { borderColor: '#333' },
-                              '&:hover fieldset': { borderColor: '#E55722' },
-                              '&.Mui-focused fieldset': { borderColor: '#E55722' }
+                              '&:hover fieldset': { borderColor: '#6d1f22' },
+                              '&.Mui-focused fieldset': { borderColor: '#6d1f22' }
                             }
                           }}
                         />
@@ -308,8 +309,8 @@ export default function Contact() {
                             '& .MuiOutlinedInput-root': {
                               color: 'white',
                               '& fieldset': { borderColor: '#333' },
-                              '&:hover fieldset': { borderColor: '#E55722' },
-                              '&.Mui-focused fieldset': { borderColor: '#E55722' }
+                              '&:hover fieldset': { borderColor: '#6d1f22' },
+                              '&.Mui-focused fieldset': { borderColor: '#6d1f22' }
                             }
                           }}
                         />
@@ -329,8 +330,8 @@ export default function Contact() {
                             '& .MuiOutlinedInput-root': {
                               color: 'white',
                               '& fieldset': { borderColor: '#333' },
-                              '&:hover fieldset': { borderColor: '#E55722' },
-                              '&.Mui-focused fieldset': { borderColor: '#E55722' }
+                              '&:hover fieldset': { borderColor: '#6d1f22' },
+                              '&.Mui-focused fieldset': { borderColor: '#6d1f22' }
                             }
                           }}
                         />

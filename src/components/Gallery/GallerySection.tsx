@@ -28,7 +28,7 @@ import { GalleryImage } from '@/types/gallery';
 
 const GalleryContainer = styled(Box)`
   padding: 100px 0;
-  background: #000000;
+  background: transparent;
 `;
 
 const SectionTitle = styled(Typography)`
@@ -61,12 +61,12 @@ const GalleryTabs = styled(Tabs)`
     font-size: 1.1rem !important;
     
     &.Mui-selected {
-      color: #E55722 !important;
+      color: #5a6b3a !important;
     }
   }
   
   .MuiTabs-indicator {
-    background: linear-gradient(135deg, #E55722 0%, #F4A842 100%) !important;
+    background: linear-gradient(135deg, #6d1f22 0%, #a67c52 100%) !important;
     height: 3px !important;
     border-radius: 3px !important;
   }
@@ -96,7 +96,7 @@ const CarouselTrack = styled(Box)`
   }
   
   &::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #E55722 0%, #F4A842 100%);
+    background: linear-gradient(135deg, #6d1f22 0%, #a67c52 100%);
     border-radius: 3px;
   }
 `;
@@ -184,7 +184,7 @@ const CloseButton = styled(IconButton)`
   z-index: 1000;
   
   &:hover {
-    background: rgba(229, 87, 34, 0.8) !important;
+    background: rgba(109, 31, 34, 0.8) !important;
   }
 `;
 
@@ -205,6 +205,7 @@ function TabPanel({ children, value, index }: TabPanelProps) {
 export default function GallerySection() {
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [tabValue, setTabValue] = useState(0);
+
 
   const handleImageClick = (image: GalleryImage) => {
     setSelectedImage(image);
