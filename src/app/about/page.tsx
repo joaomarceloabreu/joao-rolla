@@ -62,7 +62,7 @@ const ArtistImage = styled(Box)`
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('/api/placeholder/400/400');
+    background: url('/images/placeholder-400x400.svg');
     background-size: cover;
     background-position: center;
     opacity: 0.9;

@@ -19,10 +19,10 @@ export const artistInfo = {
 };
 
 export const upcomingEP = {
-  title: "AURORA",
-  releaseDate: "15 de Março, 2025",
-  description: "Um EP que explora as nuances entre luz e sombra, trazendo 5 faixas que navegam por paisagens sonoras emotivas e envolventes.",
-  coverArt: "/api/placeholder/400/400",
+  title: "Só queria falar de amor",
+  releaseDate: "Em breve",
+  description: "Um álbum que celebra a filosofia 'mente sã e samba', trazendo faixas que navegam pela cultura brasileira e pelo bem-estar através da música.",
+  coverArt: "/images/placeholder-400x400.svg",
   tracks: [
     { 
       title: "Dawn", 
@@ -119,7 +119,7 @@ export const merchandise = {
     id: 1,
     name: "EP AURORA - Vinil Limitado",
     price: "R$ 89,90",
-    image: "/api/placeholder/300/300",
+    image: "/images/placeholder-300x300.svg",
     description: "Edição limitada em vinil transparente com artwork exclusivo",
     inStock: true
   },
@@ -128,7 +128,7 @@ export const merchandise = {
       id: 2,
       name: "Camiseta ARIA NOVA - Preta",
       price: "R$ 59,90",
-      image: "/api/placeholder/300/300",
+      image: "/images/placeholder-300x300.svg",
       description: "Camiseta 100% algodão com logo bordado",
       sizes: ["P", "M", "G", "GG"],
       inStock: true
@@ -137,7 +137,7 @@ export const merchandise = {
       id: 3,
       name: "Hoodie AURORA Collection",
       price: "R$ 129,90",
-      image: "/api/placeholder/300/300",
+      image: "/images/placeholder-300x300.svg",
       description: "Moletom premium com capuz e estampa exclusiva",
       sizes: ["P", "M", "G", "GG"],
       inStock: true
@@ -146,7 +146,7 @@ export const merchandise = {
       id: 4,
       name: "Poster Set - AURORA",
       price: "R$ 29,90",
-      image: "/api/placeholder/300/300",
+      image: "/images/placeholder-300x300.svg",
       description: "Kit com 3 posters A3 da coleção AURORA",
       inStock: true
     },
@@ -154,7 +154,7 @@ export const merchandise = {
       id: 5,
       name: "Pin Set - Enamel Collection",
       price: "R$ 24,90",
-      image: "/api/placeholder/300/300",
+      image: "/images/placeholder-300x300.svg",
       description: "Conjunto de 4 pins esmaltados com símbolos do EP",
       inStock: false
     }
@@ -208,13 +208,13 @@ O EP de estreia "AURORA" representa não apenas o início de sua carreira profis
   },
   photos: {
     press: [
-      "/api/placeholder/800/600",
-      "/api/placeholder/800/600", 
-      "/api/placeholder/800/600"
+      "https://via.placeholder.com/800x600/E55722/FFFFFF?text=Press+Photo+1",
+      "https://via.placeholder.com/800x600/F4A842/FFFFFF?text=Press+Photo+2", 
+      "https://via.placeholder.com/800x600/8B9456/FFFFFF?text=Press+Photo+3"
     ],
     live: [
-      "/api/placeholder/800/600",
-      "/api/placeholder/800/600"
+      "https://via.placeholder.com/800x600/333333/FFFFFF?text=Live+Photo+1",
+      "https://via.placeholder.com/800x600/666666/FFFFFF?text=Live+Photo+2"
     ]
   },
   contact: {

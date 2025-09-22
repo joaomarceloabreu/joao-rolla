@@ -24,8 +24,9 @@ import { motion } from 'framer-motion';
 import { artistInfo } from '@/lib/mockData';
 
 const FooterContainer = styled(Box)`
-  background: #000000;
-  border-top: 1px solid #333;
+  background: rgba(10, 10, 10, 0.90);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(90, 107, 58, 0.3);
   padding: 60px 0 30px;
   margin-top: auto;
 `;

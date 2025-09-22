@@ -9,6 +9,7 @@ import {
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import ShopSection from '@/components/Shop/ShopSection';
+import ShopSectionShopify from '@/components/Shop/ShopSectionShopify';
 
 const ShopPageContainer = styled(Box)`
   padding-top: 100px;
@@ -41,7 +42,10 @@ export default function Shop() {
         </motion.div>
       </Container>
       
-      <ShopSection />
+      {/* 
+        Integração com a loja real: https://yadwwn-2b.myshopify.com/
+      */}
+      <ShopSectionShopify />
     </ShopPageContainer>
   );
 }

@@ -21,19 +21,19 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const StyledAppBar = styled(AppBar)`
-  background: rgba(10, 10, 10, 0.95) !important;
+  background: rgba(10, 10, 10, 0.85) !important;
   backdrop-filter: blur(20px);
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid rgba(90, 107, 58, 0.3);
   transition: all 0.3s ease;
   
   &.scrolled {
-    background: rgba(10, 10, 10, 0.98) !important;
-    box-shadow: 0 8px 32px rgba(229, 87, 34, 0.15) !important;
+    background: rgba(10, 10, 10, 0.90) !important;
+    box-shadow: 0 8px 32px rgba(109, 31, 34, 0.15) !important;
   }
 `;
 
 const Logo = styled(Typography)`
-  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%);
+  background: linear-gradient(135deg, #6d1f22 0%, #a67c52 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

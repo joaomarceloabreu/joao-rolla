@@ -1,67 +1,67 @@
 import { createTheme } from '@mui/material/styles';
 
-// Paleta de cores inspirada em "Mente Sã e Samba" - cores vibrantes e brasileiras
+// Paleta de cores refinada "Mente Sã e Samba" - tons terrosos e orgânicos
 export const theme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#E55722', // Laranja vibrante (energia e vida)
-      light: '#F4A842',
-      dark: '#B91C3C',
-      contrastText: '#F5E6D3',
+      main: '#6d1f22', // Vermelho bordô mais sutil e terroso
+      light: '#8b5a3c', // Marrom terroso quente
+      dark: '#4a1518',
+      contrastText: '#f4f0e8',
     },
     secondary: {
-      main: '#8B9456', // Verde oliva (natureza e equilíbrio)
-      light: '#A8B26B',
-      dark: '#6B7344',
-      contrastText: '#F5E6D3',
+      main: '#5a6b3a', // Verde oliva natural
+      light: '#6d7d47',
+      dark: '#3d4a26',
+      contrastText: '#f4f0e8',
     },
     background: {
-      default: '#000000', // Fundo preto puro
-      paper: '#111111', // Cards em tom escuro sutil
+      default: '#0a0a0a', // Preto mais suave
+      paper: '#1c1b18', // Tons mais quentes para cards
     },
     text: {
-      primary: '#F5E6D3', // Bege/creme claro para texto principal
-      secondary: '#E5D4C1', // Bege mais escuro para texto secundário
+      primary: '#f4f0e8', // Bege mais claro e suave
+      secondary: '#e8dcc6', // Bege secundário refinado
     },
-    divider: '#8B9456',
+    divider: '#5a6b3a',
     error: {
-      main: '#B91C3C', // Vermelho profundo
+      main: '#6d1f22',
     },
     warning: {
-      main: '#F4A842', // Amarelo dourado
+      main: '#a67c52', // Dourado terroso mais sutil
     },
     info: {
-      main: '#8B9456', // Verde oliva
+      main: '#5a6b3a',
     },
     success: {
-      main: '#8B9456', // Verde oliva
+      main: '#5a6b3a',
     },
   },
   typography: {
     fontFamily: 'var(--font-crimson), "Crimson Text", Georgia, serif',
     h1: {
-      fontFamily: 'var(--font-playfair), "Playfair Display", Georgia, serif',
+      fontFamily: 'var(--font-carina), "Carina", "Playfair Display", Georgia, serif',
       fontSize: '3.5rem',
       fontWeight: 700,
       lineHeight: 1.2,
       letterSpacing: '-0.02em',
     },
     h2: {
-      fontFamily: 'var(--font-playfair), "Playfair Display", Georgia, serif',
+      fontFamily: 'var(--font-carina), "Carina", "Playfair Display", Georgia, serif',
       fontSize: '2.5rem',
       fontWeight: 600,
       lineHeight: 1.3,
       letterSpacing: '-0.01em',
     },
     h3: {
-      fontFamily: 'var(--font-playfair), "Playfair Display", Georgia, serif',
+      fontFamily: 'var(--font-carina), "Carina", "Playfair Display", Georgia, serif',
       fontSize: '2rem',
       fontWeight: 600,
       lineHeight: 1.4,
     },
     h4: {
-      fontFamily: 'var(--font-playfair), "Playfair Display", Georgia, serif',
+      fontFamily: 'var(--font-carina), "Carina", "Playfair Display", Georgia, serif',
       fontSize: '1.5rem',
       fontWeight: 500,
       lineHeight: 1.4,
@@ -80,30 +80,30 @@ export const theme = createTheme({
   },
   shadows: [
     'none',
-    '0px 2px 4px rgba(229, 87, 34, 0.1)',
-    '0px 4px 8px rgba(229, 87, 34, 0.15)',
-    '0px 8px 16px rgba(229, 87, 34, 0.2)',
-    '0px 12px 24px rgba(229, 87, 34, 0.25)',
-    '0px 16px 32px rgba(229, 87, 34, 0.3)',
-    '0px 20px 40px rgba(229, 87, 34, 0.35)',
-    '0px 24px 48px rgba(229, 87, 34, 0.4)',
-    '0px 32px 64px rgba(229, 87, 34, 0.45)',
-    '0px 40px 80px rgba(229, 87, 34, 0.5)',
-    '0px 48px 96px rgba(229, 87, 34, 0.55)',
-    '0px 56px 112px rgba(229, 87, 34, 0.6)',
-    '0px 64px 128px rgba(229, 87, 34, 0.65)',
-    '0px 72px 144px rgba(229, 87, 34, 0.7)',
-    '0px 80px 160px rgba(229, 87, 34, 0.75)',
-    '0px 88px 176px rgba(229, 87, 34, 0.8)',
-    '0px 96px 192px rgba(229, 87, 34, 0.85)',
-    '0px 104px 208px rgba(229, 87, 34, 0.9)',
-    '0px 112px 224px rgba(229, 87, 34, 0.95)',
-    '0px 120px 240px rgba(229, 87, 34, 1)',
-    '0px 128px 256px rgba(229, 87, 34, 1)',
-    '0px 136px 272px rgba(229, 87, 34, 1)',
-    '0px 144px 288px rgba(229, 87, 34, 1)',
-    '0px 152px 304px rgba(229, 87, 34, 1)',
-    '0px 160px 320px rgba(229, 87, 34, 1)',
+    '0px 2px 4px rgba(109, 31, 34, 0.08)',
+    '0px 4px 8px rgba(109, 31, 34, 0.12)',
+    '0px 8px 16px rgba(109, 31, 34, 0.16)',
+    '0px 12px 24px rgba(109, 31, 34, 0.20)',
+    '0px 16px 32px rgba(109, 31, 34, 0.24)',
+    '0px 20px 40px rgba(109, 31, 34, 0.28)',
+    '0px 24px 48px rgba(109, 31, 34, 0.32)',
+    '0px 32px 64px rgba(109, 31, 34, 0.36)',
+    '0px 40px 80px rgba(109, 31, 34, 0.40)',
+    '0px 48px 96px rgba(109, 31, 34, 0.44)',
+    '0px 56px 112px rgba(109, 31, 34, 0.48)',
+    '0px 64px 128px rgba(109, 31, 34, 0.52)',
+    '0px 72px 144px rgba(109, 31, 34, 0.56)',
+    '0px 80px 160px rgba(109, 31, 34, 0.60)',
+    '0px 88px 176px rgba(109, 31, 34, 0.64)',
+    '0px 96px 192px rgba(109, 31, 34, 0.68)',
+    '0px 104px 208px rgba(109, 31, 34, 0.72)',
+    '0px 112px 224px rgba(109, 31, 34, 0.76)',
+    '0px 120px 240px rgba(109, 31, 34, 0.80)',
+    '0px 128px 256px rgba(109, 31, 34, 0.84)',
+    '0px 136px 272px rgba(109, 31, 34, 0.88)',
+    '0px 144px 288px rgba(109, 31, 34, 0.92)',
+    '0px 152px 304px rgba(109, 31, 34, 0.96)',
+    '0px 160px 320px rgba(109, 31, 34, 1)',
   ],
   components: {
     MuiButton: {
@@ -120,9 +120,10 @@ export const theme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          backgroundColor: '#111111',
+          backgroundColor: 'rgba(28, 27, 24, 0.85)',
           borderRadius: 16,
-          border: '1px solid #333333',
+          border: '1px solid rgba(90, 107, 58, 0.5)',
+          backdropFilter: 'blur(10px)',
         },
       },
     },

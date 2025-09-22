@@ -1,0 +1,12 @@
+<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6d1f22;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a67c52;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#bgGradient)"/>
+  <circle cx="200" cy="150" r="40" fill="#f4f0e8" opacity="0.3"/>
+  <rect x="150" y="220" width="100" height="60" rx="8" fill="#f4f0e8" opacity="0.3"/>
+  <text x="200" y="320" font-family="serif" font-size="16" fill="#f4f0e8" text-anchor="middle" opacity="0.8">João Rolla</text>
+</svg>

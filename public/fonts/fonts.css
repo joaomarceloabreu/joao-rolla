@@ -1,0 +1,33 @@
+/* Fonte Carina - Self-hosted */
+@font-face {
+  font-family: 'Carina';
+  src: url('./Carina.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Fallback para pesos diferentes usando a mesma fonte */
+@font-face {
+  font-family: 'Carina';
+  src: url('./Carina.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Carina';
+  src: url('./Carina.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Carina';
+  src: url('./Carina.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}

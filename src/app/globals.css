@@ -1,6 +1,40 @@
+/* Carregar fonte Carina */
+@font-face {
+  font-family: 'Carina';
+  src: url('/fonts/Carina.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Carina';
+  src: url('/fonts/Carina.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Carina';
+  src: url('/fonts/Carina.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Carina';
+  src: url('/fonts/Carina.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --font-crimson: "Crimson Text", Georgia, serif;
   --font-playfair: "Playfair Display", Georgia, serif;
+  --font-carina: "Carina", "Playfair Display", Georgia, serif;
 }
 
 * {
@@ -20,12 +54,19 @@ body {
   font-family: var(--font-crimson);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #000000;
-  color: #F5E6D3;
+  background: 
+    linear-gradient(rgba(10, 10, 10, 0.65), rgba(10, 10, 10, 0.65)),
+    url('/images/organic-background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #f4f0e8;
+  min-height: 100vh;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-playfair);
+  font-family: var(--font-carina);
 }
 
 a {
@@ -39,25 +80,25 @@ a {
 }
 
 ::-webkit-scrollbar-track {
-  background: #111111;
+  background: #1c1b18;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%);
+  background: linear-gradient(135deg, #6d1f22 0%, #a67c52 100%);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #B91C3C 0%, #8B9456 100%);
+  background: linear-gradient(135deg, #8b5a3c 0%, #5a6b3a 100%);
 }
 
 /* Selection */
 ::selection {
-  background: rgba(229, 87, 34, 0.3);
-  color: #F5E6D3;
+  background: rgba(109, 31, 34, 0.25);
+  color: #f4f0e8;
 }
 
 ::-moz-selection {
-  background: rgba(229, 87, 34, 0.3);
-  color: #F5E6D3;
+  background: rgba(109, 31, 34, 0.25);
+  color: #f4f0e8;
 }

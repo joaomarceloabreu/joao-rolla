@@ -25,7 +25,8 @@ const ShopContainer = styled(Box)`
 `;
 
 const SectionTitle = styled(Typography)`
-  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%);
+  font-family: var(--font-carina), "Carina", "Playfair Display", Georgia, serif !important;
+  background: linear-gradient(135deg, #6d1f22 0%, #a67c52 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -35,7 +36,7 @@ const SectionTitle = styled(Typography)`
 `;
 
 const SectionSubtitle = styled(Typography)`
-  color: #E5D4C1 !important;
+  color: #e8dcc6 !important;
   text-align: center;
   margin-bottom: 60px !important;
   max-width: 600px;
@@ -44,8 +45,8 @@ const SectionSubtitle = styled(Typography)`
 `;
 
 const ProductCard = styled(Card)`
-  background: #111111 !important;
-  border: 1px solid #333 !important;
+  background: #1c1b18 !important;
+  border: 1px solid #5a6b3a !important;
   border-radius: 16px !important;
   overflow: hidden;
   transition: all 0.3s ease !important;
@@ -53,14 +54,14 @@ const ProductCard = styled(Card)`
   
   &:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(229, 87, 34, 0.2) !important;
-    border-color: #E55722 !important;
+    box-shadow: 0 20px 40px rgba(140, 33, 36, 0.2) !important;
+    border-color: #8c2124 !important;
   }
 `;
 
 const FeaturedCard = styled(Card)`
-  background: linear-gradient(135deg, #111111 0%, #111111 100%) !important;
-  border: 2px solid #E55722 !important;
+  background: linear-gradient(135deg, #1a1a1a 0%, #1a1a1a 100%) !important;
+  border: 2px solid #8c2124 !important;
   border-radius: 20px !important;
   overflow: hidden;
   transition: all 0.3s ease !important;
@@ -68,7 +69,7 @@ const FeaturedCard = styled(Card)`
   
   &:hover {
     transform: translateY(-12px);
-    box-shadow: 0 25px 50px rgba(229, 87, 34, 0.3) !important;
+    box-shadow: 0 25px 50px rgba(140, 33, 36, 0.3) !important;
   }
   
   &::before {
@@ -78,7 +79,7 @@ const FeaturedCard = styled(Card)`
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(135deg, #E55722 0%, #F4A842 100%);
+    background: linear-gradient(135deg, #6d1f22 0%, #a67c52 100%);
   }
 `;
 

@@ -15,23 +15,24 @@ const playfairDisplay = Playfair_Display({
   variable: "--font-playfair",
 });
 
+
 export const metadata: Metadata = {
   title: "João Rolla - Artista Musical",
-  description: "Descobrindo novos horizontes sonoros. EP AURORA - Lançamento em 15 de Março, 2025",
-  keywords: "João Rolla, música, EP, AURORA, electronic, indie pop, alternative",
+  description: "Mente sã e samba. Álbum 'Só queria falar de amor' - Uma jornada sonora pela cultura brasileira e bem-estar",
+  keywords: "João Rolla, música, álbum, Só queria falar de amor, samba, MPB, cultura brasileira, mente sã",
   authors: [{ name: "João Rolla" }],
   creator: "João Rolla",
   openGraph: {
     title: "João Rolla - Artista Musical",
-    description: "Descobrindo novos horizontes sonoros. EP AURORA - Lançamento em 15 de Março, 2025",
+    description: "Mente sã e samba. Álbum 'Só queria falar de amor' - Uma jornada sonora pela cultura brasileira e bem-estar",
     url: "https://joaorolla.com.br",
     siteName: "João Rolla",
     images: [
       {
-        url: "/api/placeholder/1200/630",
+        url: "/images/placeholder-1200x630.svg",
         width: 1200,
         height: 630,
-        alt: "João Rolla - EP AURORA",
+        alt: "João Rolla - Só queria falar de amor",
       },
     ],
     locale: "pt_BR",
@@ -40,8 +41,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "João Rolla - Artista Musical",
-    description: "Descobrindo novos horizontes sonoros. EP AURORA - Lançamento em 15 de Março, 2025",
-    images: ["/api/placeholder/1200/630"],
+    description: "Mente sã e samba. Álbum 'Só queria falar de amor' - Uma jornada sonora pela cultura brasileira e bem-estar",
+    images: ["/images/placeholder-1200x630.svg"],
     creator: "@joaorollamusic",
   },
   robots: {

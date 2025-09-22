@@ -1,7 +1,7 @@
 import HeroSection from "@/components/Hero/HeroSection";
 import MusicSection from "@/components/Music/MusicSection";
 import GallerySection from "@/components/Gallery/GallerySection";
-import ShopSection from "@/components/Shop/ShopSection";
+import ShopSectionShopify from "@/components/Shop/ShopSectionShopify";
 
 export default function Home() {
   return (
@@ -9,7 +9,7 @@ export default function Home() {
       <HeroSection />
       <MusicSection />
       <GallerySection />
-      <ShopSection />
+      <ShopSectionShopify />
     </>
   );
 }

@@ -32,7 +32,8 @@ const GalleryContainer = styled(Box)`
 `;
 
 const SectionTitle = styled(Typography)`
-  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%);
+  font-family: var(--font-carina), "Carina", "Playfair Display", Georgia, serif !important;
+  background: linear-gradient(135deg, #6d1f22 0%, #a67c52 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -42,7 +43,7 @@ const SectionTitle = styled(Typography)`
 `;
 
 const SectionSubtitle = styled(Typography)`
-  color: #E5D4C1 !important;
+  color: #e8dcc6 !important;
   text-align: center;
   margin-bottom: 60px !important;
   max-width: 600px;
