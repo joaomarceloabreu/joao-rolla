@@ -1,18 +1,12 @@
 import type { Metadata } from "next";
-import { Crimson_Text, Playfair_Display } from "next/font/google";
+import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import Layout from "@/components/Layout/Layout";
 
-const crimsonText = Crimson_Text({
+const openSans = Open_Sans({
   subsets: ["latin"],
-  weight: ["400", "600", "700"],
-  variable: "--font-crimson",
-});
-
-const playfairDisplay = Playfair_Display({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-  variable: "--font-playfair",
+  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-open-sans",
 });
 
 
@@ -70,7 +64,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={`${crimsonText.variable} ${playfairDisplay.variable}`}>
+      <body className={`${openSans.variable}`}>
         <Layout>{children}</Layout>
       </body>
     </html>

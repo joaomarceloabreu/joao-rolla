@@ -369,38 +369,40 @@ export function useShopifyCart() {
   }, [cart]);
 
   useEffect(() => {
-    // Tentar recuperar carrinho do localStorage se existir
-    const savedCartId = localStorage.getItem('shopify-cart-id');
-    if (savedCartId) {
-      client.checkout.fetch(savedCartId).then((shopifyCart: any) => {
-        if (shopifyCart) {
-          const formattedCart: ShopifyCart = {
-            id: shopifyCart.id,
-            lineItems: shopifyCart.lineItems.map((item: any) => ({
-              id: item.id,
-              title: item.title,
-              variant: item.variant,
-              quantity: item.quantity,
-            })),
-            subtotalPrice: {
-              amount: shopifyCart.subtotalPrice.amount,
-              currencyCode: shopifyCart.subtotalPrice.currencyCode,
-            },
-            totalPrice: {
-              amount: shopifyCart.totalPrice.amount,
-              currencyCode: shopifyCart.totalPrice.currencyCode,
-            },
-            webUrl: shopifyCart.webUrl,
-          };
-          setCart(formattedCart);
-        }
-      }).catch(console.error);
+    // Tentar recuperar carrinho do localStorage se existir (apenas no cliente)
+    if (typeof window !== 'undefined') {
+      const savedCartId = localStorage.getItem('shopify-cart-id');
+      if (savedCartId) {
+        client.checkout.fetch(savedCartId).then((shopifyCart: any) => {
+          if (shopifyCart) {
+            const formattedCart: ShopifyCart = {
+              id: shopifyCart.id,
+              lineItems: shopifyCart.lineItems.map((item: any) => ({
+                id: item.id,
+                title: item.title,
+                variant: item.variant,
+                quantity: item.quantity,
+              })),
+              subtotalPrice: {
+                amount: shopifyCart.subtotalPrice.amount,
+                currencyCode: shopifyCart.subtotalPrice.currencyCode,
+              },
+              totalPrice: {
+                amount: shopifyCart.totalPrice.amount,
+                currencyCode: shopifyCart.totalPrice.currencyCode,
+              },
+              webUrl: shopifyCart.webUrl,
+            };
+            setCart(formattedCart);
+          }
+        }).catch(console.error);
+      }
     }
   }, []);
 
-  // Salvar ID do carrinho no localStorage
+  // Salvar ID do carrinho no localStorage (apenas no cliente)
   useEffect(() => {
-    if (cart?.id) {
+    if (typeof window !== 'undefined' && cart?.id) {
       localStorage.setItem('shopify-cart-id', cart.id);
     }
   }, [cart?.id]);

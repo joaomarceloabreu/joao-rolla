@@ -32,9 +32,8 @@
 }
 
 :root {
-  --font-crimson: "Crimson Text", Georgia, serif;
-  --font-playfair: "Playfair Display", Georgia, serif;
-  --font-carina: "Carina", "Playfair Display", Georgia, serif;
+  --font-open-sans: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-carina: "Carina", "Open Sans", sans-serif;
 }
 
 * {
@@ -51,7 +50,7 @@ body {
 }
 
 body {
-  font-family: var(--font-crimson);
+  font-family: var(--font-open-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: 

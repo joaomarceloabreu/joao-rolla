@@ -168,31 +168,33 @@ export default function Header() {
             </motion.div>
           </Link>
 
-          {mounted && isMobile ? (
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerToggle}
-              sx={{ ml: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
-          ) : mounted ? (
-            <Box sx={{ display: 'flex', gap: 1 }}>
-              {navItems.map((item) => (
-                <Link key={item.label} href={item.href} style={{ textDecoration: 'none' }}>
-                  <motion.div
-                    whileHover={{ y: -2 }}
-                    whileTap={{ y: 0 }}
-                  >
-                    <NavButton>{item.label}</NavButton>
-                  </motion.div>
-                </Link>
-              ))}
-            </Box>
-          ) : (
-            <Box sx={{ width: 40, height: 40 }} />
-          )}
+          <Box suppressHydrationWarning>
+            {mounted && isMobile ? (
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerToggle}
+                sx={{ ml: 2 }}
+              >
+                <MenuIcon />
+              </IconButton>
+            ) : mounted ? (
+              <Box sx={{ display: 'flex', gap: 1 }}>
+                {navItems.map((item) => (
+                  <Link key={item.label} href={item.href} style={{ textDecoration: 'none' }}>
+                    <motion.div
+                      whileHover={{ y: -2 }}
+                      whileTap={{ y: 0 }}
+                    >
+                      <NavButton>{item.label}</NavButton>
+                    </motion.div>
+                  </Link>
+                ))}
+              </Box>
+            ) : (
+              <Box sx={{ width: 40, height: 40 }} />
+            )}
+          </Box>
         </Toolbar>
       </StyledAppBar>
 

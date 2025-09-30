@@ -132,7 +132,7 @@ const ArtistInitials = styled.img`
 `;
 
 const ArtistInitialsText = styled(Typography)`
-  font-family: var(--font-carina), "Carina", "Playfair Display", Georgia, serif !important;
+  font-family: var(--font-carina), "Carina", serif !important;
   color: rgba(255, 255, 255, 0.95) !important;
   font-weight: 400 !important;
   font-size: clamp(3rem, 8vw, 5rem) !important;
@@ -146,7 +146,7 @@ const ArtistInitialsText = styled(Typography)`
 const EPButton = styled(Button)`
   background: #be6800 !important;
   color: white !important;
-  font-family: var(--font-carina), "Carina", serif !important;
+  font-family: var(--font-open-sans), "Open Sans", sans-serif !important;
   font-weight: 600 !important;
   text-transform: none !important;
   padding: 16px 40px !important;
@@ -179,26 +179,10 @@ const SubText = styled(Typography)`
 
 
 export default function HeroSection() {
-  const [mounted, setMounted] = React.useState(false);
-  const [isMobile, setIsMobile] = React.useState(false);
   const theme = useTheme();
-
-  React.useEffect(() => {
-    setMounted(true);
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   // Função para renderizar o círculo AMOR (agora é uma imagem)
   const renderAmorCircle = () => {
-    if (!mounted) return null;
-    
     return (
       <AmorCircle 
         src="/AMOR AMOR AMOR.png" 
@@ -227,44 +211,6 @@ export default function HeroSection() {
     }
   };
 
-  if (!mounted) {
-    return (
-      <HeroContainer>
-        <HeroContent>
-          <Box 
-            sx={{ 
-              display: 'flex', 
-              flexDirection: 'column', 
-              alignItems: 'center', 
-              justifyContent: 'center',
-              minHeight: '60vh'
-            }}
-          >
-            <img 
-              src="/JR.png" 
-              alt="JR"
-              style={{
-                width: 'clamp(120px, 15vw, 180px)',
-                height: 'auto',
-                filter: 'drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.5))',
-                marginBottom: '24px'
-              }}
-            />
-            <Typography 
-              variant="body1" 
-              sx={{
-                color: 'rgba(255, 255, 255, 0.7)',
-                fontSize: '1rem',
-                textAlign: 'center'
-              }}
-            >
-              Carregando...
-            </Typography>
-          </Box>
-        </HeroContent>
-      </HeroContainer>
-    );
-  }
 
   return (
     <HeroContainer>
