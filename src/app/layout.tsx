@@ -22,6 +22,11 @@ export const metadata: Metadata = {
   keywords: "João Rolla, música, álbum, Só queria falar de amor, samba, MPB, cultura brasileira, mente sã",
   authors: [{ name: "João Rolla" }],
   creator: "João Rolla",
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/JR.png",
+    apple: "/JR.png",
+  },
   openGraph: {
     title: "João Rolla - Artista Musical",
     description: "Mente sã e samba. Álbum 'Só queria falar de amor' - Uma jornada sonora pela cultura brasileira e bem-estar",

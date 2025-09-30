@@ -13,207 +13,294 @@ import {
   useTheme
 } from '@mui/material';
 import { PlayArrow, Album, ShoppingBag } from '@mui/icons-material';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { motion, Variants } from 'framer-motion';
 import { artistInfo, upcomingEP } from '@/lib/mockData';
+
+// Animação de rotação para os círculos de AMOR
+const rotateAnimation = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
 
 const HeroContainer = styled(Box)`
   position: relative;
   min-height: 100vh;
   display: flex;
   align-items: center;
-  background: transparent;
+  justify-content: center;
+  background-image: url('/joao-rolla-capa.png.gif');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+  }
 `;
 
 const HeroContent = styled(Box)`
   position: relative;
   z-index: 2;
   text-align: center;
-  padding: 120px 0 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
 `;
 
-const ArtistName = styled(Typography)`
+const AmorCircleContainer = styled.div`
+  position: relative;
+  width: 600px;
+  height: 600px;
+  margin: 0 auto;
+  
+  @media (max-width: 768px) {
+    width: 450px;
+    height: 450px;
+  }
+  
+  @media (max-width: 480px) {
+    width: 350px;
+    height: 350px;
+  }
+`;
+
+const AmorCircle = styled.img`
+  position: absolute;
+  left: 1%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  animation: ${rotateAnimation} 20s linear infinite;
+  opacity: 0.9;
+  
+  @media (max-width: 768px) {
+    opacity: 0.8;
+  }
+  
+  @media (max-width: 480px) {
+    opacity: 0.7;
+  }
+`;
+
+const AmorText = styled.span`
+  position: absolute;
+  white-space: nowrap;
+  transform-origin: center;
+`;
+
+const LogoContainer = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 3;
+`;
+
+const ArtistInitials = styled.img`
+  width: clamp(200px, 25vw, 300px);
+  height: auto;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 5;
+  filter: drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.5));
+  
+  @media (max-width: 768px) {
+    width: clamp(150px, 20vw, 200px);
+  }
+  
+  @media (max-width: 480px) {
+    width: clamp(120px, 18vw, 150px);
+  }
+`;
+
+const ArtistInitialsText = styled(Typography)`
   font-family: var(--font-carina), "Carina", "Playfair Display", Georgia, serif !important;
-  background: linear-gradient(135deg, #6d1f22 0%, #a67c52 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 900 !important;
-  font-size: clamp(3rem, 8vw, 6rem) !important;
-  letter-spacing: -0.02em;
-  margin-bottom: 16px !important;
-  text-shadow: 0 0 40px rgba(109, 31, 34, 0.2);
+  color: rgba(255, 255, 255, 0.95) !important;
+  font-weight: 400 !important;
+  font-size: clamp(3rem, 8vw, 5rem) !important;
+  letter-spacing: -0.05em;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+  margin-bottom: 24px !important;
+  position: relative;
+  z-index: 5;
 `;
 
-const Tagline = styled(Typography)`
-  color: #e8dcc6 !important;
-  font-size: clamp(1.2rem, 3vw, 1.8rem) !important;
-  font-weight: 300 !important;
-  margin-bottom: 48px !important;
-  letter-spacing: 0.02em;
-`;
-
-const EPTitle = styled(Typography)`
-  font-family: var(--font-carina), "Carina", "Playfair Display", Georgia, serif !important;
-  color: #f4f0e8 !important;
-  font-weight: 700 !important;
-  font-size: 2rem !important;
-  margin-bottom: 8px !important;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-`;
-
-const ReleaseDate = styled(Typography)`
-  color: #6d1f22 !important;
-  font-weight: 600 !important;
-  font-size: 1.1rem !important;
-  margin-bottom: 32px !important;
-`;
-
-const ActionButton = styled(Button)`
-  background: ${props => props.variant === 'contained' 
-    ? 'linear-gradient(135deg, #6d1f22 0%, #8b5a3c 100%) !important'
-    : 'transparent !important'
-  };
-  border: ${props => props.variant === 'outlined' ? '2px solid #5a6b3a !important' : 'none'};
-  color: #f4f0e8 !important;
+const EPButton = styled(Button)`
+  background: #be6800 !important;
+  color: white !important;
+  font-family: var(--font-carina), "Carina", serif !important;
   font-weight: 600 !important;
   text-transform: none !important;
-  padding: 16px 32px !important;
-  font-size: 1.1rem !important;
-  border-radius: 12px !important;
-  margin: 0 12px 12px !important;
+  padding: 16px 40px !important;
+  font-size: 1rem !important;
+  border-radius: 25px !important;
+  box-shadow: 0 4px 15px rgba(190, 104, 0, 0.4) !important;
   transition: all 0.3s ease !important;
-  min-width: 200px;
+  line-height: 1.4 !important;
+  min-height: 70px !important;
+  
+  div {
+    text-align: center;
+    line-height: 1.3;
+  }
   
   &:hover {
-    transform: translateY(-3px);
-    box-shadow: ${props => props.variant === 'contained' 
-      ? '0 12px 30px rgba(109, 31, 34, 0.3) !important'
-      : '0 12px 30px rgba(90, 107, 58, 0.3) !important'
-    };
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(190, 104, 0, 0.6) !important;
+    background: #d4731a !important;
   }
+`;
+
+const SubText = styled(Typography)`
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: 0.9rem !important;
+  font-weight: 400 !important;
+  margin-top: 8px !important;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
 `;
 
 
 export default function HeroSection() {
   const [mounted, setMounted] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState(false);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   React.useEffect(() => {
     setMounted(true);
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  // Função para renderizar o círculo AMOR (agora é uma imagem)
+  const renderAmorCircle = () => {
+    if (!mounted) return null;
+    
+    return (
+      <AmorCircle 
+        src="/AMOR AMOR AMOR.png" 
+        alt="Círculo AMOR"
+      />
+    );
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        duration: 0.8,
-        staggerChildren: 0.2
+        duration: 1.2,
+        staggerChildren: 0.3
       }
     }
   };
 
   const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, scale: 0.8 },
     visible: {
       opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 }
+      scale: 1,
+      transition: { duration: 0.8, ease: "easeOut" }
     }
   };
 
+  if (!mounted) {
+    return (
+      <HeroContainer>
+        <HeroContent>
+          <Box 
+            sx={{ 
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              minHeight: '60vh'
+            }}
+          >
+            <img 
+              src="/JR.png" 
+              alt="JR"
+              style={{
+                width: 'clamp(120px, 15vw, 180px)',
+                height: 'auto',
+                filter: 'drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.5))',
+                marginBottom: '24px'
+              }}
+            />
+            <Typography 
+              variant="body1" 
+              sx={{
+                color: 'rgba(255, 255, 255, 0.7)',
+                fontSize: '1rem',
+                textAlign: 'center'
+              }}
+            >
+              Carregando...
+            </Typography>
+          </Box>
+        </HeroContent>
+      </HeroContainer>
+    );
+  }
+
   return (
     <HeroContainer>
-
-      <Container maxWidth="lg">
-        <HeroContent>
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            <motion.div variants={itemVariants}>
-              <ArtistName variant="h1">
-                {artistInfo.name}
-              </ArtistName>
-            </motion.div>
-
-            <motion.div variants={itemVariants}>
-              <Tagline variant="h4">
-                {artistInfo.tagline}
-              </Tagline>
-            </motion.div>
-
-            <motion.div variants={itemVariants}>
-              <Box sx={{ mb: 4 }}>
-                <EPTitle variant="h3">
-                  EP &quot;{upcomingEP.title}&quot;
-                </EPTitle>
-                <ReleaseDate variant="h6">
-                  Lançamento: {upcomingEP.releaseDate}
-                </ReleaseDate>
-              </Box>
-            </motion.div>
-
-            <motion.div variants={itemVariants}>
-              <Grid container spacing={2} justifyContent="center" sx={{ mb: 4 }}>
-                <Grid size={{ xs: 12, sm: "auto" }}>
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+      <HeroContent>
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.div variants={itemVariants}>
+            <AmorCircleContainer>
+              {renderAmorCircle()}
+              
+              <LogoContainer>
+                <ArtistInitials 
+                  src="/JR.png" 
+                  alt="JR"
+                />
+                
+                <motion.div variants={itemVariants}>
+                  <EPButton
+                    variant="contained"
+                    size="large"
                   >
-                    <ActionButton
-                      variant="contained"
-                      startIcon={<PlayArrow />}
-                      size="large"
-                    >
-                      Ouvir Preview
-                    </ActionButton>
-                  </motion.div>
-                </Grid>
-                <Grid size={{ xs: 12, sm: "auto" }}>
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <ActionButton
-                      variant="outlined"
-                      startIcon={<Album />}
-                      size="large"
-                    >
-                      Pré-Venda
-                    </ActionButton>
-                  </motion.div>
-                </Grid>
-                <Grid size={{ xs: 12, sm: "auto" }}>
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <ActionButton
-                      variant="outlined"
-                      startIcon={<ShoppingBag />}
-                      size="large"
-                    >
-                      Loja
-                    </ActionButton>
-                  </motion.div>
-                </Grid>
-              </Grid>
-            </motion.div>
-
-            <motion.div variants={itemVariants}>
-              <Typography variant="body1" color="#E5D4C1" sx={{ maxWidth: 600, mx: 'auto' }}>
-                {upcomingEP.description}
-              </Typography>
-            </motion.div>
+                    <div>
+                      OUÇA AGORA O EP
+                      <br />
+                      "EU SÓ QUERIA FALAR DE AMOR"
+                    </div>
+                  </EPButton>
+                </motion.div>
+              </LogoContainer>
+            </AmorCircleContainer>
           </motion.div>
-        </HeroContent>
-      </Container>
+        </motion.div>
+      </HeroContent>
     </HeroContainer>
   );
 }

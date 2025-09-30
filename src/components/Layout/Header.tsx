@@ -32,13 +32,28 @@ const StyledAppBar = styled(AppBar)`
   }
 `;
 
-const Logo = styled(Typography)`
+const Logo = styled.img`
+  height: 40px;
+  width: auto;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    filter: brightness(1.1);
+  }
+  
+  @media (max-width: 768px) {
+    height: 32px;
+  }
+`;
+
+const LogoText = styled(Typography)`
   background: linear-gradient(135deg, #6d1f22 0%, #a67c52 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 900 !important;
-  font-size: 1.8rem !important;
+  font-size: 1.2rem !important;
   letter-spacing: -0.02em;
   cursor: pointer;
 `;
@@ -53,8 +68,8 @@ const NavButton = styled(Button)`
   transition: all 0.3s ease !important;
   
   &:hover {
-    background: rgba(229, 87, 34, 0.1) !important;
-    color: #E55722 !important;
+    background: #be6800 !important;
+    color: #fff !important;
   }
 `;
 
@@ -108,7 +123,7 @@ export default function Header() {
   const drawer = (
     <Box sx={{ textAlign: 'center' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Logo variant="h6">João Rolla</Logo>
+        <LogoText variant="h6">João Rolla</LogoText>
         <IconButton onClick={handleDrawerToggle} sx={{ color: 'white' }}>
           <CloseIcon />
         </IconButton>
@@ -124,7 +139,9 @@ export default function Header() {
                   color: 'white',
                   py: 1,
                   '&:hover': {
-                    color: '#E55722'
+                    background: '#be6800',
+                    color: '#fff',
+                    borderRadius: '8px'
                   }
                 }} 
               />
@@ -144,7 +161,10 @@ export default function Header() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Logo variant="h6">João Rolla</Logo>
+              <Logo 
+                src="/joao-rolla-header.png" 
+                alt="João Rolla" 
+              />
             </motion.div>
           </Link>
 
