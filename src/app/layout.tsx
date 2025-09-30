@@ -21,6 +21,9 @@ export const metadata: Metadata = {
     shortcut: "/JR.png",
     apple: "/JR.png",
   },
+  other: {
+    "X-UA-Compatible": "IE=edge",
+  },
   openGraph: {
     title: "João Rolla - Artista Musical",
     description: "Mente sã e samba. Álbum 'Só queria falar de amor' - Uma jornada sonora pela cultura brasileira e bem-estar",

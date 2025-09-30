@@ -19,10 +19,10 @@ import { artistInfo, upcomingEP } from '@/lib/mockData';
 
 // Animação de rotação para os círculos de AMOR
 const rotateAnimation = keyframes`
-  from {
+  0% {
     transform: rotate(0deg);
   }
-  to {
+  100% {
     transform: rotate(360deg);
   }
 `;
@@ -89,6 +89,9 @@ const AmorCircle = styled.img`
   max-height: 100%;
   animation: ${rotateAnimation} 20s linear infinite;
   opacity: 0.9;
+  z-index: 1;
+  object-fit: contain;
+  will-change: transform;
   
   @media (max-width: 768px) {
     opacity: 0.8;
@@ -96,6 +99,11 @@ const AmorCircle = styled.img`
   
   @media (max-width: 480px) {
     opacity: 0.7;
+  }
+  
+  /* Fallback para navegadores que não suportam algumas propriedades */
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
   }
 `;
 
@@ -180,13 +188,20 @@ const SubText = styled(Typography)`
 
 export default function HeroSection() {
   const theme = useTheme();
+  const [imageError, setImageError] = React.useState(false);
 
   // Função para renderizar o círculo AMOR (agora é uma imagem)
   const renderAmorCircle = () => {
+    if (imageError) {
+      return null; // Se houver erro, não renderiza nada em vez de quebrar o layout
+    }
+    
     return (
       <AmorCircle 
-        src="/AMOR AMOR AMOR.png" 
+        src="/amor-circle.png" 
         alt="Círculo AMOR"
+        onError={() => setImageError(true)}
+        loading="lazy"
       />
     );
   };
@@ -213,7 +228,7 @@ export default function HeroSection() {
 
 
   return (
-    <HeroContainer>
+    <HeroContainer suppressHydrationWarning>
       <HeroContent>
         <motion.div
           variants={containerVariants}
@@ -221,7 +236,7 @@ export default function HeroSection() {
           animate="visible"
         >
           <motion.div variants={itemVariants}>
-            <AmorCircleContainer>
+            <AmorCircleContainer suppressHydrationWarning>
               {renderAmorCircle()}
               
               <LogoContainer>
