@@ -116,6 +116,29 @@
   }
 }
 
+/* Animação para prevenir flash de conteúdo */
+@keyframes fadeInPage {
+  0% {
+    visibility: hidden;
+    opacity: 0;
+  }
+  100% {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeInPage {
+  0% {
+    visibility: hidden;
+    opacity: 0;
+  }
+  100% {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
 @media (max-width: 768px) {
   .amorCircle {
     opacity: 0.8;

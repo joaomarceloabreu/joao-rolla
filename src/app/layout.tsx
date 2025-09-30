@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import Layout from "@/components/Layout/Layout";
+import LoadingScreen from "@/components/LoadingScreen";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
@@ -68,7 +69,9 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={`${openSans.variable}`}>
-        <Layout>{children}</Layout>
+        <LoadingScreen>
+          <Layout>{children}</Layout>
+        </LoadingScreen>
       </body>
     </html>
   );
