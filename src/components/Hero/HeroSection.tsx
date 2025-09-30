@@ -21,9 +21,15 @@ import { artistInfo, upcomingEP } from '@/lib/mockData';
 const rotateAnimation = keyframes`
   0% {
     transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
   }
   100% {
     transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
   }
 `;
 
@@ -82,6 +88,7 @@ const AmorCircleContainer = styled.div`
 const AmorCircle = styled.img`
   position: absolute;
   left: 1%;
+  top: 0;
   transform: translate(-50%, -50%);
   width: 100%;
   height: 100%;
@@ -92,6 +99,12 @@ const AmorCircle = styled.img`
   z-index: 1;
   object-fit: contain;
   will-change: transform;
+  /* Forçar carregamento da imagem */
+  display: block;
+  /* Compatibilidade com Edge */
+  -ms-animation: ${rotateAnimation} 20s linear infinite;
+  -webkit-animation: ${rotateAnimation} 20s linear infinite;
+  -moz-animation: ${rotateAnimation} 20s linear infinite;
   
   @media (max-width: 768px) {
     opacity: 0.8;
@@ -104,6 +117,9 @@ const AmorCircle = styled.img`
   /* Fallback para navegadores que não suportam algumas propriedades */
   @media (prefers-reduced-motion: reduce) {
     animation: none;
+    -ms-animation: none;
+    -webkit-animation: none;
+    -moz-animation: none;
   }
 `;
 
@@ -189,20 +205,46 @@ const SubText = styled(Typography)`
 export default function HeroSection() {
   const theme = useTheme();
   const [imageError, setImageError] = React.useState(false);
+  const [imageLoaded, setImageLoaded] = React.useState(false);
 
   // Função para renderizar o círculo AMOR (agora é uma imagem)
   const renderAmorCircle = () => {
-    if (imageError) {
-      return null; // Se houver erro, não renderiza nada em vez de quebrar o layout
-    }
-    
     return (
-      <AmorCircle 
-        src="/amor-circle.png" 
-        alt="Círculo AMOR"
-        onError={() => setImageError(true)}
-        loading="lazy"
-      />
+      <>
+        <AmorCircle 
+          src="/amor-circle.png" 
+          alt="Círculo AMOR"
+          onError={() => {
+            console.warn('Erro ao carregar amor-circle.png, tentando fallback');
+            setImageError(true);
+          }}
+          onLoad={() => {
+            console.log('Imagem AMOR carregada com sucesso');
+            setImageLoaded(true);
+          }}
+          style={{
+            display: imageError ? 'none' : 'block'
+          }}
+        />
+        {/* Fallback caso a imagem não carregue */}
+        {imageError && (
+          <div
+            style={{
+              position: 'absolute',
+              left: '1%',
+              top: '0',
+              transform: 'translate(-50%, -50%)',
+              width: '100%',
+              height: '100%',
+              opacity: 0.9,
+              zIndex: 1,
+              background: 'conic-gradient(from 0deg, transparent 0%, rgba(190, 104, 0, 0.3) 50%, transparent 100%)',
+              borderRadius: '50%',
+              animation: `${rotateAnimation} 20s linear infinite`
+            }}
+          />
+        )}
+      </>
     );
   };
 
