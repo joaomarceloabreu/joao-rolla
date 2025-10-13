@@ -106,6 +106,14 @@ export const theme = createTheme({
     '0px 160px 320px rgba(109, 31, 34, 1)',
   ],
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          // Evitar problemas de hidratação com scrollbar
+          scrollbarWidth: 'thin',
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {

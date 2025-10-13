@@ -6,11 +6,9 @@ import {
   Box, 
   Typography, 
   Card, 
-  CardContent, 
-  CardMedia,
+  CardContent,
   Button,
   Container,
-  Grid,
   Chip,
   Badge,
   CircularProgress,
@@ -26,22 +24,90 @@ import {
   TextField
 } from '@mui/material';
 import { 
-  ShoppingBag, 
   ShoppingCart, 
-  Star, 
-  LocalShipping, 
   Close,
   Add,
-  Remove
+  Remove,
+  ChevronLeft,
+  ChevronRight
 } from '@mui/icons-material';
 import styled from 'styled-components';
-import { motion, Variants } from 'framer-motion';
+import { motion, Variants, AnimatePresence } from 'framer-motion';
 import { useShopifyProducts, useShopifyCart } from '@/hooks/useShopify';
 import { ShopifyProduct } from '@/utils/shopifyClient';
 
 const ShopContainer = styled(Box)`
   padding: 100px 0;
   background: transparent;
+  position: relative;
+`;
+
+const ShopContentWrapper = styled(Box)`
+  display: flex;
+  align-items: flex-start;
+  gap: 40px;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 20px;
+  
+  @media (max-width: 1400px) {
+    gap: 20px;
+  }
+  
+  @media (max-width: 1200px) {
+    flex-direction: column;
+    align-items: center;
+  }
+`;
+
+const ModelImage = styled(motion.img)`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 2px solid #5a6b3a;
+  transition: all 0.3s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+  
+  &:hover {
+    border-color: #8c2124;
+    box-shadow: 0 20px 40px rgba(140, 33, 36, 0.3);
+  }
+`;
+
+const SideImagesColumn = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  position: sticky;
+  top: 120px;
+  align-self: flex-start;
+  width: 300px;
+  height: 600px;
+  
+  @media (max-width: 1400px) {
+    width: 250px;
+    height: 500px;
+  }
+  
+  @media (max-width: 1200px) {
+    display: none;
+  }
+`;
+
+const ModelImageWrapper = styled(Box)`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 16px;
+`;
+
+const CenterContent = styled(Box)`
+  flex: 1;
+  max-width: 900px;
 `;
 
 const SectionTitle = styled(Typography)`
@@ -79,30 +145,6 @@ const ProductCard = styled(Card)`
   }
 `;
 
-const FeaturedCard = styled(Card)`
-  background: linear-gradient(135deg, #1a1a1a 0%, #1a1a1a 100%) !important;
-  border: 2px solid #8c2124 !important;
-  border-radius: 20px !important;
-  overflow: hidden;
-  transition: all 0.3s ease !important;
-  position: relative;
-  
-  &:hover {
-    transform: translateY(-12px);
-    box-shadow: 0 25px 50px rgba(140, 33, 36, 0.3) !important;
-  }
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(135deg, #6d1f22 0%, #a67c52 100%);
-  }
-`;
-
 const PriceTag = styled(Typography)`
   background: linear-gradient(135deg, #E55722 0%, #F4A842 100%);
   background-clip: text;
@@ -137,33 +179,6 @@ const OutOfStockButton = styled(Button)`
   cursor: not-allowed !important;
 `;
 
-const FeaturedBadge = styled(Chip)`
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%) !important;
-  color: white !important;
-  font-weight: 600 !important;
-  z-index: 2;
-`;
-
-const ShopifyButton = styled(Button)`
-  background: linear-gradient(135deg, #8B9456 0%, #6B7344 100%) !important;
-  color: white !important;
-  font-weight: 600 !important;
-  text-transform: none !important;
-  padding: 16px 32px !important;
-  font-size: 1.1rem !important;
-  border-radius: 12px !important;
-  margin-top: 40px !important;
-  
-  &:hover {
-    background: linear-gradient(135deg, #6B7344 0%, #5A6238 100%) !important;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(150, 191, 72, 0.4) !important;
-  }
-`;
-
 const CartButton = styled(Button)`
   position: fixed;
   bottom: 20px;
@@ -182,6 +197,64 @@ const CartButton = styled(Button)`
   }
 `;
 
+const ImageNavigationButton = styled(IconButton)`
+  position: absolute !important;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6) !important;
+  color: white !important;
+  opacity: 0;
+  transition: opacity 0.3s ease !important;
+  z-index: 2;
+  
+  &:hover {
+    background: rgba(0, 0, 0, 0.8) !important;
+  }
+  
+  &.left {
+    left: 8px;
+  }
+  
+  &.right {
+    right: 8px;
+  }
+`;
+
+const ImageIndicators = styled(Box)`
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 2;
+`;
+
+const ImageDot = styled(Box)<{ active: boolean }>`
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: ${props => props.active ? '#E55722' : 'rgba(255, 255, 255, 0.5)'};
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: ${props => props.active ? '#E55722' : 'rgba(255, 255, 255, 0.8)'};
+    transform: scale(1.2);
+  }
+`;
+
+const ProductImageWrapper = styled(Box)`
+  position: relative;
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+  
+  &:hover ${ImageNavigationButton} {
+    opacity: 1;
+  }
+`;
+
 interface ShopSectionShopifyProps {
   // Componente sempre usa dados do Shopify
 }
@@ -192,10 +265,18 @@ const getProductImage = (product: ShopifyProduct): string => {
 };
 
 const getProductTitle = (product: ShopifyProduct): string => {
+  if (!product || typeof product.title !== 'string') {
+    console.warn('Produto sem título válido:', product);
+    return 'Produto sem nome';
+  }
   return product.title;
 };
 
 const getProductDescription = (product: ShopifyProduct): string => {
+  if (!product || typeof product.description !== 'string') {
+    console.warn('Produto sem descrição válida:', product);
+    return 'Sem descrição disponível';
+  }
   if (product.description.length > 100) {
     return product.description.substring(0, 100) + '...';
   }
@@ -203,7 +284,21 @@ const getProductDescription = (product: ShopifyProduct): string => {
 };
 
 const getProductPrice = (product: ShopifyProduct): string => {
-  return formatPrice(product.priceRange.minVariantPrice.amount, product.priceRange.minVariantPrice.currencyCode);
+  try {
+    // Verificar se o produto tem estrutura de preço válida
+    if (!product || !product.priceRange || !product.priceRange.minVariantPrice) {
+      console.warn('Produto sem informação de preço válida:', product);
+      return 'R$ 0,00';
+    }
+    
+    return formatPrice(
+      product.priceRange.minVariantPrice.amount, 
+      product.priceRange.minVariantPrice.currencyCode
+    );
+  } catch (error) {
+    console.error('Erro ao obter preço do produto:', error, product);
+    return 'R$ 0,00';
+  }
 };
 
 const isProductAvailable = (product: ShopifyProduct): boolean => {
@@ -211,11 +306,38 @@ const isProductAvailable = (product: ShopifyProduct): boolean => {
 };
 
 const getProductOptions = (product: ShopifyProduct): any[] => {
+  if (!product || !Array.isArray(product.options)) {
+    console.warn('Produto sem opções válidas:', product);
+    return [];
+  }
   return product.options || [];
 };
 
-const formatPrice = (amount: string, currency: string = 'BRL'): string => {
-  const numAmount = parseFloat(amount);
+const formatPrice = (amount: any, currency: string = 'BRL'): string => {
+  // Verificar se amount é um objeto com propriedades value/amount
+  let numAmount: number;
+  
+  if (typeof amount === 'object' && amount !== null) {
+    if (amount.amount) {
+      numAmount = parseFloat(amount.amount);
+    } else if (amount.value) {
+      numAmount = parseFloat(amount.value);
+    } else {
+      console.warn('Formato de preço desconhecido:', amount);
+      return 'R$ 0,00';
+    }
+  } else if (typeof amount === 'string' || typeof amount === 'number') {
+    numAmount = parseFloat(amount.toString());
+  } else {
+    console.warn('Formato de preço inválido:', amount);
+    return 'R$ 0,00';
+  }
+  
+  if (isNaN(numAmount)) {
+    console.warn('Preço não é um número válido:', amount);
+    return 'R$ 0,00';
+  }
+  
   return new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: currency === 'USD' ? 'BRL' : currency,
@@ -228,11 +350,35 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
   const [quantity, setQuantity] = useState(1);
   const [cartOpen, setCartOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  
+  // Estados para rotação de imagens laterais
+  const [leftImageIndex, setLeftImageIndex] = useState(0);
+  const [rightImageIndex, setRightImageIndex] = useState(0);
+  
+  // Estado para controlar qual imagem está sendo mostrada em cada produto
+  const [productImageIndexes, setProductImageIndexes] = useState<Record<string, number>>({});
 
   // Garantir que só executa no cliente
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  // Rotação automática das imagens laterais
+  useEffect(() => {
+    const leftImages = ['/images/dudinha_frente.png', '/images/luizao_costas.png'];
+    const rightImages = ['/images/luizao_frente.png', '/images/dudinha_costas.png'];
+    
+    const interval = setInterval(() => {
+      setLeftImageIndex((prev) => (prev + 1) % leftImages.length);
+      setRightImageIndex((prev) => (prev + 1) % rightImages.length);
+    }, 5000); // Troca a cada 5 segundos
+
+    return () => clearInterval(interval);
+  }, []);
+  
+  // Arrays de imagens para uso no JSX
+  const leftImages = ['/images/dudinha_frente.png', '/images/luizao_costas.png'];
+  const rightImages = ['/images/luizao_frente.png', '/images/dudinha_costas.png'];
 
   // Hooks do Shopify (só executam quando estiver no cliente)
   const { products: shopifyProducts, loading, error } = useShopifyProducts(isClient ? 20 : 0);
@@ -283,6 +429,32 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
     return cart?.lineItems.reduce((total, item) => total + item.quantity, 0) || 0;
   };
 
+  const handleImageNavigation = (productId: string, direction: 'next' | 'prev', totalImages: number) => {
+    setProductImageIndexes(prev => {
+      const currentIndex = prev[productId] || 0;
+      let newIndex;
+      
+      if (direction === 'next') {
+        newIndex = (currentIndex + 1) % totalImages;
+      } else {
+        newIndex = currentIndex === 0 ? totalImages - 1 : currentIndex - 1;
+      }
+      
+      return { ...prev, [productId]: newIndex };
+    });
+  };
+
+  const getProductImages = (product: ShopifyProduct): string[] => {
+    if (!product || !Array.isArray(product.images)) {
+      return [getProductImage(product)];
+    }
+    return product.images.map(img => img.src).filter(Boolean);
+  };
+
+  const getCurrentImageIndex = (productId: string): number => {
+    return productImageIndexes[productId] || 0;
+  };
+
   // Mostrar loading enquanto não estiver no cliente ou carregando dados
   if (!isClient || loading) {
     return (
@@ -316,11 +488,11 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
   }
 
   const displayProducts = products.length > 0 ? products : [];
-  const featuredProduct = products.length > 0 ? products[0] : null;
 
   return (
     <ShopContainer>
-      <Container maxWidth="lg">
+      {/* Título centralizado fora do wrapper */}
+      <Container maxWidth="lg" sx={{ mb: 6 }}>
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -331,86 +503,133 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
             <SectionTitle variant="h2">
               Loja
             </SectionTitle>
-            <SectionSubtitle variant="h6">
-              Produtos exclusivos diretamente da nossa loja Shopify
-            </SectionSubtitle>
           </motion.div>
+        </motion.div>
+      </Container>
 
-          {/* Featured Product */}
-          {featuredProduct && (
-            <motion.div variants={itemVariants}>
-              <Box sx={{ display: 'flex', justifyContent: 'center', mb: 6 }}>
-                <Box sx={{ width: { xs: '100%', md: '66.67%' } }}>
-                  <FeaturedCard>
-                    <FeaturedBadge label="Destaque" icon={<Star />} />
-                    <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
-                      <Box sx={{ width: { xs: '100%', md: '50%' } }}>
-                        <img
-                          src={getProductImage(featuredProduct)}
-                          alt={getProductTitle(featuredProduct)}
-                          style={{
-                            width: '100%',
-                            height: '400px',
-                            objectFit: 'cover',
-                            borderRadius: '12px'
-                          }}
-                        />
-                      </Box>
-                      <Box sx={{ width: { xs: '100%', md: '50%' } }}>
-                        <CardContent sx={{ p: 4, height: '100%', display: 'flex', flexDirection: 'column' }}>
-                          <Typography variant="h4" sx={{ color: 'white', fontWeight: 700, mb: 2 }}>
-                            {getProductTitle(featuredProduct)}
-                          </Typography>
-                          <Typography variant="body1" sx={{ color: '#E5D4C1', mb: 3, flex: 1 }}>
-                            {getProductDescription(featuredProduct)}
-                          </Typography>
-                          <PriceTag variant="h3" sx={{ mb: 3 }}>
-                            {getProductPrice(featuredProduct)}
-                          </PriceTag>
-                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                            <AddToCartButton
-                              startIcon={<ShoppingCart />}
-                              fullWidth
-                              onClick={() => openProductModal(featuredProduct)}
-                            >
-                              Adicionar ao Carrinho
-                            </AddToCartButton>
-                          </Box>
-                        </CardContent>
-                      </Box>
-                    </Box>
-                  </FeaturedCard>
-                </Box>
-              </Box>
-            </motion.div>
-          )}
+      {/* Conteúdo com imagens laterais */}
+      <ShopContentWrapper>
+        {/* Coluna Esquerda - Imagem Rotativa */}
+        <SideImagesColumn>
+          <ModelImageWrapper>
+            <AnimatePresence mode="wait">
+              <ModelImage
+                key={leftImageIndex}
+                src={leftImages[leftImageIndex]}
+                alt="Modelo usando camiseta"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.8 }}
+              />
+            </AnimatePresence>
+          </ModelImageWrapper>
+        </SideImagesColumn>
 
-          {/* Regular Products */}
-          <Box sx={{ 
-            display: 'grid', 
-            gridTemplateColumns: { 
-              xs: '1fr', 
-              sm: 'repeat(2, 1fr)', 
-              md: 'repeat(3, 1fr)' 
-            }, 
-            gap: 4 
-          }}>
-            {displayProducts.slice(1).map((item, index) => (
-              <Box key={item.id}>
+        {/* Conteúdo Central */}
+        <CenterContent>
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+          >
+          {/* Carrossel de Produtos */}
+          {displayProducts.length > 0 && (
+            <Box sx={{ position: 'relative', mt: 4 }}>
+              <Box sx={{ 
+                display: 'flex',
+                gap: 3,
+                overflowX: 'auto',
+                scrollSnapType: 'x mandatory',
+                scrollBehavior: 'smooth',
+                pb: 3,
+                px: 2,
+                '&::-webkit-scrollbar': {
+                  height: '10px',
+                },
+                '&::-webkit-scrollbar-track': {
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  borderRadius: '5px',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  background: 'linear-gradient(135deg, #E55722 0%, #F4A842 100%)',
+                  borderRadius: '5px',
+                  '&:hover': {
+                    background: 'linear-gradient(135deg, #8c2124 0%, #E55722 100%)',
+                  },
+                },
+              }}>
+            {displayProducts.map((item, index) => (
+              <Box 
+                key={item.id}
+                sx={{
+                  minWidth: { xs: '280px', sm: '320px', md: '360px' },
+                  maxWidth: { xs: '280px', sm: '320px', md: '360px' },
+                  scrollSnapAlign: 'start',
+                }}
+              >
                 <motion.div
-                  variants={itemVariants}
+                  initial={{ opacity: 0, x: 50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  viewport={{ once: true }}
                   whileHover={{ scale: 1.02 }}
                 >
-                  <ProductCard>
-                    <img
-                      src={getProductImage(item)}
-                      alt={getProductTitle(item)}
-                      style={{
-                        width: '100%',
-                        height: '200px',
-                        objectFit: 'cover'
-                      }}
-                    />
+                  <ProductCard sx={{ height: '100%' }}>
+                    <ProductImageWrapper>
+                      <img
+                        src={getProductImages(item)[getCurrentImageIndex(item.id)]}
+                        alt={getProductTitle(item)}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          transition: 'opacity 0.3s ease'
+                        }}
+                      />
+                      
+                      {/* Navegação de imagens - só mostra se tiver múltiplas imagens */}
+                      {getProductImages(item).length > 1 && (
+                        <>
+                          <ImageNavigationButton
+                            className="left"
+                            size="small"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleImageNavigation(item.id, 'prev', getProductImages(item).length);
+                            }}
+                          >
+                            <ChevronLeft />
+                          </ImageNavigationButton>
+                          
+                          <ImageNavigationButton
+                            className="right"
+                            size="small"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleImageNavigation(item.id, 'next', getProductImages(item).length);
+                            }}
+                          >
+                            <ChevronRight />
+                          </ImageNavigationButton>
+                          
+                          {/* Indicadores */}
+                          <ImageIndicators>
+                            {getProductImages(item).map((_, idx) => (
+                              <ImageDot
+                                key={idx}
+                                active={getCurrentImageIndex(item.id) === idx}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setProductImageIndexes(prev => ({ ...prev, [item.id]: idx }));
+                                }}
+                              />
+                            ))}
+                          </ImageIndicators>
+                        </>
+                      )}
+                    </ProductImageWrapper>
                     <CardContent sx={{ p: 3 }}>
                       <Typography variant="h6" sx={{ color: 'white', fontWeight: 600, mb: 1 }}>
                         {getProductTitle(item)}
@@ -495,33 +714,29 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
                 </motion.div>
               </Box>
             ))}
-          </Box>
-
-          {/* CTA para loja completa */}
-          <motion.div variants={itemVariants}>
-            <Box sx={{ textAlign: 'center', mt: 6 }}>
-              <Typography variant="h5" sx={{ color: 'white', mb: 2, fontWeight: 600 }}>
-                Visite nossa loja completa!
-              </Typography>
-              <Typography variant="body1" sx={{ color: '#E5D4C1', mb: 4 }}>
-                Descubra toda nossa coleção na loja oficial
-              </Typography>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <ShopifyButton
-                  startIcon={<ShoppingBag />}
-                  size="large"
-                  onClick={() => window.open('https://yadwwn-2b.myshopify.com', '_blank')}
-                >
-                  Visitar Loja Completa
-                </ShopifyButton>
-              </motion.div>
+              </Box>
             </Box>
-          </motion.div>
+          )}
         </motion.div>
-      </Container>
+        </CenterContent>
+
+        {/* Coluna Direita - Imagem Rotativa */}
+        <SideImagesColumn>
+          <ModelImageWrapper>
+            <AnimatePresence mode="wait">
+              <ModelImage
+                key={rightImageIndex}
+                src={rightImages[rightImageIndex]}
+                alt="Modelo usando camiseta"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.8 }}
+              />
+            </AnimatePresence>
+          </ModelImageWrapper>
+        </SideImagesColumn>
+      </ShopContentWrapper>
 
       {/* Botão do Carrinho */}
       {getCartItemCount() > 0 && (

@@ -53,13 +53,7 @@ body {
   font-family: var(--font-open-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: 
-    linear-gradient(rgba(10, 10, 10, 0.65), rgba(10, 10, 10, 0.65)),
-    url('/images/organic-background.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  background: #0a0a0a;
   color: #f4f0e8;
   min-height: 100vh;
 }

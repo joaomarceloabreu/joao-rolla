@@ -22,57 +22,130 @@ export function useShopifyProducts(limit: number = 20) {
         
         const shopifyProducts = await client.product.fetchAll(limit);
         
+        console.log('===== PRODUTOS RETORNADOS DO SHOPIFY =====');
+        console.log('Total de produtos:', shopifyProducts.length);
+        console.log('Primeiro produto (estrutura completa):', JSON.stringify(shopifyProducts[0], null, 2));
+        
         // Converter para o formato esperado
-        const formattedProducts: ShopifyProduct[] = shopifyProducts.map((product: any) => {
-          console.log('Produto do Shopify:', product); // Debug
+        const formattedProducts: ShopifyProduct[] = shopifyProducts.map((product: any, index: number) => {
+          console.log(`\n----- Processando Produto ${index + 1} -----`);
+          console.log('ID:', product.id);
+          console.log('Title:', product.title);
+          console.log('Images type:', typeof product.images, Array.isArray(product.images));
+          console.log('Images structure:', product.images);
+          console.log('Variants type:', typeof product.variants, Array.isArray(product.variants));
+          console.log('Variants structure:', product.variants);
           
-          // Extrair imagens do formato GraphQL
-          const images = product.images?.map((img: any) => ({
-            src: img.src,
-            altText: img.altText || '',
-          })) || [];
+          // Extrair imagens - tratando formato GraphQL com edges ou array direto
+          let images: any[] = [];
+          if (product.images) {
+            if (Array.isArray(product.images)) {
+              // Formato array direto da shopify-buy library
+              images = product.images.map((img: any) => ({
+                src: String(img.src || ''),
+                altText: String(img.altText || ''),
+              }));
+            } else if (product.images.edges) {
+              // Formato GraphQL com edges
+              images = product.images.edges.map((edge: any) => ({
+                src: String(edge.node.src || ''),
+                altText: String(edge.node.altText || ''),
+              }));
+            }
+          }
 
-          // Extrair variantes do formato GraphQL
-          const variants = product.variants?.map((variant: any) => ({
-            id: variant.id,
-            title: variant.title,
-            price: {
-              amount: variant.price?.amount || variant.price || '0',
-              currencyCode: variant.price?.currencyCode || 'BRL',
-            },
-            compareAtPrice: variant.compareAtPrice ? {
-              amount: variant.compareAtPrice.amount || variant.compareAtPrice,
-              currencyCode: variant.compareAtPrice.currencyCode || 'BRL',
-            } : undefined,
-            available: variant.available || false,
-            image: variant.image ? {
-              src: variant.image.src,
-              altText: variant.image.altText || '',
-            } : undefined,
-          })) || [];
+          // Extrair variantes - tratando formato GraphQL com edges ou array direto
+          let variants: any[] = [];
+          if (product.variants) {
+            if (Array.isArray(product.variants)) {
+              // Formato array direto da shopify-buy library
+              variants = product.variants.map((variant: any) => ({
+                id: String(variant.id || ''),
+                title: String(variant.title || ''),
+                price: {
+                  amount: String(variant.price?.amount || variant.price || '0'),
+                  currencyCode: String(variant.price?.currencyCode || 'BRL'),
+                },
+                compareAtPrice: variant.compareAtPrice ? {
+                  amount: String(variant.compareAtPrice.amount || variant.compareAtPrice || '0'),
+                  currencyCode: String(variant.compareAtPrice.currencyCode || 'BRL'),
+                } : undefined,
+                available: Boolean(variant.available),
+                image: variant.image ? {
+                  src: String(variant.image.src || ''),
+                  altText: String(variant.image.altText || ''),
+                } : undefined,
+              }));
+            } else if (product.variants.edges) {
+              // Formato GraphQL com edges
+              variants = product.variants.edges.map((edge: any) => {
+                const variant = edge.node;
+                return {
+                  id: String(variant.id || ''),
+                  title: String(variant.title || ''),
+                  price: {
+                    amount: String(variant.price?.amount || variant.priceV2?.amount || '0'),
+                    currencyCode: String(variant.price?.currencyCode || variant.priceV2?.currencyCode || 'BRL'),
+                  },
+                  compareAtPrice: (variant.compareAtPrice || variant.compareAtPriceV2) ? {
+                    amount: String(variant.compareAtPrice?.amount || variant.compareAtPriceV2?.amount || '0'),
+                    currencyCode: String(variant.compareAtPrice?.currencyCode || variant.compareAtPriceV2?.currencyCode || 'BRL'),
+                  } : undefined,
+                  available: Boolean(variant.available),
+                  image: variant.image ? {
+                    src: String(variant.image.src || ''),
+                    altText: String(variant.image.altText || ''),
+                  } : undefined,
+                };
+              });
+            }
+          }
 
-          // Extrair opções
-          const options = product.options?.map((option: any) => ({
-            id: option.id,
-            name: option.name,
-            values: option.values || [],
-          })) || [];
+          // Extrair opções - garantindo que values seja um array de strings
+          const options = product.options?.map((option: any) => {
+            // Garantir que values seja um array de strings simples
+            let values: string[] = [];
+            if (Array.isArray(option.values)) {
+              values = option.values.map((v: any) => {
+                if (typeof v === 'string') return v;
+                if (typeof v === 'object' && v !== null) {
+                  // Se for um objeto, pegar a propriedade value ou name
+                  return v.value || v.name || String(v);
+                }
+                return String(v);
+              });
+            }
+            
+            return {
+              id: String(option.id || ''),
+              name: String(option.name || ''),
+              values,
+            };
+          }) || [];
 
-          // Obter o primeiro preço para o priceRange
-          const firstVariantPrice = variants[0]?.price?.amount || '0';
-
-          return {
+          // Obter o primeiro preço para o priceRange - garantindo que seja string
+          const firstVariantPrice = String(variants[0]?.price?.amount || '0');
+          
+          console.log('Produto processado:', {
             id: product.id,
             title: product.title,
-            description: product.description || '',
-            handle: product.handle,
+            imagesCount: images.length,
+            variantsCount: variants.length,
+            optionsCount: options.length
+          });
+
+          return {
+            id: String(product.id || ''),
+            title: String(product.title || 'Sem título'),
+            description: String(product.description || ''),
+            handle: String(product.handle || ''),
             images,
             variants,
             options,
-            tags: product.tags || [],
-            productType: product.productType || '',
-            vendor: product.vendor || '',
-            availableForSale: product.availableForSale || false,
+            tags: Array.isArray(product.tags) ? product.tags.map(String) : [],
+            productType: String(product.productType || ''),
+            vendor: String(product.vendor || ''),
+            availableForSale: Boolean(product.availableForSale),
             priceRange: {
               minVariantPrice: {
                 amount: firstVariantPrice,
@@ -85,6 +158,10 @@ export function useShopifyProducts(limit: number = 20) {
             },
           };
         });
+        
+        console.log('===== PRODUTOS FORMATADOS =====');
+        console.log('Total formatados:', formattedProducts.length);
+        console.log('Primeiro produto formatado:', formattedProducts[0]);
 
         setProducts(formattedProducts);
       } catch (err) {

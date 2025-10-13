@@ -5,20 +5,12 @@ import {
   Box, 
   Typography, 
   Container,
-  Grid,
   Card,
   Dialog,
-  IconButton,
-  Tab,
-  Tabs,
-  Button
+  IconButton
 } from '@mui/material';
 import { 
   Close, 
-  PhotoLibrary, 
-  Brush, 
-  ChevronLeft, 
-  ChevronRight,
   ZoomIn
 } from '@mui/icons-material';
 import styled from 'styled-components';
@@ -50,29 +42,6 @@ const SectionSubtitle = styled(Typography)`
   margin-left: auto !important;
   margin-right: auto !important;
 `;
-
-const GalleryTabs = styled(Tabs)`
-  margin-bottom: 40px !important;
-  
-  .MuiTab-root {
-    color: #E5D4C1 !important;
-    font-weight: 600 !important;
-    text-transform: none !important;
-    font-size: 1.1rem !important;
-    
-    &.Mui-selected {
-      color: #5a6b3a !important;
-    }
-  }
-  
-  .MuiTabs-indicator {
-    background: linear-gradient(135deg, #6d1f22 0%, #a67c52 100%) !important;
-    height: 3px !important;
-    border-radius: 3px !important;
-  }
-`;
-
-
 
 const CarouselContainer = styled(Box)`
   position: relative;
@@ -130,22 +99,6 @@ const ImagePreview = styled.img`
   }
 `;
 
-const ImageOverlay = styled(Box)`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
-  color: white;
-  padding: 16px;
-  transform: translateY(100%);
-  transition: transform 0.3s ease;
-  
-  ${ImageCard}:hover & {
-    transform: translateY(0);
-  }
-`;
-
 const ZoomButton = styled(IconButton)`
   position: absolute !important;
   top: 12px;
@@ -188,24 +141,8 @@ const CloseButton = styled(IconButton)`
   }
 `;
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-function TabPanel({ children, value, index }: TabPanelProps) {
-  return (
-    <div hidden={value !== index}>
-      {value === index && <Box>{children}</Box>}
-    </div>
-  );
-}
-
 export default function GallerySection() {
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
-  const [tabValue, setTabValue] = useState(0);
-
 
   const handleImageClick = (image: GalleryImage) => {
     setSelectedImage(image);
@@ -213,10 +150,6 @@ export default function GallerySection() {
 
   const handleCloseDialog = () => {
     setSelectedImage(null);
-  };
-
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    setTabValue(newValue);
   };
 
   const containerVariants: Variants = {
@@ -258,97 +191,32 @@ export default function GallerySection() {
           </motion.div>
 
           <motion.div variants={itemVariants}>
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
-              <GalleryTabs value={tabValue} onChange={handleTabChange}>
-                <Tab 
-                  icon={<PhotoLibrary />} 
-                  label="Fotos" 
-                  iconPosition="start"
-                />
-                <Tab 
-                  icon={<Brush />} 
-                  label="Rascunhos" 
-                  iconPosition="start"
-                />
-              </GalleryTabs>
-            </Box>
+            <CarouselContainer>
+              <CarouselTrack>
+                {gallery.photos.map((photo) => (
+                  <motion.div
+                    key={photo.id}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <ImageCard onClick={() => handleImageClick(photo)}>
+                      <ImagePreview
+                        src={photo.url}
+                        alt={photo.title}
+                        onError={(e) => {
+                          console.error('Erro ao carregar imagem:', photo.url);
+                          e.currentTarget.style.display = 'none';
+                        }}
+                      />
+                      <ZoomButton>
+                        <ZoomIn />
+                      </ZoomButton>
+                    </ImageCard>
+                  </motion.div>
+                ))}
+              </CarouselTrack>
+            </CarouselContainer>
           </motion.div>
-
-          <TabPanel value={tabValue} index={0}>
-            <motion.div variants={itemVariants}>
-              <CarouselContainer>
-                <CarouselTrack>
-                  {gallery.photos.map((photo, index) => (
-                    <motion.div
-                      key={photo.id}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <ImageCard onClick={() => handleImageClick(photo)}>
-                        <ImagePreview
-                          src={photo.url}
-                          alt={photo.title}
-                          onError={(e) => {
-                            console.error('Erro ao carregar imagem:', photo.url);
-                            e.currentTarget.style.display = 'none';
-                          }}
-                        />
-                        <ZoomButton>
-                          <ZoomIn />
-                        </ZoomButton>
-                        <ImageOverlay>
-                          <Typography variant="h6" sx={{ fontWeight: 600, mb: 1, fontSize: '1rem' }}>
-                            {photo.title}
-                          </Typography>
-                          <Typography variant="body2" sx={{ color: '#E5D4C1', fontSize: '0.8rem' }}>
-                            {photo.description}
-                          </Typography>
-                        </ImageOverlay>
-                      </ImageCard>
-                    </motion.div>
-                  ))}
-                </CarouselTrack>
-              </CarouselContainer>
-            </motion.div>
-          </TabPanel>
-
-          <TabPanel value={tabValue} index={1}>
-            <motion.div variants={itemVariants}>
-              <CarouselContainer>
-                <CarouselTrack>
-                  {gallery.sketches.map((sketch, index) => (
-                    <motion.div
-                      key={sketch.id}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <ImageCard onClick={() => handleImageClick(sketch)}>
-                        <ImagePreview
-                          src={sketch.url}
-                          alt={sketch.title}
-                          onError={(e) => {
-                            console.error('Erro ao carregar imagem:', sketch.url);
-                            e.currentTarget.style.display = 'none';
-                          }}
-                        />
-                        <ZoomButton>
-                          <ZoomIn />
-                        </ZoomButton>
-                        <ImageOverlay>
-                          <Typography variant="h6" sx={{ fontWeight: 600, mb: 1, fontSize: '1rem' }}>
-                            {sketch.title}
-                          </Typography>
-                          <Typography variant="body2" sx={{ color: '#E5D4C1', fontSize: '0.8rem' }}>
-                            {sketch.description}
-                          </Typography>
-                        </ImageOverlay>
-                      </ImageCard>
-                    </motion.div>
-                  ))}
-                </CarouselTrack>
-              </CarouselContainer>
-            </motion.div>
-          </TabPanel>
         </motion.div>
       </Container>
 
@@ -381,21 +249,13 @@ export default function GallerySection() {
                   alt={selectedImage.title}
                   style={{
                     maxWidth: '100%',
-                    maxHeight: '70vh',
+                    maxHeight: '80vh',
                     objectFit: 'contain',
                     borderRadius: '8px',
                     width: 'auto',
                     height: 'auto'
                   }}
                 />
-                <Box sx={{ mt: 3, textAlign: 'center', maxWidth: 600 }}>
-                  <Typography variant="h5" sx={{ color: 'white', fontWeight: 600, mb: 2 }}>
-                    {selectedImage.title}
-                  </Typography>
-                  <Typography variant="body1" sx={{ color: '#E5D4C1' }}>
-                    {selectedImage.description}
-                  </Typography>
-                </Box>
               </Box>
             </motion.div>
           </FullscreenDialog>

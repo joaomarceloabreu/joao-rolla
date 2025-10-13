@@ -179,35 +179,60 @@ export default function About() {
               <motion.div variants={itemVariants}>
                 <BioCard>
                   <Typography variant="h4" sx={{ color: 'white', fontWeight: 700, mb: 3 }}>
-                    Minha História
-                  </Typography>
-                  
-                  <Typography variant="h6" sx={{ color: '#8B9456', fontWeight: 600, mb: 2 }}>
-                    {artistInfo.tagline}
+                    Sobre o Artista
                   </Typography>
                   
                   <Typography variant="body1" sx={{ 
                     color: '#E5D4C1', 
                     lineHeight: 1.8, 
-                    mb: 4,
-                    fontSize: '1.1rem'
+                    mb: 3,
+                    fontSize: '1.05rem'
                   }}>
-                    {pressKit.bio.long}
+                    João Rolla é cantor, compositor e intérprete que traduz o amor em suas múltiplas formas, o leve, o confuso, o intenso, o que chega e o que vai embora. Com sua musicalidade expressiva e presença cativante, João se destaca por unir sensibilidade poética a ritmos brasileiros contemporâneos, criando uma sonoridade que é ao mesmo tempo íntima e popular.
                   </Typography>
 
-                  <Typography variant="h5" sx={{ color: 'white', fontWeight: 600, mb: 3 }}>
-                    Próximos Passos
+                  <Typography variant="body1" sx={{ 
+                    color: '#E5D4C1', 
+                    lineHeight: 1.8, 
+                    mb: 3,
+                    fontSize: '1.05rem'
+                  }}>
+                    Natural de João Monlevade, João cresceu cercado por música e afetos. Em suas canções, revela o olhar curioso de quem observa o cotidiano e o transforma em verso, ritmo e emoção.
+                  </Typography>
+
+                  <Typography variant="body1" sx={{ 
+                    color: '#8B9456', 
+                    lineHeight: 1.8, 
+                    mb: 4,
+                    fontSize: '1.05rem',
+                    fontStyle: 'italic',
+                    pl: 2,
+                    borderLeft: '3px solid #8B9456'
+                  }}>
+                    "Eu gosto de cantar o que sinto, o que vivi e o que vejo nas pessoas. A música é meu jeito de amar o mundo", diz o artista.
+                  </Typography>
+
+                  <Typography variant="h5" sx={{ color: 'white', fontWeight: 600, mb: 3, mt: 4 }}>
+                    "Eu só queria falar de amor."
                   </Typography>
                   
                   <Typography variant="body1" sx={{ 
                     color: '#E5D4C1', 
                     lineHeight: 1.8,
-                    fontSize: '1rem'
+                    mb: 3,
+                    fontSize: '1.05rem'
                   }}>
-                    Com o lançamento do EP &quot;AURORA&quot;, planejo explorar ainda mais as possibilidades 
-                    sonoras e conectar-me com um público cada vez maior. Estou trabalhando em 
-                    colaborações com outros artistas e planejando apresentações ao vivo que 
-                    prometem ser experiências únicas e memoráveis.
+                    É um EP que nasce do desejo de simplificar e exaltar o sentir. De voltar àquilo que é puro, sincero e humano.
+                    Em um tempo em que tudo é rápido e volátil, João propõe uma pausa para o afeto: amar, rir, errar, sofrer, dançar, recomeçar.
+                  </Typography>
+
+                  <Typography variant="body1" sx={{ 
+                    color: '#E5D4C1', 
+                    lineHeight: 1.8,
+                    fontSize: '1.05rem'
+                  }}>
+                    O trabalho reúne canções que contam, cada uma à sua maneira, sobre o amor em suas fases: da paixão leve à dor da ausência, da esperança no futuro ao reencontro consigo mesmo.
+                    O EP flui como uma conversa entre alma e corpo, entre o agora e o que fica, o que deve ficar.
                   </Typography>
                 </BioCard>
               </motion.div>

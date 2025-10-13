@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import Layout from "@/components/Layout/Layout";
-import LoadingScreen from "@/components/LoadingScreen";
+import EmotionRegistry from "@/components/EmotionRegistry";
+import StyledComponentsRegistry from "@/lib/styledComponentsRegistry";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
@@ -67,11 +68,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR">
-      <body className={`${openSans.variable}`}>
-        <LoadingScreen>
-          <Layout>{children}</Layout>
-        </LoadingScreen>
+    <html lang="pt-BR" suppressHydrationWarning>
+      <head>
+        <meta name="emotion-insertion-point" content="" />
+      </head>
+      <body className={`${openSans.variable}`} suppressHydrationWarning>
+        <StyledComponentsRegistry>
+          <EmotionRegistry>
+            <Layout>{children}</Layout>
+          </EmotionRegistry>
+        </StyledComponentsRegistry>
       </body>
     </html>
   );

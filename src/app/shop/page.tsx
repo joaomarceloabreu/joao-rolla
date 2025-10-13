@@ -37,9 +37,6 @@ export default function Shop() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <PageTitle variant="h1">
-            Loja
-          </PageTitle>
         </motion.div>
       </Container>
       
