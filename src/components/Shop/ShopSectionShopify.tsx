@@ -365,8 +365,8 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
 
   // Rotação automática das imagens laterais
   useEffect(() => {
-    const leftImages = ['/images/dudinha_frente.png', '/images/luizao_costas.png'];
-    const rightImages = ['/images/luizao_frente.png', '/images/dudinha_costas.png'];
+    const leftImages = ['/images/dudinha_frente.png', '/images/luizao_frente.png'];
+    const rightImages = ['/images/dudinha_costas.png', '/images/luizao_costas.png'];
     
     const interval = setInterval(() => {
       setLeftImageIndex((prev) => (prev + 1) % leftImages.length);
@@ -377,8 +377,8 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
   }, []);
   
   // Arrays de imagens para uso no JSX
-  const leftImages = ['/images/dudinha_frente.png', '/images/luizao_costas.png'];
-  const rightImages = ['/images/luizao_frente.png', '/images/dudinha_costas.png'];
+  const leftImages = ['/images/dudinha_frente.png', '/images/luizao_frente.png'];
+  const rightImages = ['/images/dudinha_costas.png', '/images/luizao_costas.png'];
 
   // Hooks do Shopify (só executam quando estiver no cliente)
   const { products: shopifyProducts, loading, error } = useShopifyProducts(isClient ? 20 : 0);
