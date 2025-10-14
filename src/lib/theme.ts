@@ -41,27 +41,27 @@ export const theme = createTheme({
   typography: {
     fontFamily: 'var(--font-crimson), "Crimson Text", Georgia, serif',
     h1: {
-      fontFamily: 'var(--font-carina), "Carina", "Playfair Display", Georgia, serif',
+      fontFamily: 'var(--font-carina), "carina", "Playfair Display", Georgia, serif',
       fontSize: '3.5rem',
       fontWeight: 700,
       lineHeight: 1.2,
       letterSpacing: '-0.02em',
     },
     h2: {
-      fontFamily: 'var(--font-carina), "Carina", "Playfair Display", Georgia, serif',
+      fontFamily: 'var(--font-carina), "carina", "Playfair Display", Georgia, serif',
       fontSize: '2.5rem',
       fontWeight: 600,
       lineHeight: 1.3,
       letterSpacing: '-0.01em',
     },
     h3: {
-      fontFamily: 'var(--font-carina), "Carina", "Playfair Display", Georgia, serif',
+      fontFamily: 'var(--font-carina), "carina", "Playfair Display", Georgia, serif',
       fontSize: '2rem',
       fontWeight: 600,
       lineHeight: 1.4,
     },
     h4: {
-      fontFamily: 'var(--font-carina), "Carina", "Playfair Display", Georgia, serif',
+      fontFamily: 'var(--font-carina), "carina", "Playfair Display", Georgia, serif',
       fontSize: '1.5rem',
       fontWeight: 500,
       lineHeight: 1.4,

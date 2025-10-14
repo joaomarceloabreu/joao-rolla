@@ -155,18 +155,6 @@ const ArtistInitials = styled.img`
   }
 `;
 
-const ArtistInitialsText = styled(Typography)`
-  font-family: var(--font-carina), "Carina", serif !important;
-  color: rgba(255, 255, 255, 0.95) !important;
-  font-weight: 400 !important;
-  font-size: clamp(3rem, 8vw, 5rem) !important;
-  letter-spacing: -0.05em;
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
-  margin-bottom: 24px !important;
-  position: relative;
-  z-index: 5;
-`;
-
 const EPButton = styled(Button)`
   background: #be6800 !important;
   color: white !important;

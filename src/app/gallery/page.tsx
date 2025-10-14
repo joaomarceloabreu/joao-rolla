@@ -17,7 +17,7 @@ const GalleryPageContainer = styled(Box)`
 `;
 
 const PageTitle = styled(Typography)`
-  font-family: var(--font-carina), "Carina", serif !important;
+  font-family: var(--font-carina), "carina", serif !important;
   background: linear-gradient(135deg, #6d1f22 0%, #a67c52 100%);
   background-clip: text;
   -webkit-background-clip: text;
