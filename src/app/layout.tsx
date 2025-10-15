@@ -15,17 +15,17 @@ const openSans = Open_Sans({
 const carina = localFont({
   src: [
     {
-      path: '../../public/fonts/carina.ttf',
+      path: '../fonts/carina.ttf',
       weight: '400',
       style: 'normal',
     },
     {
-      path: '../../public/fonts/carina.ttf',
+      path: '../fonts/carina.ttf',
       weight: '700',
       style: 'normal',
     },
     {
-      path: '../../public/fonts/carina.ttf',
+      path: '../fonts/carina.ttf',
       weight: '900',
       style: 'normal',
     },
