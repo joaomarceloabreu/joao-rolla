@@ -1,4 +1,15 @@
-/* Variáveis de fonte --font-open-sans e --font-carina são injetadas automaticamente pelo Next.js */
+/* Fonte Carina - Self-hosted */
+@font-face {
+  font-family: 'carina';
+  src: url('/fonts/carina.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-carina: 'carina', serif;
+}
 
 * {
   box-sizing: border-box;
