@@ -1,6 +1,6 @@
 import HeroSection from "@/components/Hero/HeroSectionCompatible";
 import MusicSection from "@/components/Music/MusicSection";
-import GallerySectionSimple from "@/components/Gallery/GallerySectionSimple";
+import GallerySectionMobile from "@/components/Gallery/GallerySectionMobile";
 import ShopSectionShopify from "@/components/Shop/ShopSectionShopifyDynamic";
 
 export default function Home() {
@@ -8,7 +8,7 @@ export default function Home() {
     <>
       <HeroSection />
       <MusicSection />
-      <GallerySectionSimple />
+      <GallerySectionMobile />
       <ShopSectionShopify />
     </>
   );

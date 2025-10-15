@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import Layout from "@/components/Layout/Layout";
 import EmotionRegistry from "@/components/EmotionRegistry";
@@ -9,6 +10,28 @@ const openSans = Open_Sans({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800"],
   variable: "--font-open-sans",
+});
+
+const carina = localFont({
+  src: [
+    {
+      path: '../../public/fonts/carina.ttf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../../public/fonts/carina.ttf',
+      weight: '700',
+      style: 'normal',
+    },
+    {
+      path: '../../public/fonts/carina.ttf',
+      weight: '900',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-carina',
+  display: 'swap',
 });
 
 
@@ -72,7 +95,7 @@ export default function RootLayout({
       <head>
         <meta name="emotion-insertion-point" content="" />
       </head>
-      <body className={`${openSans.variable}`} suppressHydrationWarning>
+      <body className={`${openSans.variable} ${carina.variable}`} suppressHydrationWarning>
         <StyledComponentsRegistry>
           <EmotionRegistry>
             <Layout>{children}</Layout>

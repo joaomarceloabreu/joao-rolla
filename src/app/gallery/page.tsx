@@ -3,7 +3,7 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import styled from 'styled-components';
-import GallerySectionSimple from '@/components/Gallery/GallerySectionSimple';
+import GallerySectionMobile from '@/components/Gallery/GallerySectionMobile';
 
 const GalleryPageContainer = styled(Box)`
   padding-top: 80px;
@@ -14,7 +14,7 @@ const GalleryPageContainer = styled(Box)`
 export default function Gallery() {
   return (
     <GalleryPageContainer>
-      <GallerySectionSimple />
+      <GallerySectionMobile />
     </GalleryPageContainer>
   );
 }
