@@ -108,9 +108,35 @@ const ImageWrapper = styled(Box)`
   position: relative;
   width: 100%;
   height: 100%;
+  background: #2a2a2a;
   
   img {
     transition: transform 0.3s ease;
+  }
+`;
+
+const ImageSkeleton = styled(Box)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    #2a2a2a 0%,
+    #3a3a3a 50%,
+    #2a2a2a 100%
+  );
+  background-size: 200% 100%;
+  animation: loading 1.5s ease-in-out infinite;
+  
+  @keyframes loading {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
   }
 `;
 
@@ -180,6 +206,7 @@ const galleryImages: GalleryImageData[] = [
 
 export default function GallerySection() {
   const [selectedImage, setSelectedImage] = useState<GalleryImageData | null>(null);
+  const [imageLoadingStates, setImageLoadingStates] = useState<Record<number, boolean>>({});
 
   const handleImageClick = (image: GalleryImageData) => {
     setSelectedImage(image);
@@ -187,6 +214,10 @@ export default function GallerySection() {
 
   const handleCloseDialog = () => {
     setSelectedImage(null);
+  };
+  
+  const handleImageLoad = (imageId: number) => {
+    setImageLoadingStates(prev => ({ ...prev, [imageId]: true }));
   };
 
   const handlePreviousImage = () => {
@@ -275,6 +306,7 @@ export default function GallerySection() {
                 >
                   <ImageCard onClick={() => handleImageClick(image)}>
                     <ImageWrapper>
+                      {!imageLoadingStates[image.id] && <ImageSkeleton />}
                       <Image
                         src={image.url}
                         alt={`Galeria ${image.id}`}
@@ -282,7 +314,8 @@ export default function GallerySection() {
                         sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
                         style={{ objectFit: 'cover' }}
                         loading="lazy"
-                        quality={85}
+                        quality={70}
+                        onLoadingComplete={() => handleImageLoad(image.id)}
                       />
                     </ImageWrapper>
                   </ImageCard>
@@ -299,6 +332,7 @@ export default function GallerySection() {
                 >
                   <ImageCard onClick={() => handleImageClick(image)}>
                     <ImageWrapper>
+                      {!imageLoadingStates[image.id] && <ImageSkeleton />}
                       <Image
                         src={image.url}
                         alt={`Galeria ${image.id}`}
@@ -306,7 +340,8 @@ export default function GallerySection() {
                         sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
                         style={{ objectFit: 'cover' }}
                         loading="lazy"
-                        quality={85}
+                        quality={70}
+                        onLoadingComplete={() => handleImageLoad(image.id)}
                       />
                     </ImageWrapper>
                   </ImageCard>
