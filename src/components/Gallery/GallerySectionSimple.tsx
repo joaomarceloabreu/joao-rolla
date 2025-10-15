@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { 
   Box, 
   Typography, 
@@ -92,6 +91,7 @@ const ImageCard = styled(Box)`
   position: relative;
   border-radius: 8px;
   transition: all 0.3s ease;
+  background: #2a2a2a;
   
   &:hover {
     transform: scale(1.05);
@@ -99,44 +99,15 @@ const ImageCard = styled(Box)`
     z-index: 1;
   }
   
-  &:hover img {
-    transform: scale(1.1);
-  }
-`;
-
-const ImageWrapper = styled(Box)`
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background: #2a2a2a;
-  
   img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     transition: transform 0.3s ease;
   }
-`;
-
-const ImageSkeleton = styled(Box)`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    #2a2a2a 0%,
-    #3a3a3a 50%,
-    #2a2a2a 100%
-  );
-  background-size: 200% 100%;
-  animation: loading 1.5s ease-in-out infinite;
   
-  @keyframes loading {
-    0% {
-      background-position: 200% 0;
-    }
-    100% {
-      background-position: -200% 0;
-    }
+  &:hover img {
+    transform: scale(1.1);
   }
 `;
 
@@ -188,15 +159,12 @@ interface GalleryImageData {
   url: string;
 }
 
-// Array com as 10 imagens da galeria
 const galleryImages: GalleryImageData[] = [
-  // Primeira fileira
   { id: 1, url: '/images/gallery/gallery_1.jpg' },
   { id: 2, url: '/images/gallery/gallery_2.jpg' },
   { id: 3, url: '/images/gallery/gallery_3.jpg' },
   { id: 4, url: '/images/gallery/gallery_4.jpg' },
   { id: 5, url: '/images/gallery/gallery_5.jpg' },
-  // Segunda fileira
   { id: 6, url: '/images/gallery/gallery_6.jpg' },
   { id: 7, url: '/images/gallery/gallery_7.jpg' },
   { id: 8, url: '/images/gallery/gallery_8.jpg' },
@@ -204,10 +172,8 @@ const galleryImages: GalleryImageData[] = [
   { id: 10, url: '/images/gallery/gallery_10.jpg' }
 ];
 
-export default function GallerySection() {
+export default function GallerySectionSimple() {
   const [selectedImage, setSelectedImage] = useState<GalleryImageData | null>(null);
-  const [imageLoadingStates, setImageLoadingStates] = useState<Record<number, boolean>>({});
-  const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
 
   const handleImageClick = (image: GalleryImageData) => {
     setSelectedImage(image);
@@ -215,16 +181,6 @@ export default function GallerySection() {
 
   const handleCloseDialog = () => {
     setSelectedImage(null);
-  };
-  
-  const handleImageLoad = (imageId: number) => {
-    setImageLoadingStates(prev => ({ ...prev, [imageId]: true }));
-  };
-  
-  const handleImageError = (imageId: number) => {
-    console.error(`Erro ao carregar imagem ${imageId}`);
-    setImageErrors(prev => ({ ...prev, [imageId]: true }));
-    setImageLoadingStates(prev => ({ ...prev, [imageId]: true }));
   };
 
   const handlePreviousImage = () => {
@@ -241,32 +197,24 @@ export default function GallerySection() {
     setSelectedImage(galleryImages[nextIndex]);
   };
 
-  // Event listener para navegação por teclado
   useEffect(() => {
     if (!selectedImage) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'ArrowLeft') {
-        const currentIndex = galleryImages.findIndex(img => img.id === selectedImage.id);
-        const previousIndex = currentIndex > 0 ? currentIndex - 1 : galleryImages.length - 1;
-        setSelectedImage(galleryImages[previousIndex]);
+        handlePreviousImage();
       } else if (event.key === 'ArrowRight') {
-        const currentIndex = galleryImages.findIndex(img => img.id === selectedImage.id);
-        const nextIndex = currentIndex < galleryImages.length - 1 ? currentIndex + 1 : 0;
-        setSelectedImage(galleryImages[nextIndex]);
+        handleNextImage();
       } else if (event.key === 'Escape') {
         setSelectedImage(null);
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedImage]);
 
-  const containerVariants: Variants = {
+  const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -286,7 +234,6 @@ export default function GallerySection() {
     }
   };
 
-  // Dividir imagens em duas fileiras
   const firstRow = galleryImages.slice(0, 5);
   const secondRow = galleryImages.slice(5, 10);
 
@@ -304,7 +251,6 @@ export default function GallerySection() {
           </SectionTitle>
 
           <GalleryGrid>
-            {/* Primeira fileira */}
             <GalleryRow>
               {firstRow.map((image) => (
                 <motion.div
@@ -312,25 +258,16 @@ export default function GallerySection() {
                   variants={itemVariants}
                 >
                   <ImageCard onClick={() => handleImageClick(image)}>
-                    <ImageWrapper>
-                      {!imageLoadingStates[image.id] && <ImageSkeleton />}
-                      <Image
-                        src={image.url}
-                        alt={`Galeria ${image.id}`}
-                        fill
-                        sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
-                        style={{ objectFit: 'cover' }}
-                        loading="lazy"
-                        quality={70}
-                        onLoadingComplete={() => handleImageLoad(image.id)}
-                      />
-                    </ImageWrapper>
+                    <img
+                      src={image.url}
+                      alt={`Galeria ${image.id}`}
+                      loading="lazy"
+                    />
                   </ImageCard>
                 </motion.div>
               ))}
             </GalleryRow>
 
-            {/* Segunda fileira */}
             <GalleryRow>
               {secondRow.map((image) => (
                 <motion.div
@@ -338,19 +275,11 @@ export default function GallerySection() {
                   variants={itemVariants}
                 >
                   <ImageCard onClick={() => handleImageClick(image)}>
-                    <ImageWrapper>
-                      {!imageLoadingStates[image.id] && <ImageSkeleton />}
-                      <Image
-                        src={image.url}
-                        alt={`Galeria ${image.id}`}
-                        fill
-                        sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
-                        style={{ objectFit: 'cover' }}
-                        loading="lazy"
-                        quality={70}
-                        onLoadingComplete={() => handleImageLoad(image.id)}
-                      />
-                    </ImageWrapper>
+                    <img
+                      src={image.url}
+                      alt={`Galeria ${image.id}`}
+                      loading="lazy"
+                    />
                   </ImageCard>
                 </motion.div>
               ))}
@@ -359,7 +288,6 @@ export default function GallerySection() {
         </motion.div>
       </Container>
 
-      {/* Fullscreen Image Dialog */}
       <AnimatePresence>
         {selectedImage && (
           <FullscreenDialog
@@ -394,26 +322,18 @@ export default function GallerySection() {
                 minHeight: '90vh',
                 position: 'relative'
               }}>
-                <Box sx={{
-                  position: 'relative',
-                  maxWidth: '90%',
-                  maxHeight: '85vh',
-                  width: '100%',
-                  height: '85vh'
-                }}>
-                  <Image
-                    src={selectedImage.url}
-                    alt={`Galeria ${selectedImage.id}`}
-                    fill
-                    sizes="90vw"
-                    style={{
-                      objectFit: 'contain',
-                      borderRadius: '8px'
-                    }}
-                    quality={90}
-                    priority
-                  />
-                </Box>
+                <img
+                  src={selectedImage.url}
+                  alt={`Galeria ${selectedImage.id}`}
+                  style={{
+                    maxWidth: '90%',
+                    maxHeight: '85vh',
+                    objectFit: 'contain',
+                    borderRadius: '8px',
+                    width: 'auto',
+                    height: 'auto'
+                  }}
+                />
               </Box>
             </motion.div>
           </FullscreenDialog>
@@ -422,3 +342,4 @@ export default function GallerySection() {
     </GalleryContainer>
   );
 }
+
