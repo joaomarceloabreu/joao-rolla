@@ -1,34 +1,33 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { 
   Box, 
   Typography, 
   Container,
-  Grid,
-  Card,
   Dialog,
-  IconButton,
-  Tab,
-  Tabs,
-  Button
+  IconButton
 } from '@mui/material';
 import { 
-  Close, 
-  PhotoLibrary, 
-  Brush, 
-  ChevronLeft, 
-  ChevronRight,
-  ZoomIn
+  Close,
+  ChevronLeft,
+  ChevronRight
 } from '@mui/icons-material';
 import styled from 'styled-components';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
-import { gallery } from '@/lib/mockData';
-import { GalleryImage } from '@/types/gallery';
 
 const GalleryContainer = styled(Box)`
   padding: 100px 0;
   background: transparent;
+  
+  @media (max-width: 960px) {
+    padding: 80px 0;
+  }
+  
+  @media (max-width: 600px) {
+    padding: 60px 0;
+  }
 `;
 
 const SectionTitle = styled(Typography)`
@@ -39,133 +38,81 @@ const SectionTitle = styled(Typography)`
   -webkit-text-fill-color: transparent;
   font-weight: 900 !important;
   text-align: center;
-  margin-bottom: 24px !important;
-`;
-
-const SectionSubtitle = styled(Typography)`
-  color: #e8dcc6 !important;
-  text-align: center;
-  margin-bottom: 60px !important;
-  max-width: 600px;
-  margin-left: auto !important;
-  margin-right: auto !important;
-`;
-
-const GalleryTabs = styled(Tabs)`
-  margin-bottom: 40px !important;
+  margin-bottom: 80px !important;
+  font-size: 4rem !important;
   
-  .MuiTab-root {
-    color: #E5D4C1 !important;
-    font-weight: 600 !important;
-    text-transform: none !important;
-    font-size: 1.1rem !important;
-    
-    &.Mui-selected {
-      color: #5a6b3a !important;
-    }
+  @media (max-width: 960px) {
+    font-size: 3.5rem !important;
+    margin-bottom: 60px !important;
   }
   
-  .MuiTabs-indicator {
-    background: linear-gradient(135deg, #6d1f22 0%, #a67c52 100%) !important;
-    height: 3px !important;
-    border-radius: 3px !important;
+  @media (max-width: 600px) {
+    font-size: 2.5rem !important;
+    margin-bottom: 40px !important;
   }
 `;
 
-
-
-const CarouselContainer = styled(Box)`
-  position: relative;
-  margin-bottom: 40px;
-`;
-
-const CarouselTrack = styled(Box)`
+const GalleryGrid = styled(Box)`
   display: flex;
+  flex-direction: column;
   gap: 20px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  padding: 20px 0;
+  width: 100%;
   
-  &::-webkit-scrollbar {
-    height: 6px;
-  }
-  
-  &::-webkit-scrollbar-track {
-    background: #333;
-    border-radius: 3px;
-  }
-  
-  &::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #6d1f22 0%, #a67c52 100%);
-    border-radius: 3px;
+  @media (max-width: 600px) {
+    gap: 15px;
   }
 `;
 
-const ImageCard = styled(Card)`
-  min-width: 280px;
-  height: 200px;
-  background: #2A2A2A !important;
-  border: 2px solid #333 !important;
-  border-radius: 16px !important;
+const GalleryRow = styled(Box)`
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  width: 100%;
+  
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+  }
+  
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+`;
+
+const ImageCard = styled(Box)`
+  aspect-ratio: 1;
   overflow: hidden;
   cursor: pointer;
   position: relative;
-  transition: all 0.3s ease !important;
+  border-radius: 8px;
+  transition: all 0.3s ease;
   
   &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(229, 87, 34, 0.3) !important;
-    border-color: #E55722 !important;
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    z-index: 1;
+  }
+  
+  &:hover img {
+    transform: scale(1.1);
   }
 `;
 
-const ImagePreview = styled.img`
+const ImageWrapper = styled(Box)`
+  position: relative;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
   
-  ${ImageCard}:hover & {
-    transform: scale(1.1);
+  img {
+    transition: transform 0.3s ease;
   }
 `;
-
-const ImageOverlay = styled(Box)`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
-  color: white;
-  padding: 16px;
-  transform: translateY(100%);
-  transition: transform 0.3s ease;
-  
-  ${ImageCard}:hover & {
-    transform: translateY(0);
-  }
-`;
-
-const ZoomButton = styled(IconButton)`
-  position: absolute !important;
-  top: 12px;
-  right: 12px;
-  background: rgba(0, 0, 0, 0.7) !important;
-  color: white !important;
-  opacity: 0;
-  transition: all 0.3s ease !important;
-  
-  ${ImageCard}:hover & {
-    opacity: 1;
-  }
-  
-  &:hover {
-    background: rgba(229, 87, 34, 0.8) !important;
-    transform: scale(1.1);
-  }
-`;
-
-
 
 const FullscreenDialog = styled(Dialog)`
   .MuiDialog-paper {
@@ -188,26 +135,53 @@ const CloseButton = styled(IconButton)`
   }
 `;
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
+const NavigationButton = styled(IconButton)`
+  position: absolute !important;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5) !important;
+  color: white !important;
+  z-index: 1000;
+  padding: 12px !important;
+  
+  &:hover {
+    background: rgba(109, 31, 34, 0.8) !important;
+  }
+  
+  &.left {
+    left: 20px;
+  }
+  
+  &.right {
+    right: 20px;
+  }
+`;
+
+interface GalleryImageData {
+  id: number;
+  url: string;
 }
 
-function TabPanel({ children, value, index }: TabPanelProps) {
-  return (
-    <div hidden={value !== index}>
-      {value === index && <Box>{children}</Box>}
-    </div>
-  );
-}
+// Array com as 10 imagens da galeria
+const galleryImages: GalleryImageData[] = [
+  // Primeira fileira
+  { id: 1, url: '/images/gallery/gallery_1.jpg' },
+  { id: 2, url: '/images/gallery/gallery_2.jpg' },
+  { id: 3, url: '/images/gallery/gallery_3.jpg' },
+  { id: 4, url: '/images/gallery/gallery_4.jpg' },
+  { id: 5, url: '/images/gallery/gallery_5.jpg' },
+  // Segunda fileira
+  { id: 6, url: '/images/gallery/gallery_6.jpg' },
+  { id: 7, url: '/images/gallery/gallery_7.jpg' },
+  { id: 8, url: '/images/gallery/gallery_8.jpg' },
+  { id: 9, url: '/images/gallery/gallery_9.jpg' },
+  { id: 10, url: '/images/gallery/gallery_10.jpg' }
+];
 
 export default function GallerySection() {
-  const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
-  const [tabValue, setTabValue] = useState(0);
+  const [selectedImage, setSelectedImage] = useState<GalleryImageData | null>(null);
 
-
-  const handleImageClick = (image: GalleryImage) => {
+  const handleImageClick = (image: GalleryImageData) => {
     setSelectedImage(image);
   };
 
@@ -215,9 +189,44 @@ export default function GallerySection() {
     setSelectedImage(null);
   };
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    setTabValue(newValue);
+  const handlePreviousImage = () => {
+    if (!selectedImage) return;
+    const currentIndex = galleryImages.findIndex(img => img.id === selectedImage.id);
+    const previousIndex = currentIndex > 0 ? currentIndex - 1 : galleryImages.length - 1;
+    setSelectedImage(galleryImages[previousIndex]);
   };
+
+  const handleNextImage = () => {
+    if (!selectedImage) return;
+    const currentIndex = galleryImages.findIndex(img => img.id === selectedImage.id);
+    const nextIndex = currentIndex < galleryImages.length - 1 ? currentIndex + 1 : 0;
+    setSelectedImage(galleryImages[nextIndex]);
+  };
+
+  // Event listener para navegação por teclado
+  useEffect(() => {
+    if (!selectedImage) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'ArrowLeft') {
+        const currentIndex = galleryImages.findIndex(img => img.id === selectedImage.id);
+        const previousIndex = currentIndex > 0 ? currentIndex - 1 : galleryImages.length - 1;
+        setSelectedImage(galleryImages[previousIndex]);
+      } else if (event.key === 'ArrowRight') {
+        const currentIndex = galleryImages.findIndex(img => img.id === selectedImage.id);
+        const nextIndex = currentIndex < galleryImages.length - 1 ? currentIndex + 1 : 0;
+        setSelectedImage(galleryImages[nextIndex]);
+      } else if (event.key === 'Escape') {
+        setSelectedImage(null);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedImage]);
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -225,130 +234,86 @@ export default function GallerySection() {
       opacity: 1,
       transition: {
         duration: 0.8,
-        staggerChildren: 0.1
+        staggerChildren: 0.05
       }
     }
   };
 
   const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, scale: 0.9 },
     visible: {
       opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 }
+      scale: 1,
+      transition: { duration: 0.5 }
     }
   };
 
+  // Dividir imagens em duas fileiras
+  const firstRow = galleryImages.slice(0, 5);
+  const secondRow = galleryImages.slice(5, 10);
+
   return (
     <GalleryContainer>
-      <Container maxWidth="lg">
+      <Container maxWidth="xl">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: true, amount: 0.2 }}
         >
-          <motion.div variants={itemVariants}>
-            <SectionTitle variant="h2">
-              Galeria
-            </SectionTitle>
-            <SectionSubtitle variant="h6">
-              Momentos especiais, processos criativos e inspirações visuais
-            </SectionSubtitle>
-          </motion.div>
+          <SectionTitle variant="h2">
+            Galeria
+          </SectionTitle>
 
-          <motion.div variants={itemVariants}>
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
-              <GalleryTabs value={tabValue} onChange={handleTabChange}>
-                <Tab 
-                  icon={<PhotoLibrary />} 
-                  label="Fotos" 
-                  iconPosition="start"
-                />
-                <Tab 
-                  icon={<Brush />} 
-                  label="Rascunhos" 
-                  iconPosition="start"
-                />
-              </GalleryTabs>
-            </Box>
-          </motion.div>
+          <GalleryGrid>
+            {/* Primeira fileira */}
+            <GalleryRow>
+              {firstRow.map((image) => (
+                <motion.div
+                  key={image.id}
+                  variants={itemVariants}
+                >
+                  <ImageCard onClick={() => handleImageClick(image)}>
+                    <ImageWrapper>
+                      <Image
+                        src={image.url}
+                        alt={`Galeria ${image.id}`}
+                        fill
+                        sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
+                        style={{ objectFit: 'cover' }}
+                        loading="lazy"
+                        quality={85}
+                      />
+                    </ImageWrapper>
+                  </ImageCard>
+                </motion.div>
+              ))}
+            </GalleryRow>
 
-          <TabPanel value={tabValue} index={0}>
-            <motion.div variants={itemVariants}>
-              <CarouselContainer>
-                <CarouselTrack>
-                  {gallery.photos.map((photo, index) => (
-                    <motion.div
-                      key={photo.id}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <ImageCard onClick={() => handleImageClick(photo)}>
-                        <ImagePreview
-                          src={photo.url}
-                          alt={photo.title}
-                          onError={(e) => {
-                            console.error('Erro ao carregar imagem:', photo.url);
-                            e.currentTarget.style.display = 'none';
-                          }}
-                        />
-                        <ZoomButton>
-                          <ZoomIn />
-                        </ZoomButton>
-                        <ImageOverlay>
-                          <Typography variant="h6" sx={{ fontWeight: 600, mb: 1, fontSize: '1rem' }}>
-                            {photo.title}
-                          </Typography>
-                          <Typography variant="body2" sx={{ color: '#E5D4C1', fontSize: '0.8rem' }}>
-                            {photo.description}
-                          </Typography>
-                        </ImageOverlay>
-                      </ImageCard>
-                    </motion.div>
-                  ))}
-                </CarouselTrack>
-              </CarouselContainer>
-            </motion.div>
-          </TabPanel>
-
-          <TabPanel value={tabValue} index={1}>
-            <motion.div variants={itemVariants}>
-              <CarouselContainer>
-                <CarouselTrack>
-                  {gallery.sketches.map((sketch, index) => (
-                    <motion.div
-                      key={sketch.id}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <ImageCard onClick={() => handleImageClick(sketch)}>
-                        <ImagePreview
-                          src={sketch.url}
-                          alt={sketch.title}
-                          onError={(e) => {
-                            console.error('Erro ao carregar imagem:', sketch.url);
-                            e.currentTarget.style.display = 'none';
-                          }}
-                        />
-                        <ZoomButton>
-                          <ZoomIn />
-                        </ZoomButton>
-                        <ImageOverlay>
-                          <Typography variant="h6" sx={{ fontWeight: 600, mb: 1, fontSize: '1rem' }}>
-                            {sketch.title}
-                          </Typography>
-                          <Typography variant="body2" sx={{ color: '#E5D4C1', fontSize: '0.8rem' }}>
-                            {sketch.description}
-                          </Typography>
-                        </ImageOverlay>
-                      </ImageCard>
-                    </motion.div>
-                  ))}
-                </CarouselTrack>
-              </CarouselContainer>
-            </motion.div>
-          </TabPanel>
+            {/* Segunda fileira */}
+            <GalleryRow>
+              {secondRow.map((image) => (
+                <motion.div
+                  key={image.id}
+                  variants={itemVariants}
+                >
+                  <ImageCard onClick={() => handleImageClick(image)}>
+                    <ImageWrapper>
+                      <Image
+                        src={image.url}
+                        alt={`Galeria ${image.id}`}
+                        fill
+                        sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
+                        style={{ objectFit: 'cover' }}
+                        loading="lazy"
+                        quality={85}
+                      />
+                    </ImageWrapper>
+                  </ImageCard>
+                </motion.div>
+              ))}
+            </GalleryRow>
+          </GalleryGrid>
         </motion.div>
       </Container>
 
@@ -363,6 +328,15 @@ export default function GallerySection() {
             <CloseButton onClick={handleCloseDialog}>
               <Close />
             </CloseButton>
+            
+            <NavigationButton className="left" onClick={handlePreviousImage}>
+              <ChevronLeft fontSize="large" />
+            </NavigationButton>
+            
+            <NavigationButton className="right" onClick={handleNextImage}>
+              <ChevronRight fontSize="large" />
+            </NavigationButton>
+            
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -373,28 +347,30 @@ export default function GallerySection() {
                 display: 'flex', 
                 flexDirection: 'column',
                 alignItems: 'center',
+                justifyContent: 'center',
                 p: 4,
-                minHeight: '90vh'
+                minHeight: '90vh',
+                position: 'relative'
               }}>
-                <img
-                  src={selectedImage.url}
-                  alt={selectedImage.title}
-                  style={{
-                    maxWidth: '100%',
-                    maxHeight: '70vh',
-                    objectFit: 'contain',
-                    borderRadius: '8px',
-                    width: 'auto',
-                    height: 'auto'
-                  }}
-                />
-                <Box sx={{ mt: 3, textAlign: 'center', maxWidth: 600 }}>
-                  <Typography variant="h5" sx={{ color: 'white', fontWeight: 600, mb: 2 }}>
-                    {selectedImage.title}
-                  </Typography>
-                  <Typography variant="body1" sx={{ color: '#E5D4C1' }}>
-                    {selectedImage.description}
-                  </Typography>
+                <Box sx={{
+                  position: 'relative',
+                  maxWidth: '90%',
+                  maxHeight: '85vh',
+                  width: '100%',
+                  height: '85vh'
+                }}>
+                  <Image
+                    src={selectedImage.url}
+                    alt={`Galeria ${selectedImage.id}`}
+                    fill
+                    sizes="90vw"
+                    style={{
+                      objectFit: 'contain',
+                      borderRadius: '8px'
+                    }}
+                    quality={90}
+                    priority
+                  />
                 </Box>
               </Box>
             </motion.div>

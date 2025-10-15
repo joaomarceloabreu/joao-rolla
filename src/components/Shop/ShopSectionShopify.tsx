@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import { 
   Box, 
   Typography, 
@@ -37,9 +38,35 @@ import { useShopifyProducts, useShopifyCart } from '@/hooks/useShopify';
 import { ShopifyProduct } from '@/utils/shopifyClient';
 
 const ShopContainer = styled(Box)`
-  padding: 100px 0;
+  padding: 60px 0 100px 0;
   background: transparent;
   position: relative;
+`;
+
+const HeaderBanner = styled(Box)`
+  width: 100%;
+  height: 400px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 60px;
+  
+  @media (max-width: 960px) {
+    height: 300px;
+    margin-bottom: 40px;
+  }
+  
+  @media (max-width: 600px) {
+    height: 250px;
+    margin-bottom: 30px;
+  }
+`;
+
+const HeaderImageWrapper = styled(motion.div)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 `;
 
 const ShopContentWrapper = styled(Box)`
@@ -119,6 +146,15 @@ const SectionTitle = styled(Typography)`
   font-weight: 900 !important;
   text-align: center;
   margin-bottom: 24px !important;
+  font-size: 3.5rem !important;
+  
+  @media (max-width: 960px) {
+    font-size: 3rem !important;
+  }
+  
+  @media (max-width: 600px) {
+    font-size: 2.5rem !important;
+  }
 `;
 
 const SectionSubtitle = styled(Typography)`
@@ -250,6 +286,10 @@ const ProductImageWrapper = styled(Box)`
   height: 280px;
   overflow: hidden;
   
+  @media (max-width: 600px) {
+    height: 240px;
+  }
+  
   &:hover ${ImageNavigationButton} {
     opacity: 1;
   }
@@ -344,6 +384,12 @@ const formatPrice = (amount: any, currency: string = 'BRL'): string => {
   }).format(numAmount);
 };
 
+// Array de imagens do header
+const headerImages = [
+  '/images/header_loja_1.jpg',
+  '/images/header_loja_2.jpg'
+];
+
 function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [selectedVariant, setSelectedVariant] = useState<string>('');
@@ -357,10 +403,22 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
   
   // Estado para controlar qual imagem está sendo mostrada em cada produto
   const [productImageIndexes, setProductImageIndexes] = useState<Record<string, number>>({});
+  
+  // Estado para o header banner
+  const [currentHeaderImageIndex, setCurrentHeaderImageIndex] = useState(0);
 
   // Garantir que só executa no cliente
   useEffect(() => {
     setIsClient(true);
+  }, []);
+
+  // Rotação automática do header banner
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentHeaderImageIndex((prev) => (prev + 1) % headerImages.length);
+    }, 5000); // Alterna a cada 5 segundos
+
+    return () => clearInterval(interval);
   }, []);
 
   // Rotação automática das imagens laterais
@@ -491,6 +549,29 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
 
   return (
     <ShopContainer>
+      {/* Header Banner com imagens alternadas */}
+      <HeaderBanner>
+        <AnimatePresence mode="wait">
+          <HeaderImageWrapper
+            key={currentHeaderImageIndex}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.2, ease: 'easeInOut' }}
+          >
+            <Image
+              src={headerImages[currentHeaderImageIndex]}
+              alt="João Rolla"
+              fill
+              priority
+              quality={90}
+              sizes="100vw"
+              style={{ objectFit: 'cover', objectPosition: 'center' }}
+            />
+          </HeaderImageWrapper>
+        </AnimatePresence>
+      </HeaderBanner>
+
       {/* Título centralizado fora do wrapper */}
       <Container maxWidth="lg" sx={{ mb: 6 }}>
         <motion.div
@@ -534,19 +615,23 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
           >
-          {/* Carrossel de Produtos */}
+          {/* Grid de Produtos Responsivo */}
           {displayProducts.length > 0 && (
             <Box sx={{ position: 'relative', mt: 4 }}>
               <Box sx={{ 
-                display: 'flex',
+                // Desktop: Carrossel horizontal
+                display: { xs: 'grid', md: 'flex' },
+                gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)' },
                 gap: 3,
-                overflowX: 'auto',
-                scrollSnapType: 'x mandatory',
-                scrollBehavior: 'smooth',
+                // Carrossel apenas em desktop
+                overflowX: { xs: 'visible', md: 'auto' },
+                scrollSnapType: { md: 'x mandatory' },
+                scrollBehavior: { md: 'smooth' },
                 pb: 3,
                 px: 2,
                 '&::-webkit-scrollbar': {
                   height: '10px',
+                  display: { xs: 'none', md: 'block' },
                 },
                 '&::-webkit-scrollbar-track': {
                   background: 'rgba(255, 255, 255, 0.05)',
@@ -564,9 +649,12 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
               <Box 
                 key={item.id}
                 sx={{
-                  minWidth: { xs: '280px', sm: '320px', md: '360px' },
-                  maxWidth: { xs: '280px', sm: '320px', md: '360px' },
-                  scrollSnapAlign: 'start',
+                  // Mobile: full width / 2 colunas em tablet
+                  width: { xs: '100%', md: 'auto' },
+                  // Desktop: tamanho fixo para carrossel
+                  minWidth: { md: '360px' },
+                  maxWidth: { md: '360px' },
+                  scrollSnapAlign: { md: 'start' },
                 }}
               >
                 <motion.div

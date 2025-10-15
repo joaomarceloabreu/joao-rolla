@@ -55,17 +55,38 @@
   margin: 0 auto;
 }
 
+@media (max-width: 960px) {
+  .amorCircleContainer {
+    width: 500px;
+    height: 500px;
+  }
+}
+
 @media (max-width: 768px) {
   .amorCircleContainer {
-    width: 450px;
-    height: 450px;
+    width: 400px;
+    height: 400px;
+  }
+}
+
+@media (max-width: 600px) {
+  .amorCircleContainer {
+    width: 340px;
+    height: 340px;
   }
 }
 
 @media (max-width: 480px) {
   .amorCircleContainer {
-    width: 350px;
-    height: 350px;
+    width: 300px;
+    height: 300px;
+  }
+}
+
+@media (max-width: 375px) {
+  .amorCircleContainer {
+    width: 280px;
+    height: 280px;
   }
 }
 
@@ -220,6 +241,22 @@
   cursor: pointer;
 }
 
+@media (max-width: 768px) {
+  .epButton {
+    padding: 14px 32px !important;
+    font-size: 0.95rem !important;
+    min-height: 50px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .epButton {
+    padding: 12px 28px !important;
+    font-size: 0.9rem !important;
+    min-height: 48px !important;
+  }
+}
+
 .epButton:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(190, 104, 0, 0.6) !important;
@@ -229,4 +266,25 @@
 .epButtonText {
   text-align: center;
   line-height: 1.3;
+}
+
+/* Texto para Desktop - Mostra em telas grandes */
+.desktopText {
+  display: block;
+}
+
+/* Texto para Mobile - Oculto por padrão */
+.mobileText {
+  display: none;
+}
+
+/* Mobile: Oculta texto desktop, mostra texto mobile */
+@media (max-width: 768px) {
+  .desktopText {
+    display: none;
+  }
+  
+  .mobileText {
+    display: block;
+  }
 }

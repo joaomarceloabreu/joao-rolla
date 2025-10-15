@@ -73,10 +73,15 @@ export default function HeroSectionCompatible() {
                     className={styles.epButton}
                     onClick={handleButtonClick}
                   >
-                    <div className={styles.epButtonText}>
+                    {/* Texto para Desktop */}
+                    <div className={`${styles.epButtonText} ${styles.desktopText}`}>
                       OUÇA AGORA O EP
                       <br />
                       "EU SÓ QUERIA FALAR DE AMOR"
+                    </div>
+                    {/* Texto para Mobile */}
+                    <div className={`${styles.epButtonText} ${styles.mobileText}`}>
+                      OUÇA AGORA
                     </div>
                   </button>
                 </motion.div>
