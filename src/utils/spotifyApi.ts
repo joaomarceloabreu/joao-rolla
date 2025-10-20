@@ -74,7 +74,7 @@ class SpotifyAPI {
     });
 
     if (!response.ok) {
-      throw new Error('Failed to get Spotify access token');
+      throw new Error(`Failed to get Spotify access token: ${response.status}`);
     }
 
     const data = await response.json();
@@ -156,28 +156,50 @@ export const spotifyDataService = {
 
   getArtistData: async (artistId: string = ARTIST_ID) => {
     try {
+      console.log('🔍 Buscando dados do artista:', artistId);
+      
       const [artist, albums] = await Promise.all([
         spotifyApi.getArtist(artistId),
         spotifyApi.getArtistAlbums(artistId)
       ]);
       
+      console.log('✅ Artista encontrado:', artist.name);
+      console.log('📀 Álbuns encontrados:', albums.length);
+      
       return { artist, albums };
     } catch (error) {
-      console.error('Erro ao obter dados do artista:', error);
+      console.error('❌ Erro ao obter dados do artista:', error);
+      console.error('🆔 Artist ID usado:', artistId);
       return null;
     }
   },
 
-  // Buscar dados específicos do João Rolla
+  // Buscar dados específicos do artista configurado
   getJoaoRollaData: async () => {
     try {
+      console.log('🎵 Iniciando busca de dados do Spotify...');
+      console.log('🆔 ARTIST_ID configurado:', ARTIST_ID);
+      console.log('🔑 CLIENT_ID:', SPOTIFY_CLIENT_ID ? 'Configurado' : 'NÃO CONFIGURADO');
+      console.log('🔐 CLIENT_SECRET:', SPOTIFY_CLIENT_SECRET ? 'Configurado' : 'NÃO CONFIGURADO');
+      
       const data = await spotifyDataService.getArtistData(ARTIST_ID);
-      if (!data) return null;
+      if (!data) {
+        console.error('❌ Nenhum dado retornado da API do Spotify');
+        return null;
+      }
 
       const { artist, albums } = data;
 
+      // Ordenar álbuns por data de lançamento (mais recente primeiro)
+      const sortedAlbums = albums.sort((a, b) => {
+        const dateA = new Date(a.release_date);
+        const dateB = new Date(b.release_date);
+        return dateB.getTime() - dateA.getTime(); // Mais recente primeiro
+      });
+
       // Buscar tracks de cada álbum individualmente usando /albums/{id}/tracks
-      const tracksPromises = albums.slice(0, 5).map(async album => {
+      // Usar todos os álbuns (sem limite) para artistas em crescimento
+      const tracksPromises = sortedAlbums.map(async album => {
         try {
           console.log(`🎵 Buscando tracks do álbum: ${album.name} (ID: ${album.id})`);
           
@@ -196,7 +218,8 @@ export const spotifyDataService = {
             albumInfo: {
               id: album.id,
               name: album.name,
-              image: album.images[0]?.url
+              image: album.images[0]?.url,
+              releaseDate: album.release_date // Adicionar data de lançamento
             }
           }));
         } catch (error) {
@@ -216,17 +239,33 @@ export const spotifyDataService = {
         spotifyUrl: track.external_urls.spotify,
         albumName: track.albumInfo.name,
         albumImage: track.albumInfo.image,
-        albumId: track.albumInfo.id
+        albumId: track.albumInfo.id,
+        albumReleaseDate: track.albumInfo.releaseDate
       }));
+
+      // Ordenar todas as tracks por data de lançamento do álbum (mais recente primeiro)
+      // e manter a ordem original das faixas dentro de cada álbum
+      allTracks.sort((a, b) => {
+        const dateA = new Date(a.albumReleaseDate);
+        const dateB = new Date(b.albumReleaseDate);
+        
+        // Se são do mesmo álbum, manter ordem original
+        if (dateA.getTime() === dateB.getTime()) {
+          return 0; // Manter ordem original das tracks no álbum
+        }
+        
+        // Caso contrário, ordenar por data (mais recente primeiro)
+        return dateB.getTime() - dateA.getTime();
+      });
 
       console.log('📋 RESUMO FINAL:');
       console.log(`🎵 Total de faixas encontradas: ${allTracks.length}`);
       console.log(`🎧 Faixas com preview: ${allTracks.filter(t => t.preview).length}`);
       console.log(`❌ Faixas sem preview: ${allTracks.filter(t => !t.preview).length}`);
       
-      console.log('\n📊 Detalhes por faixa:');
+      console.log('\n📊 Detalhes por faixa (ordenadas por data de lançamento):');
       allTracks.forEach((track, index) => {
-        console.log(`${index + 1}. "${track.title}" (${track.albumName})`);
+        console.log(`${index + 1}. "${track.title}" (${track.albumName} - ${track.albumReleaseDate})`);
         console.log(`   Preview: ${track.preview ? '✅ DISPONÍVEL' : '❌ NÃO DISPONÍVEL'}`);
         if (track.preview) {
           console.log(`   URL: ${track.preview}`);

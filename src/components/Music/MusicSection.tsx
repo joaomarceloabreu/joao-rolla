@@ -17,7 +17,8 @@ import {
   Button,
   LinearProgress,
   Slider,
-  CircularProgress
+  CircularProgress,
+  Pagination
 } from '@mui/material';
 import { 
   PlayArrow, 
@@ -27,7 +28,8 @@ import {
   OpenInNew,
   VolumeUp,
   SkipNext,
-  SkipPrevious
+  SkipPrevious,
+  Launch
 } from '@mui/icons-material';
 import styled from 'styled-components';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
@@ -217,6 +219,10 @@ export default function MusicSection() {
   const [spotifyData, setSpotifyData] = useState<SpotifyData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  
+  // Estados para paginação
+  const [currentPage, setCurrentPage] = useState(1);
+  const [tracksPerPage] = useState(10); // Mostrar 10 músicas por página
 
   const { getJoaoRollaData } = useSpotifyData();
   
@@ -257,13 +263,22 @@ export default function MusicSection() {
     loadSpotifyData();
   }, []); // Array vazio para executar apenas uma vez
 
+  // Calcular paginação
+  const allTracks = (spotifyData?.tracks as any[]) || [];
+  const totalPages = Math.ceil(allTracks.length / tracksPerPage);
+  const startIndex = (currentPage - 1) * tracksPerPage;
+  const endIndex = startIndex + tracksPerPage;
+  const currentTracks = allTracks.slice(startIndex, endIndex);
+
   const handlePlayPause = (trackIndex: number) => {
-    if (!spotifyData?.tracks) return;
+    if (!currentTracks) return;
     
-    const track = spotifyData.tracks[trackIndex] as any;
+    const track = currentTracks[trackIndex] as any;
     
     if (track.preview) {
-      playTrack(trackIndex, track.preview);
+      // Usar o índice real da track na lista completa para o player
+      const realIndex = startIndex + trackIndex;
+      playTrack(realIndex, track.preview);
     } else {
       // Se não há preview, abrir diretamente no Spotify
       openSpotify(track.spotifyUrl);
@@ -483,10 +498,10 @@ export default function MusicSection() {
             <Grid size={{ xs: 12, md: 7 }}>
               <motion.div variants={itemVariants}>
                 <Typography variant="h5" sx={{ color: 'white', fontWeight: 600, mb: 3 }}>
-                  Músicas no Spotify ({spotifyData.tracks.length})
+                  Músicas no Spotify ({allTracks.length})
                 </Typography>
                 
-                {(spotifyData.tracks as any[]).map((track, index) => (
+                {currentTracks.map((track, index) => (
                   <motion.div
                     key={index}
                     variants={itemVariants}
@@ -549,7 +564,13 @@ export default function MusicSection() {
                             title={track.preview ? 'Tocar preview de 30s' : 'Ouvir no Spotify'}
                             sx={{ mr: 2 }}
                           >
-                            {currentTrack === index && isPlaying ? <Pause /> : <PlayArrow />}
+                            {currentTrack === index && isPlaying ? (
+                              <Pause />
+                            ) : track.preview ? (
+                              <PlayArrow />
+                            ) : (
+                              <Launch />
+                            )}
                           </PlayButton>
                           
                           <Box sx={{ flex: 1 }}>
@@ -557,7 +578,7 @@ export default function MusicSection() {
                               {index + 1}. {track.title}
                             </Typography>
                             <Typography variant="body2" sx={{ color: '#E5D4C1' }}>
-                              {track.duration} {track.preview ? '• Preview 30s' : '• Ouvir no Spotify'}
+                              {track.duration} {track.preview ? '• Preview 30s disponível' : '• Disponível no Spotify'}
                             </Typography>
                             {track.albumName && (
                               <Typography variant="caption" sx={{ color: '#8B9456', fontSize: '0.75rem' }}>
@@ -569,7 +590,7 @@ export default function MusicSection() {
 
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                           <Typography variant="body2" sx={{ color: '#8B9456' }}>
-                            Preview 30s
+                            {track.preview ? 'Preview 30s' : 'Spotify'}
                           </Typography>
                           <SpotifyLinkButton
                             onClick={(e) => {
@@ -586,6 +607,45 @@ export default function MusicSection() {
                     </TrackCard>
                   </motion.div>
                 ))}
+                
+                {/* Paginação */}
+                {totalPages > 1 && (
+                  <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+                    <Pagination
+                      count={totalPages}
+                      page={currentPage}
+                      onChange={(_, page) => setCurrentPage(page)}
+                      color="primary"
+                      size="large"
+                      sx={{
+                        '& .MuiPaginationItem-root': {
+                          color: 'white',
+                          borderColor: '#333',
+                          '&:hover': {
+                            backgroundColor: 'rgba(229, 87, 34, 0.1)',
+                            borderColor: '#E55722',
+                          },
+                          '&.Mui-selected': {
+                            backgroundColor: '#E55722',
+                            color: 'white',
+                            '&:hover': {
+                              backgroundColor: '#B91C3C',
+                            }
+                          }
+                        }
+                      }}
+                    />
+                  </Box>
+                )}
+                
+                {/* Informações de paginação */}
+                {allTracks.length > 0 && (
+                  <Box sx={{ textAlign: 'center', mt: 2 }}>
+                    <Typography variant="body2" sx={{ color: '#8B9456' }}>
+                      Mostrando {startIndex + 1}-{Math.min(endIndex, allTracks.length)} de {allTracks.length} músicas
+                    </Typography>
+                  </Box>
+                )}
               </motion.div>
             </Grid>
           </Grid>
@@ -613,10 +673,10 @@ export default function MusicSection() {
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}>
-                  {(spotifyData.tracks[currentTrack] as any)?.albumImage ? (
+                  {allTracks[currentTrack]?.albumImage ? (
                     <img
-                      src={(spotifyData.tracks[currentTrack] as any).albumImage}
-                      alt={`Capa ${(spotifyData.tracks[currentTrack] as any).albumName}`}
+                      src={allTracks[currentTrack].albumImage}
+                      alt={`Capa ${allTracks[currentTrack].albumName}`}
                       style={{
                         width: '100%',
                         height: '100%',
@@ -629,14 +689,14 @@ export default function MusicSection() {
                 </Box>
                 <Box sx={{ flex: 1 }}>
                   <Typography variant="body2" sx={{ color: 'white', fontWeight: 600 }}>
-                    {(spotifyData.tracks[currentTrack] as any)?.title}
+                    {allTracks[currentTrack]?.title}
                   </Typography>
                   <Typography variant="caption" sx={{ color: '#E5D4C1' }}>
                     {spotifyData.artist.name}
                   </Typography>
                 </Box>
                 <SpotifyLinkButton
-                  onClick={() => openSpotify((spotifyData.tracks[currentTrack] as any)?.spotifyUrl)}
+                  onClick={() => openSpotify(allTracks[currentTrack]?.spotifyUrl)}
                   size="small"
                 >
                   <OpenInNew fontSize="small" />
@@ -666,8 +726,8 @@ export default function MusicSection() {
                 </IconButton>
 
                 <IconButton
-                  onClick={() => handlePlayPause(Math.min(spotifyData.tracks.length - 1, currentTrack + 1))}
-                  disabled={currentTrack === spotifyData.tracks.length - 1}
+                  onClick={() => handlePlayPause(Math.min(allTracks.length - 1, currentTrack + 1))}
+                  disabled={currentTrack === allTracks.length - 1}
                   sx={{ color: 'white' }}
                 >
                   <SkipNext />
