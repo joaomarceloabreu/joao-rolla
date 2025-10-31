@@ -16,7 +16,6 @@ import {
 import { MusicNote, LocationOn, Email } from '@mui/icons-material';
 import styled from 'styled-components';
 import { motion, Variants } from 'framer-motion';
-import { artistInfo, pressKit } from '@/lib/mockData';
 
 const AboutContainer = styled(Box)`
   padding: 120px 0 100px;
@@ -124,7 +123,7 @@ export default function About() {
         >
           <motion.div variants={itemVariants}>
             <PageTitle variant="h1">
-              Sobre {artistInfo.name}
+              Sobre João Rolla
             </PageTitle>
           </motion.div>
 
@@ -146,13 +145,13 @@ export default function About() {
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                         <LocationOn sx={{ color: '#E55722', mr: 1, fontSize: '1.2rem' }} />
                         <Typography variant="body1" sx={{ color: '#E5D4C1' }}>
-                          {artistInfo.location}
+                          Belo Horizonte, MG
                         </Typography>
                       </Box>
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                         <Email sx={{ color: '#E55722', mr: 1, fontSize: '1.2rem' }} />
                         <Typography variant="body1" sx={{ color: '#E5D4C1' }}>
-                          {pressKit.contact.management}
+                          joaorollaneto@gmail.com
                         </Typography>
                       </Box>
                     </Box>
@@ -161,14 +160,11 @@ export default function About() {
                       Gêneros Musicais
                     </Typography>
                     <Box sx={{ mb: 3 }}>
-                      {artistInfo.genres.map((genre) => (
-                        <GenreChip key={genre} label={genre} size="small" />
-                      ))}
+                    <GenreChip key="Samba" label="Samba" size="small" />
+                    <GenreChip key="Rock" label="Rock" size="small" />
+                    <GenreChip key="MPB" label="MPB" size="small" />
+                    <GenreChip key="Groove" label="Groove" size="small" />
                     </Box>
-
-                    <ContactButton startIcon={<Email />} fullWidth>
-                      Entrar em Contato
-                    </ContactButton>
                   </CardContent>
                 </Card>
               </motion.div>

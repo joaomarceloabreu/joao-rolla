@@ -12,8 +12,7 @@ import {
 } from '@mui/material';
 import { 
   Instagram, 
-  YouTube, 
-  Twitter, 
+  WhatsApp,
   MusicNote,
   Email,
   LocationOn
@@ -21,7 +20,6 @@ import {
 import styled from 'styled-components';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { artistInfo } from '@/lib/mockData';
 
 const FooterContainer = styled(Box)`
   background: rgba(10, 10, 10, 0.90);
@@ -54,6 +52,7 @@ const FooterLogo = styled(Typography)`
 
 const FooterSection = styled(Box)`
   margin-bottom: 32px;
+  text-align: center;
 `;
 
 const FooterLink = styled(Typography)`
@@ -82,52 +81,42 @@ const NewsletterButton = styled(Button)`
   }
 `;
 
-const socialLinks = [
-  { icon: <MusicNote />, url: artistInfo.socialMedia.spotify, label: 'Spotify' },
-  { icon: <Instagram />, url: `https://instagram.com/${artistInfo.socialMedia.instagram.replace('@', '')}`, label: 'Instagram' },
-  { icon: <YouTube />, url: artistInfo.socialMedia.youtube, label: 'YouTube' },
-  { icon: <Twitter />, url: `https://twitter.com/${artistInfo.socialMedia.twitter.replace('@', '')}`, label: 'Twitter' },
-];
+// const socialLinks = [
+//   { icon: <MusicNote />, url: artistInfo.socialMedia.spotify, label: 'Spotify' },
+//   { icon: <Instagram />, url: `https://instagram.com/${artistInfo.socialMedia.instagram.replace('@', '')}`, label: 'Instagram' },
+//   { icon: <YouTube />, url: artistInfo.socialMedia.youtube, label: 'YouTube' },
+//   { icon: <Twitter />, url: `https://twitter.com/${artistInfo.socialMedia.twitter.replace('@', '')}`, label: 'Twitter' },
+// ];
 
 const quickLinks = [
   { label: 'Sobre', href: '/about' },
   { label: 'Música', href: '/music' },
   { label: 'Galeria', href: '/gallery' },
   { label: 'Loja', href: '/shop' },
-  { label: 'Contato', href: '/contact' },
 ];
 
 export default function Footer() {
   return (
     <FooterContainer>
       <Container maxWidth="lg">
-        <Grid container spacing={4}>
+        <Grid container spacing={4} sx={{ justifyContent: 'center' }}>
           {/* Brand Section */}
           <Grid size={{ xs: 12, md: 4 }}>
             <FooterSection>
               <FooterLogo variant="h4">João Rolla</FooterLogo>
               <Typography variant="body2" color="#E5D4C1" sx={{ mb: 3, lineHeight: 1.6 }}>
-                {artistInfo.tagline}
+                {/* {artistInfo.tagline} */}
               </Typography>
-              <Box sx={{ display: 'flex', gap: 1, mb: 3 }}>
-                {socialLinks.map((social, index) => (
-                  <motion.div
-                    key={social.label}
-                    whileHover={{ y: -3 }}
-                    whileTap={{ y: 0 }}
-                  >
-                    <a
-                      href={social.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <SocialIcon aria-label={social.label}>
-                        {social.icon}
-                      </SocialIcon>
-                    </a>
-                  </motion.div>
-                ))}
+              <Box sx={{ display: 'flex', gap: 1, mb: 3, justifyContent: 'center' }}>
+                <SocialIcon aria-label="Instagram">
+                  <Instagram onClick={() => window.open('https://www.instagram.com/rollajoao/', '_blank')} />
+                </SocialIcon>
+                <SocialIcon aria-label="Spotify">
+                  <MusicNote onClick={() => window.open('https://open.spotify.com/artist/55iD3A1B8KCQGFGz2k3OKh', '_blank')} />
+                </SocialIcon>
+                <SocialIcon aria-label="WhatsApp">
+                  <WhatsApp onClick={() => window.open('https://wa.me/5531993170820', '_blank')} />
+                </SocialIcon>
               </Box>
             </FooterSection>
           </Grid>
@@ -154,38 +143,18 @@ export default function Footer() {
               <Typography variant="h6" color="white" sx={{ mb: 2, fontWeight: 600 }}>
                 Contato
               </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 1 }}>
                 <LocationOn sx={{ color: '#E5D4C1', mr: 1, fontSize: '1rem' }} />
                 <Typography variant="body2" color="#E5D4C1">
-                  {artistInfo.location}
+                  Belo Horizonte, MG
                 </Typography>
               </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
                 <Email sx={{ color: '#E5D4C1', mr: 1, fontSize: '1rem' }} />
                 <Typography variant="body2" color="#E5D4C1">
-                  contato@arianova.com.br
+                joaorollaneto@gmail.com
                 </Typography>
               </Box>
-            </FooterSection>
-          </Grid>
-
-          {/* Newsletter */}
-          <Grid size={{ xs: 12, md: 3 }}>
-            <FooterSection>
-              <Typography variant="h6" color="white" sx={{ mb: 2, fontWeight: 600 }}>
-                Newsletter
-              </Typography>
-              <Typography variant="body2" color="#E5D4C1" sx={{ mb: 2 }}>
-                Receba novidades sobre lançamentos e shows exclusivos.
-              </Typography>
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <NewsletterButton fullWidth>
-                  Inscrever-se
-                </NewsletterButton>
-              </motion.div>
             </FooterSection>
           </Grid>
         </Grid>
@@ -194,18 +163,14 @@ export default function Footer() {
 
         <Box sx={{ 
           display: 'flex', 
-          justifyContent: 'space-between', 
+          justifyContent: 'center', 
           alignItems: 'center',
-          flexDirection: { xs: 'column', md: 'row' },
+          flexDirection: 'column',
           gap: 2
         }}>
           <Typography variant="body2" color="#666">
             © 2025 João Rolla. Todos os direitos reservados.
           </Typography>
-          <Box sx={{ display: 'flex', gap: 3 }}>
-            <FooterLink variant="body2">Política de Privacidade</FooterLink>
-            <FooterLink variant="body2">Termos de Uso</FooterLink>
-          </Box>
         </Box>
       </Container>
     </FooterContainer>

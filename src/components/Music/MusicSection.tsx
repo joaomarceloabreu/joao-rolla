@@ -406,7 +406,6 @@ export default function MusicSection() {
               </SectionTitle>
             </Box>
             <SectionSubtitle variant="h6">
-              Explore minha jornada musical através de sons únicos e experiências imersivas
             </SectionSubtitle>
           </motion.div>
 

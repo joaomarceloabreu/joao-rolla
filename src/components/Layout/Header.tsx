@@ -88,7 +88,6 @@ const navItems = [
   { label: 'Música', href: '/music' },
   { label: 'Galeria', href: '/gallery' },
   { label: 'Loja', href: '/shop' },
-  { label: 'Contato', href: '/contact' },
 ];
 
 export default function Header() {
