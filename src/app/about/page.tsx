@@ -62,7 +62,7 @@ const ArtistImage = styled(Box)`
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('/images/gallery/2.png');
+    background: url('/images/sobre-mim.png');
     background-size: cover;
     background-position: center;
     opacity: 0.9;
@@ -131,9 +131,7 @@ export default function About() {
             {/* Artist Image */}
             <Grid size={{ xs: 12, md: 5 }}>
               <motion.div variants={itemVariants}>
-                <ArtistImage>
-                  <MusicNote sx={{ fontSize: 80, color: 'white', zIndex: 2 }} />
-                </ArtistImage>
+                <ArtistImage />
                 
                 <Card sx={{ background: '#111111', border: '1px solid #333', borderRadius: '16px' }}>
                   <CardContent sx={{ p: 3 }}>
