@@ -100,7 +100,6 @@ const ModelImage = styled(motion.img)`
   
   &:hover {
     border-color: #8c2124;
-    box-shadow: 0 20px 40px rgba(140, 33, 36, 0.3);
   }
 `;
 
@@ -111,12 +110,12 @@ const SideImagesColumn = styled(Box)`
   position: sticky;
   top: 120px;
   align-self: flex-start;
-  width: 300px;
-  height: 600px;
+  width: 350px;
+  height: 700px;
   
   @media (max-width: 1400px) {
-    width: 250px;
-    height: 500px;
+    width: 300px;
+    height: 600px;
   }
   
   @media (max-width: 1200px) {
@@ -173,7 +172,6 @@ const ProductCard = styled(Card)`
   
   &:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(140, 33, 36, 0.2) !important;
     border-color: #8c2124 !important;
   }
 `;
@@ -188,7 +186,7 @@ const PriceTag = styled(Typography)`
 `;
 
 const AddToCartButton = styled(Button)`
-  background: linear-gradient(135deg, #E55722 0%, #E55A2B 100%) !important;
+  background: #E55722 !important;
   color: white !important;
   font-weight: 600 !important;
   text-transform: none !important;
@@ -196,9 +194,8 @@ const AddToCartButton = styled(Button)`
   padding: 12px 24px !important;
   
   &:hover {
-    background: linear-gradient(135deg, #B91C3C 0%, #8B9456 100%) !important;
+    background: #d14a1a !important;
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(229, 87, 34, 0.4) !important;
   }
 `;
 
@@ -216,17 +213,16 @@ const CartButton = styled(Button)`
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%) !important;
+  background: #E55722 !important;
   color: white !important;
   width: 60px;
   height: 60px;
   border-radius: 50% !important;
-  box-shadow: 0 4px 20px rgba(229, 87, 34, 0.3) !important;
   z-index: 1000;
   
   &:hover {
+    background: #d14a1a !important;
     transform: scale(1.1);
-    box-shadow: 0 6px 25px rgba(229, 87, 34, 0.4) !important;
   }
 `;
 
@@ -648,8 +644,8 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
                   // Mobile: full width / 2 colunas em tablet
                   width: { xs: '100%', md: 'auto' },
                   // Desktop: tamanho fixo para carrossel
-                  minWidth: { md: '360px' },
-                  maxWidth: { md: '360px' },
+                  minWidth: { md: '400px' },
+                  maxWidth: { md: '400px' },
                   scrollSnapAlign: { md: 'start' },
                   display: 'flex',
                   flexDirection: 'column',

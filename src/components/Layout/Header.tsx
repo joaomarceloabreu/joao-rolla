@@ -28,7 +28,6 @@ const StyledAppBar = styled(AppBar)`
   
   &.scrolled {
     background: rgba(10, 10, 10, 0.90) !important;
-    box-shadow: 0 8px 32px rgba(109, 31, 34, 0.15) !important;
   }
 `;
 

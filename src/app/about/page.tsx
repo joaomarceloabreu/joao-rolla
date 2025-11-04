@@ -59,7 +59,6 @@ const ContactButton = styled(Button)`
   
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(109, 31, 34, 0.3) !important;
   }
 `;
 

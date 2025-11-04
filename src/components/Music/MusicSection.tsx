@@ -67,7 +67,6 @@ const EPCard = styled(Card)`
   
   &:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(229, 87, 34, 0.2) !important;
     border-color: #E55722 !important;
   }
 `;

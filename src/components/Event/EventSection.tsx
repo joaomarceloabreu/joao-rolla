@@ -49,7 +49,6 @@ const EventCard = styled(Card)`
   
   &:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(229, 87, 34, 0.2) !important;
     border-color: #8c2124 !important;
   }
 `;
@@ -140,7 +139,6 @@ const BuyTicketButton = styled(Button)`
   &:hover {
     background: linear-gradient(135deg, #B91C3C 0%, #8B9456 100%) !important;
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(229, 87, 34, 0.4) !important;
   }
 `;
 

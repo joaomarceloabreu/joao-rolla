@@ -74,7 +74,6 @@ const NewsletterButton = styled(Button)`
   
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(229, 87, 34, 0.3) !important;
   }
 `;
 
