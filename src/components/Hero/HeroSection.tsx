@@ -45,6 +45,10 @@ const HeroContainer = styled(Box)`
   background-repeat: no-repeat;
   overflow: hidden;
   
+  @media (max-width: 768px) {
+    background-image: url('/images/cover-mobile.gif');
+  }
+  
   &::before {
     content: '';
     position: absolute;

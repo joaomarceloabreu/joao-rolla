@@ -1,15 +1,17 @@
 import HeroSection from "@/components/Hero/HeroSectionCompatible";
 import MusicSection from "@/components/Music/MusicSection";
-import GallerySectionMobile from "@/components/Gallery/GallerySectionMobile";
+import EventSection from "@/components/Event/EventSection";
 import ShopSectionShopify from "@/components/Shop/ShopSectionShopifyDynamic";
+import GallerySectionMobile from "@/components/Gallery/GallerySectionMobile";
 
 export default function Home() {
   return (
     <>
       <HeroSection />
       <MusicSection />
-      <GallerySectionMobile />
+      <EventSection />
       <ShopSectionShopify />
+      <GallerySectionMobile />
     </>
   );
 }

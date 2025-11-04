@@ -25,6 +25,12 @@
   z-index: 0;
 }
 
+@media (max-width: 768px) {
+  .heroContainer::after {
+    background-image: url('/images/cover-mobile.gif');
+  }
+}
+
 .heroContainer::before {
   content: '';
   position: absolute;

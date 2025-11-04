@@ -23,10 +23,7 @@ const ShopContainer = styled(Box)`
 
 const SectionTitle = styled(Typography)`
   font-family: var(--font-carina), "carina", serif !important;
-  background: linear-gradient(135deg, #6d1f22 0%, #a67c52 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: white !important;
   font-weight: 900 !important;
   text-align: center;
   margin-bottom: 24px !important;

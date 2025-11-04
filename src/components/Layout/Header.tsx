@@ -48,14 +48,21 @@ const Logo = styled.img`
 `;
 
 const LogoText = styled(Typography)`
-  background: linear-gradient(135deg, #6d1f22 0%, #a67c52 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-family: var(--font-carina), "carina", serif !important;
+  color: white !important;
   font-weight: 900 !important;
-  font-size: 1.2rem !important;
+  font-size: 1.5rem !important;
   letter-spacing: -0.02em;
   cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    opacity: 0.9;
+  }
+  
+  @media (max-width: 768px) {
+    font-size: 1.2rem !important;
+  }
 `;
 
 const NavButton = styled(Button)`
@@ -160,10 +167,9 @@ export default function Header() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Logo 
-                src="/joao-rolla-header.png" 
-                alt="João Rolla" 
-              />
+              <LogoText variant="h6">
+                JOÃO ROLLA
+              </LogoText>
             </motion.div>
           </Link>
 

@@ -40,10 +40,7 @@ const SocialIcon = styled(IconButton)`
 `;
 
 const FooterLogo = styled(Typography)`
-  background: linear-gradient(135deg, #E55722 0%, #F4A842 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: white !important;
   font-weight: 900 !important;
   font-size: 2rem !important;
   letter-spacing: -0.02em;

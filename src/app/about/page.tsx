@@ -25,10 +25,7 @@ const AboutContainer = styled(Box)`
 
 const PageTitle = styled(Typography)`
   font-family: var(--font-carina), "carina", serif !important;
-  background: linear-gradient(135deg, #6d1f22 0%, #a67c52 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: white !important;
   font-weight: 900 !important;
   text-align: center;
   margin-bottom: 60px !important;
@@ -41,32 +38,6 @@ const BioCard = styled(Card)`
   backdrop-filter: blur(10px);
   padding: 40px;
   margin-bottom: 40px;
-`;
-
-const ArtistImage = styled(Box)`
-  width: 100%;
-  height: 400px;
-  background: linear-gradient(135deg, #6d1f22 0%, #a67c52 100%);
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 24px;
-  position: relative;
-  overflow: hidden;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('/images/sobre-mim.png');
-    background-size: cover;
-    background-position: center;
-    opacity: 0.9;
-  }
 `;
 
 const GenreChip = styled(Chip)`
@@ -128,33 +99,31 @@ export default function About() {
           </motion.div>
 
           <Grid container spacing={4}>
-            {/* Artist Image */}
+            {/* Informações */}
             <Grid size={{ xs: 12, md: 5 }}>
               <motion.div variants={itemVariants}>
-                <ArtistImage />
-                
                 <Card sx={{ background: '#111111', border: '1px solid #333', borderRadius: '16px' }}>
-                  <CardContent sx={{ p: 3 }}>
-                    <Typography variant="h6" sx={{ color: 'white', fontWeight: 600, mb: 2 }}>
+                  <CardContent sx={{ p: 4, pl: 5 }}>
+                    <Typography variant="h6" sx={{ color: 'white', fontWeight: 600, mb: 2, fontSize: '1.3rem' }}>
                       Informações
                     </Typography>
                     
                     <Box sx={{ mb: 2 }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                         <LocationOn sx={{ color: '#E55722', mr: 1, fontSize: '1.2rem' }} />
-                        <Typography variant="body1" sx={{ color: '#E5D4C1' }}>
+                        <Typography variant="body1" sx={{ color: '#E5D4C1', fontSize: '1.1rem' }}>
                           Belo Horizonte, MG
                         </Typography>
                       </Box>
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                         <Email sx={{ color: '#E55722', mr: 1, fontSize: '1.2rem' }} />
-                        <Typography variant="body1" sx={{ color: '#E5D4C1' }}>
+                        <Typography variant="body1" sx={{ color: '#E5D4C1', fontSize: '1.1rem' }}>
                           joaorollaneto@gmail.com
                         </Typography>
                       </Box>
                     </Box>
 
-                    <Typography variant="subtitle2" sx={{ color: 'white', fontWeight: 600, mb: 1 }}>
+                    <Typography variant="subtitle2" sx={{ color: 'white', fontWeight: 600, mb: 1, fontSize: '1.1rem' }}>
                       Gêneros Musicais
                     </Typography>
                     <Box sx={{ mb: 3 }}>
