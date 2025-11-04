@@ -314,9 +314,7 @@ const getProductDescription = (product: ShopifyProduct): string => {
     console.warn('Produto sem descrição válida:', product);
     return 'Sem descrição disponível';
   }
-  if (product.description.length > 100) {
-    return product.description.substring(0, 100) + '...';
-  }
+  // Removido o limite de caracteres para exibir a descrição completa
   return product.description;
 };
 
@@ -620,6 +618,7 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
                 display: { xs: 'grid', md: 'flex' },
                 gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)' },
                 gap: 3,
+                alignItems: 'stretch',
                 // Carrossel apenas em desktop
                 overflowX: { xs: 'visible', md: 'auto' },
                 scrollSnapType: { md: 'x mandatory' },
@@ -652,6 +651,8 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
                   minWidth: { md: '360px' },
                   maxWidth: { md: '360px' },
                   scrollSnapAlign: { md: 'start' },
+                  display: 'flex',
+                  flexDirection: 'column',
                 }}
               >
                 <motion.div
@@ -660,8 +661,9 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
                   transition={{ delay: index * 0.1 }}
                   viewport={{ once: true }}
                   whileHover={{ scale: 1.02 }}
+                  style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
                 >
-                  <ProductCard sx={{ height: '100%' }}>
+                  <ProductCard sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                     <ProductImageWrapper>
                       <img
                         src={getProductImages(item)[getCurrentImageIndex(item.id)]}
@@ -715,11 +717,21 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
                         </>
                       )}
                     </ProductImageWrapper>
-                    <CardContent sx={{ p: 3 }}>
+                    <CardContent sx={{ p: 3, display: 'flex', flexDirection: 'column', flex: 1 }}>
                       <Typography variant="h6" sx={{ color: 'white', fontWeight: 600, mb: 1 }}>
                         {getProductTitle(item)}
                       </Typography>
-                      <Typography variant="body2" sx={{ color: '#E5D4C1', mb: 2, minHeight: 40 }}>
+                      <Typography 
+                        variant="body2" 
+                        sx={{ 
+                          color: '#E5D4C1', 
+                          mb: 2, 
+                          lineHeight: 1.6,
+                          whiteSpace: 'normal',
+                          wordWrap: 'break-word',
+                          flex: 1
+                        }}
+                      >
                         {getProductDescription(item)}
                       </Typography>
 
@@ -778,22 +790,24 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
                         />
                       </Box>
 
-                      {isProductAvailable(item) ? (
-                        <AddToCartButton
-                          startIcon={<ShoppingCart />}
-                          fullWidth
-                          onClick={() => openProductModal(item)}
-                        >
-                          Adicionar ao Carrinho
-                        </AddToCartButton>
-                      ) : (
-                        <OutOfStockButton
-                          fullWidth
-                          disabled
-                        >
-                          Esgotado
-                        </OutOfStockButton>
-                      )}
+                      <Box sx={{ mt: 'auto' }}>
+                        {isProductAvailable(item) ? (
+                          <AddToCartButton
+                            startIcon={<ShoppingCart />}
+                            fullWidth
+                            onClick={() => openProductModal(item)}
+                          >
+                            Adicionar ao Carrinho
+                          </AddToCartButton>
+                        ) : (
+                          <OutOfStockButton
+                            fullWidth
+                            disabled
+                          >
+                            Esgotado
+                          </OutOfStockButton>
+                        )}
+                      </Box>
                     </CardContent>
                   </ProductCard>
                 </motion.div>
@@ -857,7 +871,15 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
                   />
                 </Box>
                 <Box>
-                  <Typography variant="body1" sx={{ mb: 3, color: '#E5D4C1' }}>
+                  <Typography 
+                    variant="body1" 
+                    sx={{ 
+                      mb: 3, 
+                      color: '#E5D4C1',
+                      lineHeight: 1.6,
+                      whiteSpace: 'pre-wrap'
+                    }}
+                  >
                     {getProductDescription(selectedProduct)}
                   </Typography>
                   
