@@ -36,7 +36,6 @@ import styled from 'styled-components';
 import { motion, Variants, AnimatePresence } from 'framer-motion';
 import { useShopifyProducts, useShopifyCart } from '@/hooks/useShopify';
 import { ShopifyProduct } from '@/utils/shopifyClient';
-import CheckoutModal from './CheckoutModal';
 
 const ShopContainer = styled(Box)`
   padding: 60px 0 100px 0;
@@ -387,7 +386,6 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
   const [selectedVariant, setSelectedVariant] = useState<string>('');
   const [quantity, setQuantity] = useState(1);
   const [cartOpen, setCartOpen] = useState(false);
-  const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
   
   // Estados para rotação de imagens laterais
@@ -1048,49 +1046,6 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
           )}
         </DialogContent>
       </Dialog>
-
-      {/* Modal de Checkout */}
-      <CheckoutModal
-        open={checkoutOpen}
-        onClose={() => {
-          setCheckoutOpen(false);
-          setCartOpen(false);
-        }}
-        cart={cart}
-        onCheckoutComplete={async (customerInfo: any) => {
-          try {
-            const response = await fetch('/api/checkout', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                cart,
-                customerInfo,
-                paymentMethodId: customerInfo.paymentMethodId,
-                paymentMethod: customerInfo.paymentMethod,
-              }),
-            });
-
-            if (!response.ok) {
-              const errorData = await response.json();
-              throw new Error(errorData.error || 'Erro ao processar checkout');
-            }
-
-            const result = await response.json();
-            
-            // Mostrar mensagem de sucesso
-            alert(`Compra realizada com sucesso! Número do pedido: ${result.orderNumber}`);
-            
-            // Limpar carrinho (opcional - você pode querer manter os itens até o pagamento ser confirmado)
-            // window.location.reload();
-            
-          } catch (error: any) {
-            console.error('Erro no checkout:', error);
-            throw error;
-          }
-        }}
-      />
     </ShopContainer>
   );
 }

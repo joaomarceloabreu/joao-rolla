@@ -438,10 +438,10 @@ export function useShopifyCart() {
     }
   }, [cart]);
 
-  // Função checkout removida - agora o checkout é feito via modal customizado
+  // Função checkout removida - agora o checkout é feito via WhatsApp
   // Mantida apenas para compatibilidade, mas não deve ser usada
   const checkout = useCallback(() => {
-    console.warn('checkout() foi deprecado. Use o CheckoutModal ao invés disso.');
+    console.warn('checkout() foi deprecado. Use o WhatsApp para finalizar compras.');
   }, []);
 
   // Atualizar checkout com informações do cliente
