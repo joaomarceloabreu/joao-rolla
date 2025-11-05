@@ -2,12 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { updateStockInShopify } from '@/utils/updateStock';
 
-// ⚠️ TEMPORÁRIO: Chave hardcoded para desenvolvimento
-// TODO: Substituir por variável de ambiente em produção
-const STRIPE_SECRET_KEY_HARDCODED = process.env.STRIPE_SECRET_KEY || 'sk_test_51SPuE5JrsKPwNJcnHlgoUDTHRM1c0cwREwzTUUfIDirAksCu9zQkAOPkI7pd73VR0RXSRYo1BimpQccGlKLqARLm00YaEQSz1u';
 
 // Inicializar Stripe
-const stripe = new Stripe(STRIPE_SECRET_KEY_HARDCODED, {
+const stripe = new Stripe('', {
   apiVersion: '2025-02-24.acacia',
 });
 

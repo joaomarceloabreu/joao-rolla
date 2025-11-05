@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-// ⚠️ TEMPORÁRIO: Chave hardcoded para desenvolvimento
-
 const stripe = new Stripe('', {
   apiVersion: '2025-02-24.acacia',
 });
