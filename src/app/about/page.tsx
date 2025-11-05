@@ -40,6 +40,32 @@ const BioCard = styled(Card)`
   margin-bottom: 40px;
 `;
 
+const ArtistImage = styled(Box)`
+  width: 100%;
+  height: 400px;
+  background: linear-gradient(135deg, #6d1f22 0%, #a67c52 100%);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('/images/sobre-mim.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.9;
+  }
+`;
+
 const GenreChip = styled(Chip)`
   background: rgba(109, 31, 34, 0.2) !important;
   color: #6d1f22 !important;
@@ -101,6 +127,7 @@ export default function About() {
             {/* Informações */}
             <Grid size={{ xs: 12, md: 5 }}>
               <motion.div variants={itemVariants}>
+              <ArtistImage />
                 <Card sx={{ background: '#111111', border: '1px solid #333', borderRadius: '16px' }}>
                   <CardContent sx={{ p: 4, pl: 5 }}>
                     <Typography variant="h6" sx={{ color: 'white', fontWeight: 600, mb: 2, fontSize: '1.3rem' }}>
