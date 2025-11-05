@@ -2,9 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
 // ⚠️ TEMPORÁRIO: Chave hardcoded para desenvolvimento
-const STRIPE_SECRET_KEY_HARDCODED = process.env.STRIPE_SECRET_KEY || 'sk_test_51SPuE5JrsKPwNJcnHlgoUDTHRM1c0cwREwzTUUfIDirAksCu9zQkAOPkI7pd73VR0RXSRYo1BimpQccGlKLqARLm00YaEQSz1u';
 
-const stripe = new Stripe(STRIPE_SECRET_KEY_HARDCODED, {
+const stripe = new Stripe('', {
   apiVersion: '2025-02-24.acacia',
 });
 
