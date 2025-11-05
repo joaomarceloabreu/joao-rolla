@@ -36,6 +36,7 @@ import styled from 'styled-components';
 import { motion, Variants, AnimatePresence } from 'framer-motion';
 import { useShopifyProducts, useShopifyCart } from '@/hooks/useShopify';
 import { ShopifyProduct } from '@/utils/shopifyClient';
+import CheckoutModal from './CheckoutModal';
 
 const ShopContainer = styled(Box)`
   padding: 60px 0 100px 0;
@@ -386,6 +387,7 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
   const [selectedVariant, setSelectedVariant] = useState<string>('');
   const [quantity, setQuantity] = useState(1);
   const [cartOpen, setCartOpen] = useState(false);
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
   
   // Estados para rotação de imagens laterais
@@ -431,7 +433,7 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
 
   // Hooks do Shopify (só executam quando estiver no cliente)
   const { products: shopifyProducts, loading, error } = useShopifyProducts(isClient ? 20 : 0);
-  const { cart, addToCart, removeFromCart, updateCartItem, checkout, loading: cartLoading } = useShopifyCart();
+  const { cart, addToCart, removeFromCart, updateCartItem, clearCart, loading: cartLoading } = useShopifyCart();
 
   // Usar dados do Shopify
   const products = shopifyProducts;
@@ -989,8 +991,53 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
                 <Typography variant="h6" sx={{ mb: 2 }}>
                   Total: {formatPrice(cart.totalPrice.amount, cart.totalPrice.currencyCode)}
                 </Typography>
-                <AddToCartButton fullWidth onClick={checkout}>
-                  Finalizar Compra
+                <AddToCartButton fullWidth onClick={() => {
+                  // Formatar mensagem para WhatsApp
+                  const whatsappNumber = '5531993170820';
+                  let message = 'Olá, quero comprar:\n\n';
+                  
+                  cart.lineItems.forEach((item: any, index: number) => {
+                    // O item.title geralmente já contém "Nome do Produto - Variante"
+                    // Tentar separar o nome do produto e o tamanho
+                    const fullTitle = item.title || 'Produto';
+                    const variantTitle = item.variant?.title || '';
+                    
+                    // Se o variant.title tem informação, usar ela como tamanho
+                    // Caso contrário, tentar extrair do título completo
+                    let productName = fullTitle;
+                    let size = variantTitle;
+                    
+                    // Se o título contém " - ", separar (formato comum: "Produto - Tamanho")
+                    if (fullTitle.includes(' - ')) {
+                      const parts = fullTitle.split(' - ');
+                      productName = parts[0] || fullTitle;
+                      size = parts[1] || variantTitle || 'Tamanho padrão';
+                    } else if (variantTitle) {
+                      // Se não tem separador mas tem variant title, usar como tamanho
+                      size = variantTitle;
+                    } else {
+                      size = 'Tamanho padrão';
+                    }
+                    
+                    message += `${index + 1}. ${productName} - Tamanho: ${size} - Quantidade: ${item.quantity}\n`;
+                  });
+                  
+                  message += `\nTotal: ${formatPrice(cart.totalPrice.amount, cart.totalPrice.currencyCode)}`;
+                  
+                  // Codificar mensagem para URL
+                  const encodedMessage = encodeURIComponent(message);
+                  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+                  
+                  // Abrir WhatsApp
+                  window.open(whatsappUrl, '_blank');
+                  
+                  // Limpar carrinho após abrir WhatsApp
+                  clearCart();
+                  
+                  // Fechar modal do carrinho
+                  setCartOpen(false);
+                }}>
+                  Finalizar Compra via WhatsApp
                 </AddToCartButton>
               </Box>
             </>
@@ -1001,6 +1048,49 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Modal de Checkout */}
+      <CheckoutModal
+        open={checkoutOpen}
+        onClose={() => {
+          setCheckoutOpen(false);
+          setCartOpen(false);
+        }}
+        cart={cart}
+        onCheckoutComplete={async (customerInfo: any) => {
+          try {
+            const response = await fetch('/api/checkout', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                cart,
+                customerInfo,
+                paymentMethodId: customerInfo.paymentMethodId,
+                paymentMethod: customerInfo.paymentMethod,
+              }),
+            });
+
+            if (!response.ok) {
+              const errorData = await response.json();
+              throw new Error(errorData.error || 'Erro ao processar checkout');
+            }
+
+            const result = await response.json();
+            
+            // Mostrar mensagem de sucesso
+            alert(`Compra realizada com sucesso! Número do pedido: ${result.orderNumber}`);
+            
+            // Limpar carrinho (opcional - você pode querer manter os itens até o pagamento ser confirmado)
+            // window.location.reload();
+            
+          } catch (error: any) {
+            console.error('Erro no checkout:', error);
+            throw error;
+          }
+        }}
+      />
     </ShopContainer>
   );
 }

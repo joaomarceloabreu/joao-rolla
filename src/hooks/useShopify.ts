@@ -438,12 +438,142 @@ export function useShopifyCart() {
     }
   }, [cart]);
 
-  // Ir para checkout
+  // Função checkout removida - agora o checkout é feito via modal customizado
+  // Mantida apenas para compatibilidade, mas não deve ser usada
   const checkout = useCallback(() => {
-    if (cart?.webUrl) {
-      window.open(cart.webUrl, '_blank');
+    console.warn('checkout() foi deprecado. Use o CheckoutModal ao invés disso.');
+  }, []);
+
+  // Atualizar checkout com informações do cliente
+  const updateCheckoutWithCustomerInfo = useCallback(async (customerInfo: {
+    email: string;
+    shippingAddress: {
+      address1: string;
+      address2?: string;
+      city: string;
+      province: string;
+      country: string;
+      zip: string;
+      firstName: string;
+      lastName: string;
+      phone?: string;
+    };
+    attributes?: Array<{ key: string; value: string }>;
+  }) => {
+    if (!cart) return null;
+
+    // Guardar o carrinho atual para não perder referência durante o loading
+    const currentCartId = cart.id;
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      // Atualizar email
+      await client.checkout.updateEmail(currentCartId, customerInfo.email);
+
+      // Atualizar endereço de entrega
+      await client.checkout.updateShippingAddress(currentCartId, customerInfo.shippingAddress);
+
+      // Atualizar atributos se fornecidos
+      if (customerInfo.attributes && customerInfo.attributes.length > 0) {
+        await client.checkout.updateAttributes(currentCartId, customerInfo.attributes);
+      }
+
+      // Buscar checkout atualizado
+      const finalCheckout = await client.checkout.fetch(currentCartId);
+
+      if (!finalCheckout) {
+        throw new Error('Não foi possível recuperar o checkout atualizado');
+      }
+
+      const formattedCart: ShopifyCart = {
+        id: finalCheckout.id,
+        lineItems: finalCheckout.lineItems.map((item: any) => ({
+          id: item.id,
+          title: item.title,
+          variant: item.variant,
+          quantity: item.quantity,
+        })),
+        subtotalPrice: {
+          amount: finalCheckout.subtotalPrice.amount,
+          currencyCode: finalCheckout.subtotalPrice.currencyCode,
+        },
+        totalPrice: {
+          amount: finalCheckout.totalPrice.amount,
+          currencyCode: finalCheckout.totalPrice.currencyCode,
+        },
+        webUrl: finalCheckout.webUrl,
+      };
+
+      setCart(formattedCart);
+      return formattedCart;
+    } catch (err) {
+      console.error('Erro ao atualizar checkout com informações do cliente:', err);
+      setError('Erro ao atualizar informações do checkout');
+      // Tentar recuperar o carrinho em caso de erro
+      try {
+        const recoveredCheckout = await client.checkout.fetch(currentCartId);
+        if (recoveredCheckout) {
+          const formattedCart: ShopifyCart = {
+            id: recoveredCheckout.id,
+            lineItems: recoveredCheckout.lineItems.map((item: any) => ({
+              id: item.id,
+              title: item.title,
+              variant: item.variant,
+              quantity: item.quantity,
+            })),
+            subtotalPrice: {
+              amount: recoveredCheckout.subtotalPrice.amount,
+              currencyCode: recoveredCheckout.subtotalPrice.currencyCode,
+            },
+            totalPrice: {
+              amount: recoveredCheckout.totalPrice.amount,
+              currencyCode: recoveredCheckout.totalPrice.currencyCode,
+            },
+            webUrl: recoveredCheckout.webUrl,
+          };
+          setCart(formattedCart);
+        }
+      } catch (recoveryErr) {
+        console.error('Erro ao recuperar carrinho:', recoveryErr);
+      }
+      return null;
+    } finally {
+      setLoading(false);
     }
   }, [cart]);
+
+  // Checkout completo - atualiza informações e redireciona
+  const checkoutComplete = useCallback(async (customerInfo: {
+    email: string;
+    shippingAddress: {
+      address1: string;
+      address2?: string;
+      city: string;
+      province: string;
+      country: string;
+      zip: string;
+      firstName: string;
+      lastName: string;
+      phone?: string;
+    };
+    attributes?: Array<{ key: string; value: string }>;
+  }) => {
+    try {
+      const updatedCart = await updateCheckoutWithCustomerInfo(customerInfo);
+      if (updatedCart?.webUrl) {
+        // Redirecionar para a página de pagamento do Shopify
+        // Usar replace para evitar que o usuário volte para a página de checkout
+        window.location.replace(updatedCart.webUrl);
+      } else {
+        throw new Error('Não foi possível obter a URL do checkout');
+      }
+    } catch (error) {
+      console.error('Erro no checkout completo:', error);
+      throw error;
+    }
+  }, [updateCheckoutWithCustomerInfo]);
 
   useEffect(() => {
     // Tentar recuperar carrinho do localStorage se existir (apenas no cliente)
@@ -484,6 +614,38 @@ export function useShopifyCart() {
     }
   }, [cart?.id]);
 
+  // Limpar carrinho (remover todos os itens)
+  const clearCart = useCallback(async () => {
+    if (!cart || cart.lineItems.length === 0) {
+      setCart(null);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      // Remover todos os itens do carrinho
+      const lineItemIds = cart.lineItems.map((item) => item.id);
+      if (lineItemIds.length > 0) {
+        await client.checkout.removeLineItems(cart.id, lineItemIds);
+      }
+
+      // Resetar carrinho para null
+      setCart(null);
+      
+      // Limpar localStorage também
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('shopify-cart-id');
+      }
+    } catch (err) {
+      console.error('Erro ao limpar carrinho:', err);
+      setError('Erro ao limpar carrinho');
+    } finally {
+      setLoading(false);
+    }
+  }, [cart]);
+
   return {
     cart,
     loading,
@@ -492,7 +654,10 @@ export function useShopifyCart() {
     addToCart,
     removeFromCart,
     updateCartItem,
+    clearCart,
     checkout,
+    updateCheckoutWithCustomerInfo,
+    checkoutComplete,
   };
 }
 

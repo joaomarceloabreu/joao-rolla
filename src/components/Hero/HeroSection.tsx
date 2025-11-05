@@ -15,7 +15,6 @@ import {
 import { PlayArrow, Album, ShoppingBag } from '@mui/icons-material';
 import styled, { keyframes } from 'styled-components';
 import { motion, Variants } from 'framer-motion';
-import { artistInfo, upcomingEP } from '@/lib/mockData';
 
 // Animação de rotação para os círculos de AMOR
 const rotateAnimation = keyframes`
