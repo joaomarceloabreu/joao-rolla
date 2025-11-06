@@ -148,8 +148,7 @@ export default function EventSection() {
     visible: {
       opacity: 1,
       transition: {
-        duration: 0.8,
-        staggerChildren: 0.2
+        duration: 0.8
       }
     }
   };

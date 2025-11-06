@@ -352,8 +352,7 @@ export default function MusicSection() {
     visible: {
       opacity: 1,
       transition: {
-        duration: 0.8,
-        staggerChildren: 0.1
+        duration: 0.8
       }
     }
   };

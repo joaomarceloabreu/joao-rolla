@@ -178,8 +178,7 @@ export default function ShopSection() {
     visible: {
       opacity: 1,
       transition: {
-        duration: 0.8,
-        staggerChildren: 0.1
+        duration: 0.8
       }
     }
   };
@@ -249,7 +248,6 @@ export default function ShopSection() {
                     <motion.div
                       initial={{ opacity: 0, x: 50 }}
                       whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
                       viewport={{ once: true }}
                       whileHover={{ scale: 1.02 }}
                     >

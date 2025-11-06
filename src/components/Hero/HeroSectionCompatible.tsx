@@ -13,8 +13,7 @@ export default function HeroSectionCompatible() {
     visible: {
       opacity: 1,
       transition: {
-        duration: 1.2,
-        staggerChildren: 0.3
+        duration: 1.2
       }
     }
   };

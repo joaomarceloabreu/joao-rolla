@@ -11,30 +11,18 @@ import {
   Button,
   Container,
   Chip,
-  Badge,
   CircularProgress,
   Alert,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  TextField
+  IconButton
 } from '@mui/material';
 import { 
   ShoppingCart, 
-  Close,
-  Add,
-  Remove,
   ChevronLeft,
   ChevronRight
 } from '@mui/icons-material';
 import styled from 'styled-components';
 import { motion, Variants, AnimatePresence } from 'framer-motion';
-import { useShopifyProducts, useShopifyCart } from '@/hooks/useShopify';
+import { useShopifyProducts } from '@/hooks/useShopify';
 import { ShopifyProduct } from '@/utils/shopifyClient';
 
 const ShopContainer = styled(Box)`
@@ -209,22 +197,6 @@ const OutOfStockButton = styled(Button)`
   cursor: not-allowed !important;
 `;
 
-const CartButton = styled(Button)`
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #E55722 !important;
-  color: white !important;
-  width: 60px;
-  height: 60px;
-  border-radius: 50% !important;
-  z-index: 1000;
-  
-  &:hover {
-    background: #d14a1a !important;
-    transform: scale(1.1);
-  }
-`;
 
 const ImageNavigationButton = styled(IconButton)`
   position: absolute !important;
@@ -382,10 +354,6 @@ const headerImages = [
 ];
 
 function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
-  const [selectedProduct, setSelectedProduct] = useState<any>(null);
-  const [selectedVariant, setSelectedVariant] = useState<string>('');
-  const [quantity, setQuantity] = useState(1);
-  const [cartOpen, setCartOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
   
   // Estados para rotação de imagens laterais
@@ -431,7 +399,6 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
 
   // Hooks do Shopify (só executam quando estiver no cliente)
   const { products: shopifyProducts, loading, error } = useShopifyProducts(isClient ? 20 : 0);
-  const { cart, addToCart, removeFromCart, updateCartItem, clearCart, loading: cartLoading } = useShopifyCart();
 
   // Usar dados do Shopify
   const products = shopifyProducts;
@@ -441,8 +408,7 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
     visible: {
       opacity: 1,
       transition: {
-        duration: 0.8,
-        staggerChildren: 0.1
+        duration: 0.8
       }
     }
   };
@@ -457,25 +423,20 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
   };
 
 
-  const handleAddToCart = async (product: any, variantId?: string) => {
-    if (variantId) {
-      await addToCart(variantId, quantity);
-      setSelectedProduct(null);
-    } else {
-      alert(`${product.title} adicionado ao carrinho!`);
-    }
-  };
-
-  const openProductModal = (product: any) => {
-    setSelectedProduct(product);
-    if (product.variants && product.variants.length > 0) {
-      setSelectedVariant(product.variants[0].id);
-    }
-    setQuantity(1);
-  };
-
-  const getCartItemCount = () => {
-    return cart?.lineItems.reduce((total, item) => total + item.quantity, 0) || 0;
+  // Função para abrir WhatsApp com o produto selecionado
+  const openWhatsApp = (product: ShopifyProduct) => {
+    const whatsappNumber = '5531993170820';
+    const productName = getProductTitle(product);
+    
+    // Formatar mensagem simples para WhatsApp
+    const message = `Olá, quero comprar ${productName}`;
+    
+    // Codificar mensagem para URL
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+    
+    // Abrir WhatsApp
+    window.open(whatsappUrl, '_blank');
   };
 
   const handleImageNavigation = (productId: string, direction: 'next' | 'prev', totalImages: number) => {
@@ -654,7 +615,6 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
                 <motion.div
                   initial={{ opacity: 0, x: 50 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
                   viewport={{ once: true }}
                   whileHover={{ scale: 1.02 }}
                   style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
@@ -791,9 +751,9 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
                           <AddToCartButton
                             startIcon={<ShoppingCart />}
                             fullWidth
-                            onClick={() => openProductModal(item)}
+                            onClick={() => openWhatsApp(item)}
                           >
-                            Adicionar ao Carrinho
+                            Comprar via WhatsApp
                           </AddToCartButton>
                         ) : (
                           <OutOfStockButton
@@ -833,219 +793,6 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
         </SideImagesColumn>
       </ShopContentWrapper>
 
-      {/* Botão do Carrinho */}
-      {getCartItemCount() > 0 && (
-        <CartButton onClick={() => setCartOpen(true)}>
-          <Badge badgeContent={getCartItemCount()} color="secondary">
-            <ShoppingCart />
-          </Badge>
-        </CartButton>
-      )}
-
-      {/* Modal do Produto */}
-      <Dialog 
-        open={Boolean(selectedProduct)} 
-        onClose={() => setSelectedProduct(null)}
-        maxWidth="md"
-        fullWidth
-      >
-        <DialogTitle sx={{ background: '#111', color: 'white', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          {selectedProduct ? getProductTitle(selectedProduct) : ''}
-          <IconButton onClick={() => setSelectedProduct(null)} sx={{ color: 'white' }}>
-            <Close />
-          </IconButton>
-        </DialogTitle>
-        <DialogContent sx={{ background: '#111', color: 'white' }}>
-          {selectedProduct && (
-            <Box sx={{ pt: 2 }}>
-              <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 3 }}>
-                <Box>
-                  <img
-                    src={getProductImage(selectedProduct)}
-                    alt={getProductTitle(selectedProduct)}
-                    style={{ width: '100%', height: 'auto', borderRadius: '8px' }}
-                  />
-                </Box>
-                <Box>
-                  <Typography 
-                    variant="body1" 
-                    sx={{ 
-                      mb: 3, 
-                      color: '#E5D4C1',
-                      lineHeight: 1.6,
-                      whiteSpace: 'pre-wrap'
-                    }}
-                  >
-                    {getProductDescription(selectedProduct)}
-                  </Typography>
-                  
-                  {selectedProduct.variants && selectedProduct.variants.length > 1 && (
-                    <FormControl fullWidth sx={{ mb: 3 }}>
-                      <InputLabel sx={{ color: '#8B9456' }}>Variante</InputLabel>
-                      <Select
-                        value={selectedVariant}
-                        onChange={(e) => setSelectedVariant(e.target.value)}
-                        sx={{ color: 'white', '.MuiOutlinedInput-notchedOutline': { borderColor: '#555' } }}
-                      >
-                        {selectedProduct.variants.map((variant: any) => (
-                          <MenuItem key={variant.id} value={variant.id}>
-                            {variant.title} - {formatPrice(variant.price.amount, variant.price.currencyCode)}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  )}
-
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
-                    <Typography sx={{ color: '#E5D4C1' }}>Quantidade:</Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <IconButton 
-                        onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                        sx={{ color: '#E55722' }}
-                      >
-                        <Remove />
-                      </IconButton>
-                      <TextField
-                        value={quantity}
-                        onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                        type="number"
-                        sx={{ width: 80, input: { color: 'white', textAlign: 'center' } }}
-                        inputProps={{ min: 1 }}
-                      />
-                      <IconButton 
-                        onClick={() => setQuantity(quantity + 1)}
-                        sx={{ color: '#E55722' }}
-                      >
-                        <Add />
-                      </IconButton>
-                    </Box>
-                  </Box>
-
-                  <AddToCartButton
-                    fullWidth
-                    startIcon={<ShoppingCart />}
-                    onClick={() => handleAddToCart(selectedProduct, selectedVariant)}
-                    disabled={cartLoading}
-                  >
-                    {cartLoading ? 'Adicionando...' : 'Adicionar ao Carrinho'}
-                  </AddToCartButton>
-                </Box>
-              </Box>
-            </Box>
-          )}
-        </DialogContent>
-      </Dialog>
-
-      {/* Modal do Carrinho */}
-      <Dialog 
-        open={cartOpen} 
-        onClose={() => setCartOpen(false)}
-        maxWidth="sm"
-        fullWidth
-      >
-        <DialogTitle sx={{ background: '#111', color: 'white', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          Carrinho ({getCartItemCount()} itens)
-          <IconButton onClick={() => setCartOpen(false)} sx={{ color: 'white' }}>
-            <Close />
-          </IconButton>
-        </DialogTitle>
-        <DialogContent sx={{ background: '#111', color: 'white' }}>
-          {cart && cart.lineItems.length > 0 ? (
-            <>
-              {cart.lineItems.map((item) => (
-                <Box key={item.id} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', py: 2, borderBottom: '1px solid #333' }}>
-                  <Box>
-                    <Typography variant="h6">{item.title}</Typography>
-                    <Typography variant="body2" sx={{ color: '#8B9456' }}>
-                      Quantidade: {item.quantity}
-                    </Typography>
-                  </Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <IconButton 
-                      onClick={() => updateCartItem(item.id, item.quantity - 1)}
-                      sx={{ color: '#E55722' }}
-                      disabled={item.quantity <= 1}
-                    >
-                      <Remove />
-                    </IconButton>
-                    <Typography>{item.quantity}</Typography>
-                    <IconButton 
-                      onClick={() => updateCartItem(item.id, item.quantity + 1)}
-                      sx={{ color: '#E55722' }}
-                    >
-                      <Add />
-                    </IconButton>
-                    <IconButton 
-                      onClick={() => removeFromCart(item.id)}
-                      sx={{ color: '#E55722', ml: 1 }}
-                    >
-                      <Close />
-                    </IconButton>
-                  </Box>
-                </Box>
-              ))}
-              
-              <Box sx={{ mt: 3, pt: 2, borderTop: '2px solid #E55722' }}>
-                <Typography variant="h6" sx={{ mb: 2 }}>
-                  Total: {formatPrice(cart.totalPrice.amount, cart.totalPrice.currencyCode)}
-                </Typography>
-                <AddToCartButton fullWidth onClick={() => {
-                  // Formatar mensagem para WhatsApp
-                  const whatsappNumber = '5531993170820';
-                  let message = 'Olá, quero comprar:\n\n';
-                  
-                  cart.lineItems.forEach((item: any, index: number) => {
-                    // O item.title geralmente já contém "Nome do Produto - Variante"
-                    // Tentar separar o nome do produto e o tamanho
-                    const fullTitle = item.title || 'Produto';
-                    const variantTitle = item.variant?.title || '';
-                    
-                    // Se o variant.title tem informação, usar ela como tamanho
-                    // Caso contrário, tentar extrair do título completo
-                    let productName = fullTitle;
-                    let size = variantTitle;
-                    
-                    // Se o título contém " - ", separar (formato comum: "Produto - Tamanho")
-                    if (fullTitle.includes(' - ')) {
-                      const parts = fullTitle.split(' - ');
-                      productName = parts[0] || fullTitle;
-                      size = parts[1] || variantTitle || 'Tamanho padrão';
-                    } else if (variantTitle) {
-                      // Se não tem separador mas tem variant title, usar como tamanho
-                      size = variantTitle;
-                    } else {
-                      size = 'Tamanho padrão';
-                    }
-                    
-                    message += `${index + 1}. ${productName} - Tamanho: ${size} - Quantidade: ${item.quantity}\n`;
-                  });
-                  
-                  message += `\nTotal: ${formatPrice(cart.totalPrice.amount, cart.totalPrice.currencyCode)}`;
-                  
-                  // Codificar mensagem para URL
-                  const encodedMessage = encodeURIComponent(message);
-                  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
-                  
-                  // Abrir WhatsApp
-                  window.open(whatsappUrl, '_blank');
-                  
-                  // Limpar carrinho após abrir WhatsApp
-                  clearCart();
-                  
-                  // Fechar modal do carrinho
-                  setCartOpen(false);
-                }}>
-                  Finalizar Compra via WhatsApp
-                </AddToCartButton>
-              </Box>
-            </>
-          ) : (
-            <Typography sx={{ textAlign: 'center', py: 4, color: '#8B9456' }}>
-              Seu carrinho está vazio
-            </Typography>
-          )}
-        </DialogContent>
-      </Dialog>
     </ShopContainer>
   );
 }
