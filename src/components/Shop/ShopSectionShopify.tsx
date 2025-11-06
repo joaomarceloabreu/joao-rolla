@@ -13,12 +13,14 @@ import {
   Chip,
   CircularProgress,
   Alert,
-  IconButton
+  IconButton,
+  Dialog
 } from '@mui/material';
 import { 
   ShoppingCart, 
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Close
 } from '@mui/icons-material';
 import styled from 'styled-components';
 import { motion, Variants, AnimatePresence } from 'framer-motion';
@@ -365,6 +367,9 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
   
   // Estado para o header banner
   const [currentHeaderImageIndex, setCurrentHeaderImageIndex] = useState(0);
+  
+  // Estado para imagem ampliada
+  const [selectedProductImage, setSelectedProductImage] = useState<{ product: ShopifyProduct; imageIndex: number } | null>(null);
 
   // Garantir que só executa no cliente
   useEffect(() => {
@@ -464,6 +469,57 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
   const getCurrentImageIndex = (productId: string): number => {
     return productImageIndexes[productId] || 0;
   };
+
+  const handleImageClick = (product: ShopifyProduct, imageIndex: number) => {
+    setSelectedProductImage({ product, imageIndex });
+  };
+
+  const handleCloseImageDialog = () => {
+    setSelectedProductImage(null);
+  };
+
+  const handlePreviousImage = () => {
+    if (!selectedProductImage) return;
+    const images = getProductImages(selectedProductImage.product);
+    const newIndex = selectedProductImage.imageIndex > 0 
+      ? selectedProductImage.imageIndex - 1 
+      : images.length - 1;
+    setSelectedProductImage({ ...selectedProductImage, imageIndex: newIndex });
+  };
+
+  const handleNextImage = () => {
+    if (!selectedProductImage) return;
+    const images = getProductImages(selectedProductImage.product);
+    const newIndex = (selectedProductImage.imageIndex + 1) % images.length;
+    setSelectedProductImage({ ...selectedProductImage, imageIndex: newIndex });
+  };
+
+  // Event listener para navegação por teclado
+  useEffect(() => {
+    if (!selectedProductImage) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'ArrowLeft') {
+        const images = getProductImages(selectedProductImage.product);
+        const newIndex = selectedProductImage.imageIndex > 0 
+          ? selectedProductImage.imageIndex - 1 
+          : images.length - 1;
+        setSelectedProductImage({ ...selectedProductImage, imageIndex: newIndex });
+      } else if (event.key === 'ArrowRight') {
+        const images = getProductImages(selectedProductImage.product);
+        const newIndex = (selectedProductImage.imageIndex + 1) % images.length;
+        setSelectedProductImage({ ...selectedProductImage, imageIndex: newIndex });
+      } else if (event.key === 'Escape') {
+        setSelectedProductImage(null);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedProductImage]);
 
   // Mostrar loading enquanto não estiver no cliente ou carregando dados
   if (!isClient || loading) {
@@ -624,11 +680,13 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
                       <img
                         src={getProductImages(item)[getCurrentImageIndex(item.id)]}
                         alt={getProductTitle(item)}
+                        onClick={() => handleImageClick(item, getCurrentImageIndex(item.id))}
                         style={{
                           width: '100%',
                           height: '100%',
                           objectFit: 'cover',
-                          transition: 'opacity 0.3s ease'
+                          transition: 'opacity 0.3s ease',
+                          cursor: 'pointer'
                         }}
                       />
                       
@@ -792,6 +850,142 @@ function ShopSectionShopifyComponent({}: ShopSectionShopifyProps) {
           </ModelImageWrapper>
         </SideImagesColumn>
       </ShopContentWrapper>
+
+      {/* Dialog para imagem ampliada */}
+      <AnimatePresence>
+        {selectedProductImage && (
+          <Dialog
+            open={!!selectedProductImage}
+            onClose={handleCloseImageDialog}
+            maxWidth={false}
+            PaperProps={{
+              sx: {
+                background: 'rgba(0, 0, 0, 0.95)',
+                margin: 0,
+                maxWidth: 'none',
+                width: '100%',
+                height: '100%',
+                maxHeight: 'none',
+                borderRadius: 0,
+                position: 'relative'
+              }
+            }}
+          >
+            <IconButton
+              onClick={handleCloseImageDialog}
+              sx={{
+                position: 'fixed',
+                top: 20,
+                right: 20,
+                background: 'rgba(0, 0, 0, 0.7)',
+                color: 'white',
+                zIndex: 1302,
+                '&:hover': {
+                  background: 'rgba(109, 31, 34, 0.9)'
+                }
+              }}
+            >
+              <Close fontSize="large" />
+            </IconButton>
+            
+            {getProductImages(selectedProductImage.product).length > 1 && (
+              <>
+                <IconButton
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handlePreviousImage();
+                  }}
+                  sx={{
+                    position: 'fixed',
+                    top: '50%',
+                    left: 20,
+                    transform: 'translateY(-50%)',
+                    background: 'rgba(0, 0, 0, 0.7)',
+                    color: 'white',
+                    zIndex: 1302,
+                    '&:hover': {
+                      background: 'rgba(109, 31, 34, 0.9)'
+                    }
+                  }}
+                >
+                  <ChevronLeft fontSize="large" />
+                </IconButton>
+                
+                <IconButton
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleNextImage();
+                  }}
+                  sx={{
+                    position: 'fixed',
+                    top: '50%',
+                    right: 20,
+                    transform: 'translateY(-50%)',
+                    background: 'rgba(0, 0, 0, 0.7)',
+                    color: 'white',
+                    zIndex: 1302,
+                    '&:hover': {
+                      background: 'rgba(109, 31, 34, 0.9)'
+                    }
+                  }}
+                >
+                  <ChevronRight fontSize="large" />
+                </IconButton>
+                
+                <Box
+                  sx={{
+                    position: 'fixed',
+                    bottom: 20,
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    background: 'rgba(0, 0, 0, 0.7)',
+                    color: 'white',
+                    padding: '8px 16px',
+                    borderRadius: '20px',
+                    fontSize: '14px',
+                    zIndex: 1302
+                  }}
+                >
+                  {selectedProductImage.imageIndex + 1} / {getProductImages(selectedProductImage.product).length}
+                </Box>
+              </>
+            )}
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Box 
+                sx={{ 
+                  width: '100vw',
+                  height: '100vh',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  p: { xs: 2, md: 4 },
+                  position: 'relative',
+                  zIndex: 1301
+                }}
+              >
+                <img
+                  src={getProductImages(selectedProductImage.product)[selectedProductImage.imageIndex]}
+                  alt={getProductTitle(selectedProductImage.product)}
+                  style={{
+                    maxWidth: '100%',
+                    maxHeight: '100%',
+                    objectFit: 'contain',
+                    width: 'auto',
+                    height: 'auto',
+                    cursor: 'default'
+                  }}
+                />
+              </Box>
+            </motion.div>
+          </Dialog>
+        )}
+      </AnimatePresence>
 
     </ShopContainer>
   );
