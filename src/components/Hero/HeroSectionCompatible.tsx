@@ -28,8 +28,7 @@ export default function HeroSectionCompatible() {
   };
 
   const handleButtonClick = () => {
-    // Aqui você pode adicionar a lógica para abrir o Spotify ou outra ação
-    console.log('Botão EP clicado');
+    window.open('https://open.spotify.com/artist/55iD3A1B8KCQGFGz2k3OKh', '_blank')
   };
 
   return (
